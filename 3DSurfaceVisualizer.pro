@@ -51,6 +51,7 @@ SOURCES += \
     logic/src/utils/qtdtconverter.cpp \
     logic/src/utils/stringseparator.cpp \
     main.cpp \
+    ui/src/utils/tagsmanager.cpp \
     ui/src/windows/connectionadditiondialog.cpp \
     ui/src/windows/figureconfigurationdialog.cpp \
     ui/src/windows/exitdialog.cpp \
@@ -58,7 +59,7 @@ SOURCES += \
     ui/src/windows/mainwindow.cpp \
     ui/src/windows/surfaceconfigurationdialog.cpp \
     ui/src/windows/surfaceviewdialog.cpp \
-    ui/src/windows/utils/qcomboboxcontroller.cpp
+    ui/src/utils/qcomboboxcontroller.cpp
 
 HEADERS += \
     logic/include/obj3d/figure/figure3d.h \
@@ -120,7 +121,8 @@ HEADERS += \
     logic/include/utils/exception/matrixcalculatorexception.h \
     logic/include/utils/exception/stringsplitterexception.h \
     logic/include/utils/matrixcalculator.h \
-    logic/include/utils/stringsplitter.h
+    logic/include/utils/stringsplitter.h \
+    ui/include/utils/tagsmanager.h
 
 FORMS += \
     forms/controlsdialog.ui \

@@ -6,7 +6,7 @@
 #include <QDialog>
 
 #include "logic/include/obj3d/surface/surface.h"
-#include "logic/include/scene/searchparameters.h"
+#include "ui/include/utils/tagsmanager.h"
 
 namespace Ui {
 class SurfaceConfigurationDialog;
@@ -67,8 +67,6 @@ private:
 
     void setParamLines();
 
-    void setTagLines();
-
     void collectParams();
 
     void configureParamWidgets();
@@ -79,15 +77,11 @@ private:
 
     Ui::SurfaceConfigurationDialog *ui;
 
-    std::vector<std::string> tags_;
-
-    std::string selected_tag_;
+    TagsManager tags_manager_;
 
     std::shared_ptr<std::string> surface_tag_;
 
     std::shared_ptr<obj3d::SurfaceParameters> surface_params_;
-
-    bool tag_selectable_;
 
 };
 

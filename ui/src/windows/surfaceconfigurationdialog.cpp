@@ -9,6 +9,8 @@ SurfaceConfigurationDialog::SurfaceConfigurationDialog(QWidget *parent) :
     ui(new Ui::SurfaceConfigurationDialog) {
     ui->setupUi(this);
 
+    tags_manager_.setBox(ui->cmbx_surface);
+
     surface_tag_ = std::make_shared<std::string>();
     surface_params_ = std::make_shared<obj3d::SurfaceParameters>();
 
@@ -21,11 +23,13 @@ SurfaceConfigurationDialog::SurfaceConfigurationDialog(const std::vector<std::st
     QDialog(parent),
     ui(new Ui::SurfaceConfigurationDialog) {
     ui->setupUi(this);
-    tags_ = tags;
+
+    tags_manager_.setBox(ui->cmbx_surface);
+    setTags(tags);
 
     configureParamWidgets();
     setParamLines();
-    setTagLines();
+
     changeNormalizationAccess(ui->chbx_normalized->isChecked());
 
     setConnections();
@@ -36,7 +40,7 @@ SurfaceConfigurationDialog::~SurfaceConfigurationDialog() {
 }
 
 std::string SurfaceConfigurationDialog::getSelectedTag() {
-    return selected_tag_;
+    return tags_manager_.getCurrent();
 }
 
 std::shared_ptr<std::string> SurfaceConfigurationDialog::getSurfaceTag() {
@@ -67,7 +71,7 @@ void SurfaceConfigurationDialog::applyAndClose() {
 void SurfaceConfigurationDialog::applyChanges() {
     collectParams();
     emit surfaceChanged();
-    selected_tag_ = *surface_tag_;
+    tags_manager_.updateCurrent(*surface_tag_);
 }
 
 void SurfaceConfigurationDialog::cancelChanges() {
@@ -79,13 +83,13 @@ void SurfaceConfigurationDialog::selectTag() {
     if (!ui->cmbx_surface->count()) {
         return;
     }
-    selected_tag_ = QComboBoxController::getCurrentValue(ui->cmbx_surface);
+    tags_manager_.setCurrent();
     emit tagSelected();
 }
 
 void SurfaceConfigurationDialog::surfaceTagChanged() {
     if (QComboBoxController::contains(ui->cmbx_surface, ui->ln_tag->text())) {
-        if (ui->ln_tag->text().toStdString() != selected_tag_) {
+        if (ui->ln_tag->text().toStdString() != tags_manager_.getCurrent()) {
             // TODO
         }
     } else {
@@ -129,10 +133,9 @@ void SurfaceConfigurationDialog::disableTagSelecting(bool value) {
 }
 
 int SurfaceConfigurationDialog::execWith(const std::string &tag, bool tag_selectable) {
-    tag_selectable_ = tag_selectable;
-    selected_tag_ = tag;
-    QComboBoxController::setCurrentValue(ui->cmbx_surface, selected_tag_);
-    if (!tag_selectable) {
+    tags_manager_.setSelectable(tag_selectable);
+    tags_manager_.setCurrent(tag);
+    if (!tags_manager_.isSelectable()) {
         disableTagSelecting(true);
     }
     emit tagSelected();
@@ -140,8 +143,11 @@ int SurfaceConfigurationDialog::execWith(const std::string &tag, bool tag_select
 }
 
 void SurfaceConfigurationDialog::setTags(const std::vector<std::string> &tags) {
-    tags_ = tags;
-    setTagLines();
+    tags_manager_.setTags(tags);
+    if (tags.size()) {
+        tags_manager_.setCurrent();
+        emit tagSelected();
+    }
 }
 
 void SurfaceConfigurationDialog::setDefaultState() {
@@ -150,23 +156,17 @@ void SurfaceConfigurationDialog::setDefaultState() {
 
 void SurfaceConfigurationDialog::setParamLines() {
     ui->chbx_normalized->setChecked(surface_params_->isNormalizationNeeded());
+
     ui->spbx_ox_step->setValue(surface_params_->getXStep());
     ui->spbx_oy_step->setValue(surface_params_->getYStep());
     ui->spbx_range_begin->setValue(surface_params_->getMin());
     ui->spbx_range_end->setValue(surface_params_->getMax());
 }
 
-void SurfaceConfigurationDialog::setTagLines() {
-    QComboBoxController::updateValues(ui->cmbx_surface, tags_);
-    selectTag();
-}
-
-
 void SurfaceConfigurationDialog::showWith(const std::string &tag, bool tag_selectable) {
-    tag_selectable_ = tag_selectable;
-    selected_tag_ = tag;
-    QComboBoxController::setCurrentValue(ui->cmbx_surface, selected_tag_);
-    if (!tag_selectable) {
+    tags_manager_.setSelectable(tag_selectable);
+    tags_manager_.setCurrent(tag);
+    if (!tags_manager_.isSelectable()) {
         disableTagSelecting(true);
     }
     emit tagSelected();
@@ -175,13 +175,6 @@ void SurfaceConfigurationDialog::showWith(const std::string &tag, bool tag_selec
 
 void SurfaceConfigurationDialog::collectParams() {
     *surface_tag_ = ui->ln_tag->text().toStdString();
-    if (selected_tag_ != ui->ln_tag->text().toStdString()) {
-        auto current_tag = std::find(tags_.begin(), tags_.end(), selected_tag_);
-        if (current_tag != tags_.end()) {
-            tags_.erase(current_tag);
-        }
-        tags_.push_back(*surface_tag_);
-    }
 
     surface_params_->setNormalizationNeeded(ui->chbx_normalized->isChecked());
     surface_params_->setXStep(ui->spbx_ox_step->value());

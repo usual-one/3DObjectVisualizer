@@ -1,4 +1,4 @@
-#include "logic/include/obj3d/figure/edge.h"
+#include "logic/include/obj3d/figure/components/edge.h"
 
 obj3d::Edge::Edge(std::string begin, std::string end) :
     begin_(std::make_shared<std::string>(begin)),
