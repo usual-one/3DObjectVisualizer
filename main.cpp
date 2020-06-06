@@ -1,9 +1,8 @@
-#include "UI/include/windows/mainwindow.h"
+#include "ui/include/windows/mainwindow.h"
 
 #include <QApplication>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
