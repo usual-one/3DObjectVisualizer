@@ -18,6 +18,17 @@ bool SceneManager::hasDrawer() {
     return drawer_ != nullptr;
 }
 
+void SceneManager::redrawScene() {
+    std::vector<std::shared_ptr<CanvasFigure>> canvas_figures = createCanvasFigures();
+    std::shared_ptr<obj3d::Rectangle2D> camera_scope = constructor_->getScope();
+
+    for (auto figure : canvas_figures) {
+        figure->changeOrigin(*camera_scope->getLeftBottom());
+    }
+
+    drawer_->drawFigures(canvas_figures, camera_scope);
+}
+
 void SceneManager::setScene(const Scene &scene) {
     scene_ = std::make_shared<Scene>(scene);
 }
@@ -31,13 +42,7 @@ void SceneManager::setDrawer(std::unique_ptr<BaseSceneDrawer> drawer) {
 }
 
 void SceneManager::drawScene() {
-    std::vector<std::shared_ptr<obj3d::Figure>> figures = {};
-    for (auto tag : scene_->getFiguresTags()) {
-        figures.push_back(scene_->getFigure(*tag));
-    }
-
-    std::vector<std::shared_ptr<CanvasFigure>> canvas_figures =
-            constructor_->convertToCanvasFigures(figures);
+    std::vector<std::shared_ptr<CanvasFigure>> canvas_figures = createCanvasFigures();
 
     std::vector<obj3d::Point2D> figures_pts = {};
     for (auto figure : canvas_figures) {
@@ -59,4 +64,13 @@ void SceneManager::updateScene(const Scene &other) {
     } else {
         setScene(other);
     }
+}
+
+std::vector<std::shared_ptr<CanvasFigure>> SceneManager::createCanvasFigures() {
+    std::vector<std::shared_ptr<obj3d::Figure>> figures = {};
+    for (auto tag : scene_->getFiguresTags()) {
+        figures.push_back(scene_->getFigure(*tag));
+    }
+
+    return constructor_->convertToCanvasFigures(figures);
 }

@@ -41,6 +41,8 @@ public:
 
     void recalculateSurface(const std::string &surface_tag);
 
+    void redrawScene();
+
 private:
     void moveFigure(const std::string &tag, double x, double y, double z);
 

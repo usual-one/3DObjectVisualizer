@@ -35,7 +35,7 @@ private slots:
 
     void saveAs();
 
-    void changeLocation();
+    void ApplyNewFigureLocation();
 
     void changeControlsFigure();
 

@@ -38,14 +38,10 @@ public:
 
     void setTags(const std::vector<std::string> &tags);
 
-    bool isTagSelectable();
-
-    void setTagSelectable();
-
 signals:
-    void tagSelected();
+    void parametersChanged();
 
-    void surfaceChanged();
+    void tagSelected();
 
 private slots:
     void applyAndClose();
@@ -56,7 +52,7 @@ private slots:
 
     void selectTag();
 
-    void surfaceTagChanged();
+    void surfaceTagChanged(); // TODO
 
     void changeNormalizationAccess(int enabled);
 
@@ -72,8 +68,6 @@ private:
     void configureParamWidgets();
 
     void setConnections();
-
-    void setSelectedTag();
 
     Ui::SurfaceConfigurationDialog *ui;
 

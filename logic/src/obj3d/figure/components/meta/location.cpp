@@ -3,7 +3,7 @@
 Location::Location() :
     movement_(std::make_shared<obj3d::Point3D>(0, 0, 0)),
     rotation_(std::make_shared<obj3d::Point3D>(0, 0, 0)),
-    scaling_(std::make_shared<obj3d::Point3D>(0, 0, 0)) {}
+    scaling_(std::make_shared<obj3d::Point3D>(1, 1, 1)) {}
 
 std::shared_ptr<obj3d::Point3D> Location::getMovement() {
     return movement_;

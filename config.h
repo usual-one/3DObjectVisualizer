@@ -43,8 +43,8 @@ const std::string DEFAULT_FIGURE_TAG = "figure_";
 const std::string DEFAULT_VERTEX_TAG = "vertex_";
 
 // dialogs
-// surface configuration dialog
 
+// surface configuration dialog
 const double MIN_SPBX_STEP_X = 0;
 
 const double MAX_SPBX_STEP_X = 1000000;
@@ -60,6 +60,19 @@ const double MAX_SPBX_RANGE_MIN = 1000000;
 const double MIN_SPBX_RANGE_MAX = -1000000;
 
 const double MAX_SPBX_RANGE_MAX = 1000000;
+
+// controls dialog
+const double MIN_VALUE = -1000000;
+
+const double MAX_VALUE = 1000000;
+
+const double MOVE_VALUE_BEGIN = -100;
+
+const double MOVE_VALUE_END = 100;
+
+const double SCALE_VALUE_BEGIN = 0.01;
+
+const double SCALE_VALUE_END = 2;
 
 // drawing
 const QColor BACKGROUND_COLOR = Qt::white;

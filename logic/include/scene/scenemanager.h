@@ -21,6 +21,8 @@ public:
 
     bool hasDrawer();
 
+    void redrawScene();
+
     void setDrawer(std::unique_ptr<BaseSceneDrawer> drawer);
 
     void setScene(const Scene &scene);
@@ -28,6 +30,8 @@ public:
     void updateScene(const Scene &other);
 
 private:
+    std::vector<std::shared_ptr<CanvasFigure>> createCanvasFigures();
+
     std::unique_ptr<SceneConstructor> constructor_;
 
     std::unique_ptr<BaseSceneDrawer> drawer_;

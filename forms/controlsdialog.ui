@@ -93,37 +93,9 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>420</width>
+         <width>500</width>
          <height>30</height>
         </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_select">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>90</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>90</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
-       <property name="text">
-        <string>Select</string>
        </property>
       </widget>
      </item>
@@ -1007,7 +979,13 @@
             </size>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::ClickFocus</enum>
+            <enum>Qt::TabFocus</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
            </property>
            <property name="maximum">
             <number>1000</number>
@@ -1148,7 +1126,13 @@
             </size>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::ClickFocus</enum>
+            <enum>Qt::TabFocus</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
            </property>
            <property name="maximum">
             <number>1000</number>
@@ -1280,7 +1264,13 @@
             </size>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::ClickFocus</enum>
+            <enum>Qt::TabFocus</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
            </property>
            <property name="maximum">
             <number>1000</number>
@@ -1444,7 +1434,13 @@
             </size>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::ClickFocus</enum>
+            <enum>Qt::TabFocus</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
            </property>
            <property name="maximum">
             <number>1000</number>
@@ -1585,7 +1581,13 @@
             </size>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::ClickFocus</enum>
+            <enum>Qt::TabFocus</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
            </property>
            <property name="maximum">
             <number>1000</number>
@@ -1717,7 +1719,13 @@
             </size>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::ClickFocus</enum>
+            <enum>Qt::TabFocus</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
            </property>
            <property name="maximum">
             <number>1000</number>
@@ -1794,7 +1802,7 @@
         <number>2</number>
        </property>
        <item>
-        <widget class="QPushButton" name="btn_close">
+        <widget class="QPushButton" name="btn_cancel">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -1817,10 +1825,10 @@
           <enum>Qt::NoFocus</enum>
          </property>
          <property name="text">
-          <string>Close</string>
+          <string>Cancel</string>
          </property>
          <property name="shortcut">
-          <string>Ctrl+Q</string>
+          <string>Esc</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -1828,7 +1836,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btn_redraw">
+        <widget class="QPushButton" name="btn_apply">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -1851,7 +1859,7 @@
           <enum>Qt::NoFocus</enum>
          </property>
          <property name="text">
-          <string>Redraw</string>
+          <string>Apply</string>
          </property>
          <property name="shortcut">
           <string>Return</string>

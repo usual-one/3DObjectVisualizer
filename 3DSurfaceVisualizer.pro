@@ -9,6 +9,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     logic/src/obj3d/figure/components/edge.cpp \
     logic/src/obj3d/figure/components/meta/figuremeta.cpp \
+    logic/src/obj3d/figure/components/vertex3d.cpp \
     logic/src/obj3d/math/basis3d.cpp \
     logic/src/obj3d/math/exception/mathexception.cpp \
     logic/src/obj3d/math/matrix.cpp \
@@ -37,7 +38,6 @@ SOURCES += \
     logic/src/file_manager/filemanager.cpp \
     logic/src/file_manager/obj3dfilemanager.cpp \
     logic/src/file_manager/surfacefilemanager.cpp \
-    logic/src/obj3d/figure/components/vertex.cpp \
     logic/src/obj3d/math/point.cpp \
     logic/src/obj3d/math/point2d.cpp \
     logic/src/obj3d/math/point3d.cpp \

@@ -22,15 +22,16 @@ void Facade::changeLocation(const std::string tag, std::shared_ptr<Location> loc
                    location->getMovement()->getZ() - current_location->getMovement()->getZ());
     }
     if (*location->getRotation() != *current_location->getRotation()) {
-        moveFigure(tag, location->getRotation()->getX() - current_location->getRotation()->getX(),
+        rotateFigure(tag, location->getRotation()->getX() - current_location->getRotation()->getX(),
                    location->getRotation()->getY() - current_location->getRotation()->getY(),
                    location->getRotation()->getZ() - current_location->getRotation()->getZ());
     }
     if (*location->getScaling() != *current_location->getScaling()) {
-        moveFigure(tag, location->getScaling()->getX() - current_location->getScaling()->getX(),
-                   location->getScaling()->getY() - current_location->getScaling()->getY(),
-                   location->getScaling()->getZ() - current_location->getScaling()->getZ());
+        scaleFigure(tag, location->getScaling()->getX() / current_location->getScaling()->getX(),
+                    location->getScaling()->getY() / current_location->getScaling()->getY(),
+                    location->getScaling()->getZ() / current_location->getScaling()->getZ());
     }
+    figure->getLocation()->copy(*location);
 }
 
 void Facade::deleteSurface(const std::string &tag) {
@@ -105,4 +106,8 @@ std::shared_ptr<obj3d::Figure> Facade::getFigure(const std::string &tag) {
 
 void Facade::recalculateSurface(const std::string &surface_tag) {
     scene_manager_->getScene()->appendFigure(obj3d::Figure(*getSurface(surface_tag)));
+}
+
+void Facade::redrawScene() {
+    scene_manager_->redrawScene();
 }

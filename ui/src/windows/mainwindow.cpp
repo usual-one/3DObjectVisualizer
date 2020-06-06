@@ -81,15 +81,18 @@ void MainWindow::saveAs() {
     facade_.saveScene(path.toStdString());
 }
 
-void MainWindow::changeLocation() {
+void MainWindow::ApplyNewFigureLocation() {
     ControlsDialog *dialog = (ControlsDialog *) sender();
     facade_.changeLocation(dialog->getSelectedTag(), dialog->getLocation());
-    facade_.drawScene();
+
+    facade_.redrawScene();
 }
 
 void MainWindow::changeControlsFigure() {
     ControlsDialog *dialog = (ControlsDialog *) sender();
-    dialog->setLocation(facade_.getFigure(dialog->getSelectedTag())->getLocation());
+    std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(dialog->getSelectedTag());
+
+    dialog->setLocation(figure->getLocation());
 }
 
 void MainWindow::changeConfigSurface() {
@@ -119,6 +122,7 @@ void MainWindow::loadSurface(const QString &path) {
         if (cfg_status == QDialog::Rejected) {
             facade_.deleteSurface(*surface->getTag());
         }
+        ctrls_dialog_.showWith(*surface->getTag());
     }
 }
 
@@ -146,14 +150,14 @@ void MainWindow::setConnections() {
     connect(ui->act_open, SIGNAL(triggered()), this, SLOT(open()));
     connect(ui->act_exit, SIGNAL(triggered()), this, SLOT(exit()));
     connect(ui->act_view_values, SIGNAL(triggered()), this, SLOT(viewSurface()));
-    connect(ui->act_view_ctrls, SIGNAL(triggered()), this, SLOT(viewControls()));
 
     // controls dialog
-    connect(&ctrls_dialog_, SIGNAL(locationChanged()), this, SLOT(changeLocation()));
+    connect(ui->act_view_ctrls, SIGNAL(triggered()), this, SLOT(viewControls()));
     connect(&ctrls_dialog_, SIGNAL(tagSelected()), this, SLOT(changeControlsFigure()));
+    connect(&ctrls_dialog_, SIGNAL(locationChanged()), this, SLOT(ApplyNewFigureLocation()));
 
     // surface config dialog
     connect(ui->act_configure_surface, SIGNAL(triggered()), this, SLOT(viewSurfaceConfiguration()));
     connect(&surface_cfg_dialog_, SIGNAL(tagSelected()), this, SLOT(changeConfigSurface()));
-    connect(&surface_cfg_dialog_, SIGNAL(surfaceChanged()), this, SLOT(applyNewSurfaceParams()));
+    connect(&surface_cfg_dialog_, SIGNAL(parametersChanged()), this, SLOT(applyNewSurfaceParams()));
 }

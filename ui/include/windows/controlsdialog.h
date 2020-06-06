@@ -2,6 +2,7 @@
 #define CONTROLSDIALOG_H
 
 #include "logic/include/obj3d/figure/components/meta/location.h"
+#include "ui/include/utils/tagsmanager.h"
 
 #include <QDialog>
 #include <QSlider>
@@ -22,6 +23,10 @@ public:
 
     ~ControlsDialog();
 
+    int execWith(const std::string &tag, bool tag_selectable = false);
+
+    std::string getSelectedTag();
+
     bool hasLocation();
 
     std::shared_ptr<Location> getLocation();
@@ -30,31 +35,36 @@ public:
 
     void setTags(const std::vector<std::string> &tags);
 
-    std::string getSelectedTag();
+    void showWith(const std::string &tag, bool tag_selectable = false);
 
 signals:
     void locationChanged();
 
     void tagSelected();
 
-public slots:
-    void selectTag();
-
 private slots:
-    void close();
+    void applyChanges();
+
+    void cancelChanges();
 
     void changeLocation();
 
+    void selectTag();
+
 private:
+    void configureParamLines();
+
+    void disableTagSelecting(bool value);
+
     void fillWidgetValues();
 
     void getWidgetValues();
 
-    void setStateValues();
-
-    void setTagValues();
+    void fillStateValues();
 
     double getSliderValue(double begin, double end, QSlider *slider);
+
+    void setDefaultState();
 
     void setSliderValue(QSlider *slider, double value, double begin, double end);
 
@@ -68,7 +78,7 @@ private:
 
     std::shared_ptr<Location> location_;
 
-    std::vector<std::string> tags_;
+    TagsManager tags_manager_;
 
 };
 
