@@ -12,12 +12,12 @@ class CanvasVertex {
 public:
     CanvasVertex(obj3d::Vertex3D &vertex, Camera &camera);
 
-    std::shared_ptr<std::string> getTag();
+    size_t getID() const;
 
     std::shared_ptr<obj3d::Point2D> getPosition();
 
 private:
-    std::shared_ptr<std::string> tag_;
+    size_t unique_id_;
 
     std::shared_ptr<obj3d::Point2D> pos_;
 

@@ -11,20 +11,22 @@ class obj3d::Edge {
 public:
     Edge() = delete;
 
-    Edge(std::string begin, std::string end);
+    Edge(size_t begin, size_t end);
 
-    std::shared_ptr<std::string> getBegin();
+    size_t getBegin() const;
 
-    std::shared_ptr<std::string> getEnd();
+    size_t getEnd() const;
 
-    bool operator==(const obj3d::Edge &other);
+    bool operator==(const obj3d::Edge &other) const;
 
-    bool operator!=(const obj3d::Edge &other);
+    bool operator!=(const obj3d::Edge &other) const;
 
 private:
-    std::shared_ptr<std::string> begin_;
+    bool isEqualTo(const obj3d::Edge &other) const;
 
-    std::shared_ptr<std::string> end_;
+    size_t begin_id_;
+
+    size_t end_id_;
 };
 
 #endif // EDGE_H

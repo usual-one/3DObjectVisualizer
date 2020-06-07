@@ -74,6 +74,9 @@ const double SCALE_VALUE_BEGIN = 0.01;
 
 const double SCALE_VALUE_END = 2;
 
+// export dialog
+const std::string DEFAULT_FIGURES_DIR = "../3DSurfaceVisualizer/resource/";
+
 // drawing
 const QColor BACKGROUND_COLOR = Qt::white;
 
@@ -82,5 +85,33 @@ const QColor PEN_COLOR = Qt::black;
 const int CANVAS_MARGIN = 10;
 
 const size_t DEFAULT_DOT_RADIUS = 2; // pixels
+
+// XML figure representation
+
+const std::string XML_TAG_FIGURE = "Figure";
+
+const std::string XML_TAG_VERTICES = "Vertices";
+
+const std::string XML_TAG_VERTEX = "Vertex";
+
+const std::string XML_TAG_POINT = "Point";//
+
+const std::string XML_ATTRIBUTE_ID = "id";
+
+const std::string XML_TAG_POSITION = "Position";
+
+const std::string XML_ATTRIBUTE_X = "x";
+
+const std::string XML_ATTRIBUTE_Y = "y";
+
+const std::string XML_ATTRIBUTE_Z = "z";
+
+const std::string XML_TAG_EDGES = "Edges";
+
+const std::string XML_TAG_EDGE = "Edge";
+
+const std::string XML_ATTRIBUTE_BEGIN = "begin";
+
+const std::string XML_ATTRIBUTE_END = "end";
 
 #endif // CONFIG_H

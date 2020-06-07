@@ -5,6 +5,7 @@
 
 #include "logic/include/facade.h"
 #include "ui/include/windows/controlsdialog.h"
+#include "ui/include/windows/exportdialog.h"
 #include "ui/include/windows/surfaceconfigurationdialog.h"
 
 const int ERROR_DISPLAYING_TIMEOUT = 7000;
@@ -23,25 +24,29 @@ public:
     ~MainWindow();
 
 private slots:
-    void open();
+    void applyExport();
 
-    void exit();
+    void applyNewFigureLocation();
 
-    void viewSurface();
+    void applyNewSurfaceParams();
 
-    void viewControls();
-
-    void viewSurfaceConfiguration();
-
-    void saveAs();
-
-    void ApplyNewFigureLocation();
-
-    void changeControlsFigure();
+    void changeControlsObject();
 
     void changeConfigSurface();
 
-    void applyNewSurfaceParams();
+    void changeExportObject();
+
+    void exit();
+
+    void open();
+
+    void viewSurface();
+
+    void viewControlsDialog();
+
+    void viewExportDialog();
+
+    void viewSurfaceConfigDialog();
 
 private:
     void loadSurface(const QString &path);
@@ -58,9 +63,11 @@ private:
 
     Facade facade_;
 
-    SurfaceConfigurationDialog surface_cfg_dialog_;
-
     ControlsDialog ctrls_dialog_;
+
+    ExportDialog export_dialog_;
+
+    SurfaceConfigurationDialog surface_cfg_dialog_;
 
 };
 #endif // MAINWINDOW_H

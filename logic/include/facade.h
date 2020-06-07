@@ -29,8 +29,6 @@ public:
 
     Scene loadScene(const std::string &path);
 
-    void saveScene(const std::string &path);
-
     std::vector<std::string> getSurfacesTags();
 
     std::shared_ptr<obj3d::Surface> getSurface(const std::string &tag);
@@ -42,6 +40,8 @@ public:
     void recalculateSurface(const std::string &surface_tag);
 
     void redrawScene();
+
+    void saveFigure(const std::string &tag, const std::string &path);
 
 private:
     void moveFigure(const std::string &tag, double x, double y, double z);

@@ -11,14 +11,21 @@ class FigureMeta {
 public:
     FigureMeta();
 
-    std::shared_ptr<std::string> getPath();
-
     std::shared_ptr<Location> getLocation();
 
+    std::shared_ptr<std::string> getPath();
+
+    void setPath(const std::string &path);
+
+    void setSaved(bool saved);
+
 private:
-    std::shared_ptr<std::string> path_;
+    bool is_saved_;
 
     std::shared_ptr<Location> location_;
+
+    std::shared_ptr<std::string> path_;
+
 };
 
 #endif // FIGUREMETA_H

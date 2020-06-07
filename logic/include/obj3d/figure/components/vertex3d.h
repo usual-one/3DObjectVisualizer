@@ -16,22 +16,18 @@ class obj3d::Vertex3D {
 public:
     Vertex3D() = delete;
 
-    Vertex3D(const obj3d::Vector3D &pos);
+    Vertex3D(const obj3d::Vector3D &pos, size_t id);
 
-    Vertex3D(const obj3d::Vector3D &pos, const std::string &tag);
+    Vertex3D(const obj3d::Vector3D &pos, size_t id,
+             const std::set<std::shared_ptr<obj3d::Vertex3D>> connections);
 
-    Vertex3D(const obj3d::Vector3D &pos, const std::string &tag,
-           const std::set<std::shared_ptr<obj3d::Vertex3D>> connections);
+    size_t getID() const;
 
     std::shared_ptr<obj3d::Vector3D> getPosition();
 
-    std::shared_ptr<std::string> getTag();
-
-    std::set<std::string> getConnections();
+    std::set<size_t> getConnections();
 
     void setPosition(const obj3d::Vector3D &pos);
-
-    void setTag(const std::string &tag);
 
     void setConnections(const std::set<std::shared_ptr<obj3d::Vertex3D>> &connections);
 
@@ -44,13 +40,11 @@ public:
     void transform(const obj3d::Matrix &transform_matr);
 
 private:
-    static size_t count_;
-
-    std::shared_ptr<std::string> tag_;
+    size_t id_;
 
     std::shared_ptr<obj3d::Vector3D> pos_;
 
-    std::set<std::string> connections_;
+    std::set<size_t> connections_;
 };
 
 #endif // VERTEX_H

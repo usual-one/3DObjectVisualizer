@@ -19,21 +19,29 @@ public:
 
     Figure(obj3d::Surface &surface);
 
+    void addEdge(std::shared_ptr<obj3d::Edge> edge);
+
+    void addVertex(std::shared_ptr<obj3d::Vertex3D> vertex);
+
+    bool contains(const obj3d::Edge &edge);
+
+    bool contains(const obj3d::Vertex3D vertex);
+
     void transform(const obj3d::Matrix &transform_matr);
-
-    std::set<std::shared_ptr<obj3d::Vertex3D>> getVertices();
-
-    std::set<std::shared_ptr<obj3d::Edge>> getEdges();
-
-    std::shared_ptr<obj3d::Vertex3D> getVertex(const std::string &tag);
-
-    std::shared_ptr<Location> getLocation();
 
     obj3d::Point3D getAverageLocation();
 
-private:
-    bool contains(obj3d::Edge edge);
+    std::set<std::shared_ptr<obj3d::Edge>> getEdges();
 
+    std::shared_ptr<Location> getLocation();
+
+    std::shared_ptr<FigureMeta> getMeta();
+
+    std::set<std::shared_ptr<obj3d::Vertex3D>> getVertices();
+
+    std::shared_ptr<obj3d::Vertex3D> getVertex(size_t id);
+
+private:
     void createDefaultTag();
 
     void setEdges();

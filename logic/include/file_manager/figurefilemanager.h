@@ -4,14 +4,21 @@
 #include <memory>
 
 #include "logic/include/obj3d/figure/figure3d.h"
+#include "logic/include/utils/xml/xmlmanager.h"
+#include "logic/include/file_manager/filemanager.h"
 
 class FigureFileManager{
 public:
-    std::shared_ptr<obj3d::Figure> read(const std::string &path);
+    FigureFileManager();
+
+    std::shared_ptr<obj3d::Figure> open(const std::string &path);
 
     void save(const std::shared_ptr<obj3d::Figure> &figure);
 
-    void save_as(const std::string &path, const std::shared_ptr<obj3d::Figure> &figure);
+private:
+    std::unique_ptr<XMLManager> xml_manager_;
+
+    std::unique_ptr<FileManager> file_manager_;
 
 };
 

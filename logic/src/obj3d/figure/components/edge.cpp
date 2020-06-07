@@ -1,22 +1,26 @@
 #include "logic/include/obj3d/figure/components/edge.h"
 
-obj3d::Edge::Edge(std::string begin, std::string end) :
-    begin_(std::make_shared<std::string>(begin)),
-    end_(std::make_shared<std::string>(end)) {}
+obj3d::Edge::Edge(size_t begin_id, size_t end_id) :
+    begin_id_(begin_id),
+    end_id_(end_id) {}
 
-std::shared_ptr<std::string> obj3d::Edge::getBegin() {
-    return begin_;
+size_t obj3d::Edge::getBegin() const {
+    return begin_id_;
 }
 
-std::shared_ptr<std::string> obj3d::Edge::getEnd() {
-    return end_;
+size_t obj3d::Edge::getEnd() const {
+    return end_id_;
 }
 
-bool obj3d::Edge::operator==(const obj3d::Edge &other) {
-    return (*begin_ == *other.begin_ && *end_ == *other.end_) ||
-            (*end_ == *other.begin_ && *begin_ == *other.end_);
+bool obj3d::Edge::isEqualTo(const obj3d::Edge &other) const {
+    return (getBegin() == other.getBegin() && getEnd() == other.getEnd()) ||
+            (getEnd() == other.getBegin() && getBegin() == other.getEnd());
 }
 
-bool obj3d::Edge::operator!=(const obj3d::Edge &other) {
-    return !(*this == other);
+bool obj3d::Edge::operator==(const obj3d::Edge &other) const {
+    return isEqualTo(other);
+}
+
+bool obj3d::Edge::operator!=(const obj3d::Edge &other) const {
+    return !isEqualTo(other);
 }

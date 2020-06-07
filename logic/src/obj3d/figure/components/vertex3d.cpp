@@ -1,46 +1,32 @@
 #include "config.h"
 #include "logic/include/obj3d/figure/components/vertex3d.h"
 
-size_t obj3d::Vertex3D::count_ = 0;
-
-obj3d::Vertex3D::Vertex3D(const obj3d::Vector3D &pos) {
-    count_++;
+obj3d::Vertex3D::Vertex3D(const obj3d::Vector3D &pos, size_t id) :
+    id_(id) {
     setPosition(pos);
-    setTag(DEFAULT_VERTEX_TAG + std::to_string(count_));
 }
 
-obj3d::Vertex3D::Vertex3D(const obj3d::Vector3D &pos, const std::string &tag) {
-    count_++;
+obj3d::Vertex3D::Vertex3D(const obj3d::Vector3D &pos, size_t id, /*const std::string &tag,*/
+                      const std::set<std::shared_ptr<obj3d::Vertex3D>> connections) :
+    id_(id) {
     setPosition(pos);
-    setTag(tag);
-}
-
-obj3d::Vertex3D::Vertex3D(const obj3d::Vector3D &pos, const std::string &tag,
-                      const std::set<std::shared_ptr<obj3d::Vertex3D>> connections) {
-    count_++;
-    setPosition(pos);
-    setTag(tag);
     setConnections(connections);
+}
+
+size_t obj3d::Vertex3D::getID() const {
+    return id_;
 }
 
 std::shared_ptr<obj3d::Vector3D> obj3d::Vertex3D::getPosition() {
     return pos_;
 }
 
-std::shared_ptr<std::string> obj3d::Vertex3D::getTag() {
-    return tag_;
-}
-
-std::set<std::string> obj3d::Vertex3D::getConnections() {
+std::set<size_t> obj3d::Vertex3D::getConnections() {
     return connections_;
 }
 
 void obj3d::Vertex3D::setPosition(const obj3d::Vector3D &pos) {
     pos_ = std::make_shared<obj3d::Vector3D>(pos);
-}
-
-void obj3d::Vertex3D::setTag(const std::string &tag) {
-    tag_ = std::make_shared<std::string>(tag);
 }
 
 void obj3d::Vertex3D::setConnections(const std::set<std::shared_ptr<obj3d::Vertex3D>> &connections) {
@@ -51,11 +37,11 @@ void obj3d::Vertex3D::setConnections(const std::set<std::shared_ptr<obj3d::Verte
 }
 
 void obj3d::Vertex3D::addConnection(std::shared_ptr<obj3d::Vertex3D> connection) {
-    connections_.insert(*connection->getTag());
+    connections_.insert(connection->getID());
 }
 
 bool obj3d::Vertex3D::operator==(const obj3d::Vertex3D &other) {
-    return *tag_ == *other.tag_;
+    return getID() == other.getID();
 }
 
 bool obj3d::Vertex3D::operator!=(const obj3d::Vertex3D &other) {

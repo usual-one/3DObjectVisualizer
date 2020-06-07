@@ -66,6 +66,7 @@
      <string>File</string>
     </property>
     <addaction name="act_open"/>
+    <addaction name="act_export"/>
     <addaction name="separator"/>
     <addaction name="act_exit"/>
    </widget>
@@ -82,7 +83,6 @@
      <string>Figure</string>
     </property>
     <addaction name="action_new"/>
-    <addaction name="action_save_as"/>
     <addaction name="action_configure_figure"/>
    </widget>
    <addaction name="menuFile"/>
@@ -146,6 +146,14 @@
   <action name="act_view_ctrls">
    <property name="text">
     <string>View controls</string>
+   </property>
+  </action>
+  <action name="act_export">
+   <property name="text">
+    <string>Export</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
   </action>
  </widget>

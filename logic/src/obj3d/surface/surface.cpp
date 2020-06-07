@@ -21,7 +21,8 @@ std::set<std::shared_ptr<obj3d::Vertex3D>> obj3d::Surface::toVertices() const {
     for (size_t i = 0; i < points.size(); i++) {
         vertices_matr.push_back({});
         for (size_t j = 0; j < points[i].size(); j++) {
-            vertices_matr[i].push_back(std::make_shared<obj3d::Vertex3D>(points[i][j]));
+            vertices_matr[i].push_back(std::make_shared<obj3d::Vertex3D>(points[i][j],
+                                                                         i * points[0].size() + j));
         }
     }
 

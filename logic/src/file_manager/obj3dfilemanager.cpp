@@ -11,11 +11,15 @@ Scene Obj3DFileManager::read(const std::string &path) {
         scene.appendSurface(surface);
         scene.appendFigure(std::make_shared<obj3d::Figure>(*surface));
     } else if (isFigurePath(path)) {
-        scene.appendFigure(figure_manager_.read(path));
+        scene.appendFigure(figure_manager_.open(path));
     } else {
         throw FileOpeningException(UNKNOWN_FORMAT_MESSAGE);
     }
     return scene;
+}
+
+void Obj3DFileManager::saveFigure(std::shared_ptr<obj3d::Figure> figure) {
+    figure_manager_.save(figure);
 }
 
 bool Obj3DFileManager::isFigureInside() {

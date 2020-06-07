@@ -7,9 +7,9 @@ CanvasFigure::CanvasFigure(obj3d::Figure &figure, Camera &camera) {
     calculateEdges(figure.getEdges());
 }
 
-std::shared_ptr<CanvasVertex> CanvasFigure::getVertex(const std::string &tag) {
+std::shared_ptr<CanvasVertex> CanvasFigure::getVertex(size_t id) {
     for (auto vertex : vertices_) {
-        if (*vertex->getTag() == tag) {
+        if (vertex->getID() == id) {
             return vertex;
         }
     }
@@ -45,8 +45,8 @@ std::vector<obj3d::Point2D> CanvasFigure::toPoints() {
 void CanvasFigure::calculateEdges(const std::set<std::shared_ptr<obj3d::Edge>> &edges) {
     edges_.clear();
     for (auto edge : edges) {
-        obj3d::Point2D begin = *getVertex(*edge->getBegin())->getPosition();
-        obj3d::Point2D end = *getVertex(*edge->getEnd())->getPosition();
+        obj3d::Point2D begin = *getVertex(edge->getBegin())->getPosition();
+        obj3d::Point2D end = *getVertex(edge->getEnd())->getPosition();
         edges_.push_back(std::make_shared<CanvasEdge>(begin, end));
     }
 }

@@ -1,4 +1,6 @@
-QT       += core gui
+QT += core \
+      gui \
+      xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -7,6 +9,8 @@ CONFIG += c++17
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
+    logic/src/utils/xml/qtxmlmanager.cpp \
+    ui/src/windows/exportdialog.cpp \
     logic/src/obj3d/figure/components/edge.cpp \
     logic/src/obj3d/figure/components/meta/figuremeta.cpp \
     logic/src/obj3d/figure/components/vertex3d.cpp \
@@ -62,6 +66,9 @@ SOURCES += \
     ui/src/utils/qcomboboxcontroller.cpp
 
 HEADERS += \
+    logic/include/utils/xml/qtxmlmanager.h \
+    logic/include/utils/xml/xmlmanager.h \
+    ui/include/windows/exportdialog.h \
     logic/include/obj3d/figure/figure3d.h \
     logic/include/obj3d/figure/components/vertex3d.h \
     logic/include/obj3d/math/basis3d.h \
@@ -128,6 +135,7 @@ FORMS += \
     forms/controlsdialog.ui \
     forms/exitdialog.ui \
     forms/connectionadditiondialog.ui \
+    forms/exportdialog.ui \
     forms/figureconfigurationdialog.ui \
     forms/mainwindow.ui \
     forms/surfaceconfigurationdialog.ui \

@@ -59,7 +59,7 @@ int SurfaceConfigurationDialog::execWith(const std::string &tag, bool tag_select
     tags_manager_.setSelectable(tag_selectable);
     tags_manager_.setCurrent(tag);
     if (!tags_manager_.isSelectable()) {
-        disableTagSelecting(true);
+        disableTagSelection(true);
     }
     emit tagSelected();
     return exec();
@@ -132,7 +132,7 @@ void SurfaceConfigurationDialog::changeNormalizationAccess(int enabled) {
     ui->spbx_range_end->setEnabled(enabled);
 }
 
-void SurfaceConfigurationDialog::disableTagSelecting(bool value) {
+void SurfaceConfigurationDialog::disableTagSelection(bool value) {
     ui->btn_apply->setDisabled(value);
 
     ui->lbl_surface->setDisabled(value);
@@ -148,7 +148,7 @@ void SurfaceConfigurationDialog::setTags(const std::vector<std::string> &tags) {
 }
 
 void SurfaceConfigurationDialog::setDefaultState() {
-    disableTagSelecting(false);
+    disableTagSelection(false);
 }
 
 void SurfaceConfigurationDialog::setParamLines() {
@@ -164,7 +164,7 @@ void SurfaceConfigurationDialog::showWith(const std::string &tag, bool tag_selec
     tags_manager_.setSelectable(tag_selectable);
     tags_manager_.setCurrent(tag);
     if (!tags_manager_.isSelectable()) {
-        disableTagSelecting(true);
+        disableTagSelection(true);
     }
     emit tagSelected();
     show();

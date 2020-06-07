@@ -76,10 +76,6 @@ void Facade::scaleFigure(const std::string &tag, double x, double y, double z) {
             transformFigure(tag, TransformMatrixBuilder::createScalingMatrix(x, y, z));
 }
 
-void Facade::saveScene(const std::string &path) {
-
-}
-
 std::vector<std::string> Facade::getSurfacesTags() {
     std::vector<std::string> tags;
     for (auto tag : scene_manager_->getScene()->getSurfacesTags()) {
@@ -110,4 +106,10 @@ void Facade::recalculateSurface(const std::string &surface_tag) {
 
 void Facade::redrawScene() {
     scene_manager_->redrawScene();
+}
+
+void Facade::saveFigure(const std::string &tag, const std::string &path) {
+    std::shared_ptr<obj3d::Figure> figure = getFigure(tag);
+    figure->getMeta()->setPath(path);
+    file_manager_->saveFigure(figure);
 }

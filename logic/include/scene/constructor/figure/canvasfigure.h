@@ -9,7 +9,7 @@ class CanvasFigure {
 public:
     CanvasFigure(obj3d::Figure &figure, Camera &camera);
 
-    std::shared_ptr<CanvasVertex> getVertex(const std::string &tag);
+    std::shared_ptr<CanvasVertex> getVertex(size_t id);
 
     void changeOrigin(const obj3d::Point2D &origin);
 

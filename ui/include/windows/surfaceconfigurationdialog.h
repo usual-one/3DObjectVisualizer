@@ -57,7 +57,7 @@ private slots:
     void changeNormalizationAccess(int enabled);
 
 private:
-    void disableTagSelecting(bool value);
+    void disableTagSelection(bool value);
 
     void setDefaultState();
 

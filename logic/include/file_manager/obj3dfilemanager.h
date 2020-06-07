@@ -10,6 +10,8 @@ class Obj3DFileManager : public BaseObj3DFileManager {
 public:
     Scene read(const std::string &path) override;
 
+    void saveFigure(std::shared_ptr<obj3d::Figure> figure) override;
+
     bool isFigureInside();
 
     bool isSurfaceInside();
