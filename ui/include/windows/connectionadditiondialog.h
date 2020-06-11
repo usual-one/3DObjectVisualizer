@@ -18,6 +18,8 @@ public:
 
     ~ConnectionAdditionDialog();
 
+    void setCurrent(obj3d::Vertex3D &vertex);
+
     void setVertices(std::shared_ptr<std::vector<obj3d::Vertex3D>> vertices);
 
     void setConnections(std::shared_ptr<std::vector<obj3d::Vertex3D>> connections);

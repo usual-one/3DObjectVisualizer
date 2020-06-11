@@ -14,7 +14,7 @@ size_t VertexListManager::add() {
 }
 
 void VertexListManager::add(obj3d::Vertex3D &vertex) {
-    if (!isInside(vertex)) {
+    if (!contains(vertex)) {
         vertices_->push_back(vertex);
     }
     updateWidget(vertex);
@@ -28,6 +28,7 @@ void VertexListManager::clear() {
 }
 
 obj3d::Vertex3D VertexListManager::getCurrent() {
+    updateCurrent();
     return getVertex(current_id_);
 }
 
@@ -42,6 +43,14 @@ obj3d::Vertex3D VertexListManager::getVertex(size_t id) {
 
 std::shared_ptr<std::vector<obj3d::Vertex3D> > VertexListManager::getVertices() {
     return vertices_;
+}
+
+std::set<size_t> VertexListManager::getVertexIDs() {
+    std::set<size_t> ids;
+    for (auto vertex : *vertices_) {
+        ids.insert(vertex.getID());
+    }
+    return ids;
 }
 
 bool VertexListManager::hasWidget() {
@@ -60,7 +69,7 @@ void VertexListManager::removeCurrent() {
 }
 
 void VertexListManager::setCurrentID(size_t id) {
-    if (!isInside(id)) {
+    if (!contains(id)) {
         return;
     }
     widget_->setCurrentRow(findVertex(id));
@@ -84,6 +93,7 @@ void VertexListManager::updateCurrent() {
 
 void VertexListManager::updateCurrent(obj3d::Vertex3D &vertex) {
     vertices_->at(findVertex(current_id_)).setPosition(*vertex.getPosition());
+    vertices_->at(findVertex(current_id_)).setConnections(vertex.getConnections());
     QListWidgetItem *item = widget_->currentItem();
     item->setText(QString::fromStdString(toString(vertex)));
 }
@@ -114,7 +124,7 @@ size_t VertexListManager::generateFreeID() {
     return free_id;
 }
 
-bool VertexListManager::isInside(size_t id) {
+bool VertexListManager::contains(size_t id) {
     for (auto vertex : *vertices_) {
         if (vertex.getID() == id) {
             return true;
@@ -123,8 +133,8 @@ bool VertexListManager::isInside(size_t id) {
     return false;
 }
 
-bool VertexListManager::isInside(const obj3d::Vertex3D &vertex) {
-    return isInside(vertex.getID());
+bool VertexListManager::contains(const obj3d::Vertex3D &vertex) {
+    return contains(vertex.getID());
 }
 
 std::string VertexListManager::toString(obj3d::Vertex3D &vertex) {

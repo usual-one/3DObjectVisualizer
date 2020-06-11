@@ -25,8 +25,24 @@ std::set<size_t> obj3d::Vertex3D::getConnections() {
     return connections_;
 }
 
+bool obj3d::Vertex3D::isConnected(size_t id) {
+    for (auto connection : connections_) {
+        if (connection == id) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void obj3d::Vertex3D::setPosition(const obj3d::Vector3D &pos) {
     pos_ = std::make_shared<obj3d::Vector3D>(pos);
+}
+
+void obj3d::Vertex3D::setConnections(const std::set<size_t> &connections) {
+    connections_.clear();
+    for (auto connection : connections) {
+        addConnection(connection);
+    }
 }
 
 void obj3d::Vertex3D::setConnections(const std::set<std::shared_ptr<obj3d::Vertex3D>> &connections) {
@@ -37,7 +53,14 @@ void obj3d::Vertex3D::setConnections(const std::set<std::shared_ptr<obj3d::Verte
 }
 
 void obj3d::Vertex3D::addConnection(std::shared_ptr<obj3d::Vertex3D> connection) {
-    connections_.insert(connection->getID());
+    addConnection(connection->getID());
+}
+
+void obj3d::Vertex3D::addConnection(size_t id) {
+    if (isConnected(id)) {
+        return;
+    }
+    connections_.insert(id);
 }
 
 bool obj3d::Vertex3D::operator==(const obj3d::Vertex3D &other) {

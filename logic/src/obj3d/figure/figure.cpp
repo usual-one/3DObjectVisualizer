@@ -22,6 +22,8 @@ void obj3d::Figure::addEdge(std::shared_ptr<obj3d::Edge> edge) {
         return;
     }
     edges_.insert(edge);
+    getVertex(edge->getBegin())->addConnection(edge->getEnd());
+    getVertex(edge->getEnd())->addConnection(edge->getBegin());
 }
 
 void obj3d::Figure::addVertex(std::shared_ptr<obj3d::Vertex3D> vertex) {

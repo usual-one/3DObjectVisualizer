@@ -133,13 +133,21 @@ void FigureConfigurationDialog::showVertexContexMenu(const QPoint &pos) {
 void FigureConfigurationDialog::viewConnectionAdditionDialog() {
     std::shared_ptr<std::vector<obj3d::Vertex3D>> vertices =
             std::make_shared<std::vector<obj3d::Vertex3D>>(*vertex_manager_.getVertices());
+    obj3d::Vertex3D current = vertex_manager_.getCurrent();
+
     for (auto it = vertices->begin(); it < vertices->end(); it++) {
-        if (*it == vertex_manager_.getCurrent()) {
+        if (*it == current) {
             vertices->erase(it);
-            break;
+            it--;
+            continue;
+        }
+        if (connections_manager_.contains(*it)) {
+            vertices->erase(it);
+            it--;
         }
     }
 
+    connection_addition_dialog_.setCurrent(current);
     connection_addition_dialog_.setVertices(vertices);
     connection_addition_dialog_.setConnections(connections_manager_.getVertices());
 
@@ -147,6 +155,9 @@ void FigureConfigurationDialog::viewConnectionAdditionDialog() {
     if (status == QDialog::Accepted) {
         connections_manager_.setVertices(*connection_addition_dialog_.getConnections());
     }
+
+    current.setConnections(connections_manager_.getVertexIDs());
+    vertex_manager_.updateCurrent(current);
 }
 
 void FigureConfigurationDialog::clearVertexWidgets() {
@@ -204,6 +215,7 @@ void FigureConfigurationDialog::setDefaultState() {
 }
 
 void FigureConfigurationDialog::setConnections() {
+    connections_manager_.clear();
     obj3d::Vertex3D vertex = vertex_manager_.getCurrent();
     for (auto id : vertex.getConnections()) {
         obj3d::Vertex3D connection = vertex_manager_.getVertex(id);

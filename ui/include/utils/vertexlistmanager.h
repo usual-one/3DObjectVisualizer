@@ -15,11 +15,15 @@ public:
 
     void clear();
 
+    bool contains(const obj3d::Vertex3D &vertex);
+
     obj3d::Vertex3D getCurrent();
 
     obj3d::Vertex3D getVertex(size_t id);
 
     std::shared_ptr<std::vector<obj3d::Vertex3D>> getVertices();
+
+    std::set<size_t> getVertexIDs();
 
     bool hasWidget();
 
@@ -31,6 +35,8 @@ public:
 
     void setWidget(QListWidget *widget);
 
+    static std::string toString(obj3d::Vertex3D &vertex);
+
     void updateCurrent();
 
     void updateCurrent(obj3d::Vertex3D &vertex);
@@ -38,15 +44,11 @@ public:
     void updateVertices(const std::vector<obj3d::Vertex3D> &vertices);
 
 private:
+    bool contains(size_t id);
+
     int findVertex(size_t id);
 
     size_t generateFreeID();
-
-    bool isInside(size_t id);
-
-    bool isInside(const obj3d::Vertex3D &vertex);
-
-    std::string toString(obj3d::Vertex3D &vertex);
 
     void updateWidget();
 

@@ -27,11 +27,17 @@ public:
 
     std::set<size_t> getConnections();
 
+    bool isConnected(size_t id);
+
     void setPosition(const obj3d::Vector3D &pos);
+
+    void setConnections(const std::set<size_t> &connections);
 
     void setConnections(const std::set<std::shared_ptr<obj3d::Vertex3D>> &connections);
 
     void addConnection(std::shared_ptr<obj3d::Vertex3D> connection);
+
+    void addConnection(size_t id);
 
     bool operator==(const obj3d::Vertex3D &other);
 

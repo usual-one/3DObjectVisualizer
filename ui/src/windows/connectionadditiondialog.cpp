@@ -16,6 +16,10 @@ ConnectionAdditionDialog::~ConnectionAdditionDialog() {
     delete ui;
 }
 
+void ConnectionAdditionDialog::setCurrent(obj3d::Vertex3D &vertex) {
+    ui->lbl_vertex_value->setText(QString::fromStdString(VertexListManager::toString(vertex)));
+}
+
 void ConnectionAdditionDialog::setVertices(std::shared_ptr<std::vector<obj3d::Vertex3D>> vertices) {
     vertex_manager_.setVertices(*vertices);
 }
@@ -49,7 +53,7 @@ void ConnectionAdditionDialog::cancelChanges() {
 void ConnectionAdditionDialog::removeConnection() {
     obj3d::Vertex3D vertex = connection_manager_.getCurrent();
     vertex_manager_.add(vertex);
-    vertex_manager_.removeCurrent();
+    connection_manager_.removeCurrent();
 }
 
 void ConnectionAdditionDialog::connectSignals() {
