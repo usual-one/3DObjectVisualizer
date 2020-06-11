@@ -82,7 +82,7 @@ const double SCALE_VALUE_BEGIN = 0.01;
 const double SCALE_VALUE_END = 2;
 
 // export dialog
-const std::string DEFAULT_FIGURES_DIR = "../3DSurfaceVisualizer/resource/";
+const std::string DEFAULT_FIGURES_DIR = "../3DSurfaceVisualizer/examples/";
 
 // drawing
 const QColor BACKGROUND_COLOR = Qt::white;
