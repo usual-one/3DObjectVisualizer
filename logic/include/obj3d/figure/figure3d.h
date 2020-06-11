@@ -27,6 +27,8 @@ public:
 
     bool contains(const obj3d::Vertex3D vertex);
 
+    void setVertices(std::shared_ptr<std::vector<obj3d::Vertex3D>> &vertices);
+
     void transform(const obj3d::Matrix &transform_matr);
 
     obj3d::Point3D getAverageLocation();
@@ -38,6 +40,8 @@ public:
     std::shared_ptr<FigureMeta> getMeta();
 
     std::set<std::shared_ptr<obj3d::Vertex3D>> getVertices();
+
+    std::vector<obj3d::Vertex3D> getVerticesVector();
 
     std::shared_ptr<obj3d::Vertex3D> getVertex(size_t id);
 

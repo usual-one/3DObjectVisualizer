@@ -10,6 +10,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     logic/src/utils/xml/qtxmlmanager.cpp \
+    ui/src/utils/exception/vertexlistexception.cpp \
+    ui/src/utils/vertexlistmanager.cpp \
     ui/src/windows/exportdialog.cpp \
     logic/src/obj3d/figure/components/edge.cpp \
     logic/src/obj3d/figure/components/meta/figuremeta.cpp \
@@ -68,6 +70,8 @@ SOURCES += \
 HEADERS += \
     logic/include/utils/xml/qtxmlmanager.h \
     logic/include/utils/xml/xmlmanager.h \
+    ui/include/utils/exceptions/vertexlistexception.h \
+    ui/include/utils/vertexlistmanager.h \
     ui/include/windows/exportdialog.h \
     logic/include/obj3d/figure/figure3d.h \
     logic/include/obj3d/figure/components/vertex3d.h \

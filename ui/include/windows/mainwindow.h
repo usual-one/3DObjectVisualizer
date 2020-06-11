@@ -6,6 +6,7 @@
 #include "logic/include/facade.h"
 #include "ui/include/windows/controlsdialog.h"
 #include "ui/include/windows/exportdialog.h"
+#include "ui/include/windows/figureconfigurationdialog.h"
 #include "ui/include/windows/surfaceconfigurationdialog.h"
 
 const int ERROR_DISPLAYING_TIMEOUT = 7000;
@@ -24,13 +25,19 @@ public:
     ~MainWindow();
 
 private slots:
+    void addNewFigure();
+
     void applyExport();
 
     void applyNewFigureLocation();
 
+    void applyNewFigureVertices();
+
     void applyNewSurfaceParams();
 
     void changeControlsObject();
+
+    void changeConfigFigure();
 
     void changeConfigSurface();
 
@@ -45,6 +52,8 @@ private slots:
     void viewControlsDialog();
 
     void viewExportDialog();
+
+    void viewFigureConfigDialog();
 
     void viewSurfaceConfigDialog();
 
@@ -66,6 +75,8 @@ private:
     ControlsDialog ctrls_dialog_;
 
     ExportDialog export_dialog_;
+
+    FigureConfigurationDialog figure_cfg_dialog_;
 
     SurfaceConfigurationDialog surface_cfg_dialog_;
 

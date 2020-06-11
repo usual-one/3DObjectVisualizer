@@ -49,6 +49,15 @@ bool obj3d::Figure::contains(const obj3d::Vertex3D vertex) {
     return false;
 }
 
+void obj3d::Figure::setVertices(std::shared_ptr<std::vector<obj3d::Vertex3D>> &vertices) {
+    vertices_.clear();
+    edges_.clear();
+    for (auto vertex : *vertices) {
+        addVertex(std::make_shared<obj3d::Vertex3D>(vertex));
+    }
+    setEdges();
+}
+
 void obj3d::Figure::transform(const Matrix &transform_matr) {
     for (auto vertex : vertices_) {
         vertex->transform(transform_matr);
@@ -57,6 +66,14 @@ void obj3d::Figure::transform(const Matrix &transform_matr) {
 
 std::set<std::shared_ptr<obj3d::Vertex3D>> obj3d::Figure::getVertices() {
     return vertices_;
+}
+
+std::vector<obj3d::Vertex3D> obj3d::Figure::getVerticesVector() {
+    std::vector<obj3d::Vertex3D> vec;
+    for (auto vertex : vertices_) {
+        vec.push_back(*vertex);
+    }
+    return vec;
 }
 
 std::set<std::shared_ptr<obj3d::Edge>> obj3d::Figure::getEdges() {

@@ -17,15 +17,11 @@ public:
 
     std::shared_ptr<Scene> getScene();
 
-    bool hasScene();
-
     bool hasDrawer();
 
     void redrawScene();
 
     void setDrawer(std::unique_ptr<BaseSceneDrawer> drawer);
-
-    void setScene(const Scene &scene);
 
     void updateScene(const Scene &other);
 

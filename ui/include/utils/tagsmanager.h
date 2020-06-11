@@ -22,7 +22,7 @@ public:
 
     void removeAvailable(const std::string &tag);
 
-    void setBox(QComboBox *box);
+    void setWidget(QComboBox *widget);
 
     void setTags(const std::vector<std::string> &tags);
 

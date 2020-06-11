@@ -1,0 +1,42 @@
+<Figure>
+    <Vertices>
+        <Vertex id="1">
+            <Position y="1" z="1" x="-1"/>
+        </Vertex>
+        <Vertex id="2">
+            <Position y="1" z="-1" x="-1"/>
+        </Vertex>
+        <Vertex id="3">
+            <Position y="1" z="1" x="1"/>
+        </Vertex>
+        <Vertex id="4">
+            <Position y="1" z="-1" x="1"/>
+        </Vertex>
+        <Vertex id="5">
+            <Position y="-1" z="1" x="-1"/>
+        </Vertex>
+        <Vertex id="6">
+            <Position y="-1" z="-1" x="-1"/>
+        </Vertex>
+        <Vertex id="7">
+            <Position y="-1" z="1" x="1"/>
+        </Vertex>
+        <Vertex id="8">
+            <Position y="-1" z="-1" x="1"/>
+        </Vertex>
+    </Vertices>
+    <Edges>
+    	<Edge begin="1" end="5"/>
+    	<Edge begin="1" end="2"/>
+    	<Edge begin="1" end="3"/>
+    	<Edge begin="2" end="4"/>
+    	<Edge begin="2" end="6"/>
+    	<Edge begin="3" end="4"/>
+    	<Edge begin="3" end="7"/>
+    	<Edge begin="4" end="8"/>
+    	<Edge begin="5" end="6"/>
+    	<Edge begin="5" end="7"/>
+    	<Edge begin="6" end="8"/>
+    	<Edge begin="7" end="8"/>
+    </Edges>
+</Figure>

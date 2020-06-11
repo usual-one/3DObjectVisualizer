@@ -67,7 +67,7 @@ private:
 
     void configureParamWidgets();
 
-    void setConnections();
+    void connectSignals();
 
     Ui::SurfaceConfigurationDialog *ui;
 

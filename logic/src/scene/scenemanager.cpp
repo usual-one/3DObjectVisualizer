@@ -3,16 +3,12 @@
 SceneManager::SceneManager() :
     constructor_(std::make_unique<SceneConstructor>()),
     drawer_(nullptr),
-    scene_(nullptr) {}
+    scene_(std::make_shared<Scene>()) {}
 
 SceneManager::SceneManager(std::unique_ptr<BaseSceneDrawer> drawer) :
     constructor_(std::make_unique<SceneConstructor>()),
     drawer_(std::move(drawer)),
-    scene_(nullptr) {}
-
-bool SceneManager::hasScene() {
-    return scene_ != nullptr;
-}
+    scene_(std::make_shared<Scene>()) {}
 
 bool SceneManager::hasDrawer() {
     return drawer_ != nullptr;
@@ -27,10 +23,6 @@ void SceneManager::redrawScene() {
     }
 
     drawer_->drawFigures(canvas_figures, camera_scope);
-}
-
-void SceneManager::setScene(const Scene &scene) {
-    scene_ = std::make_shared<Scene>(scene);
 }
 
 std::shared_ptr<Scene> SceneManager::getScene() {
@@ -59,17 +51,16 @@ void SceneManager::drawScene() {
 }
 
 void SceneManager::updateScene(const Scene &other) {
-    if (hasScene()) {
-        scene_->update(other);
-    } else {
-        setScene(other);
-    }
+    scene_->update(other);
 }
 
 std::vector<std::shared_ptr<CanvasFigure>> SceneManager::createCanvasFigures() {
     std::vector<std::shared_ptr<obj3d::Figure>> figures = {};
     for (auto tag : scene_->getFiguresTags()) {
-        figures.push_back(scene_->getFigure(*tag));
+        std::shared_ptr<obj3d::Figure> figure = scene_->getFigure(*tag);
+        if (!figure->getMeta()->isHidden()) {
+            figures.push_back(figure);
+        }
     }
 
     return constructor_->convertToCanvasFigures(figures);

@@ -9,13 +9,13 @@ SurfaceConfigurationDialog::SurfaceConfigurationDialog(QWidget *parent) :
     ui(new Ui::SurfaceConfigurationDialog) {
     ui->setupUi(this);
 
-    tags_manager_.setBox(ui->cmbx_surface);
+    tags_manager_.setWidget(ui->cmbx_surface);
 
     surface_tag_ = std::make_shared<std::string>();
     surface_params_ = std::make_shared<obj3d::SurfaceParameters>();
 
     configureParamWidgets();
-    setConnections();
+    connectSignals();
 }
 
 SurfaceConfigurationDialog::SurfaceConfigurationDialog(const std::vector<std::string> &tags,
@@ -24,14 +24,14 @@ SurfaceConfigurationDialog::SurfaceConfigurationDialog(const std::vector<std::st
     ui(new Ui::SurfaceConfigurationDialog) {
     ui->setupUi(this);
 
-    tags_manager_.setBox(ui->cmbx_surface);
+    tags_manager_.setWidget(ui->cmbx_surface);
     setTags(tags);
 
     configureParamWidgets();
     setParamLines();
     changeNormalizationAccess(ui->chbx_normalized->isChecked());
 
-    setConnections();
+    connectSignals();
 }
 
 SurfaceConfigurationDialog::~SurfaceConfigurationDialog() {
@@ -191,7 +191,7 @@ void SurfaceConfigurationDialog::configureParamWidgets() {
     ui->spbx_range_end->setMaximum(MAX_SPBX_RANGE_MAX);
 }
 
-void SurfaceConfigurationDialog::setConnections() {
+void SurfaceConfigurationDialog::connectSignals() {
     // Actions Buttons
     connect(ui->btn_apply, SIGNAL(clicked()), this, SLOT(applyChanges()));
     connect(ui->btn_cancel, SIGNAL(clicked()), this, SLOT(cancelChanges()));

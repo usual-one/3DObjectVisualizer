@@ -12,7 +12,7 @@ ExportDialog::ExportDialog(QWidget *parent) :
 
     setConnections();
 
-    tags_manager_.setBox(ui->cmbx_object);
+    tags_manager_.setWidget(ui->cmbx_object);
 }
 
 ExportDialog::ExportDialog(const std::vector<std::string> &tags, QWidget *parent) :
@@ -22,7 +22,7 @@ ExportDialog::ExportDialog(const std::vector<std::string> &tags, QWidget *parent
 
     setConnections();
 
-    tags_manager_.setBox(ui->cmbx_object);
+    tags_manager_.setWidget(ui->cmbx_object);
     setTags(tags);
 }
 

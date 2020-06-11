@@ -27,6 +27,12 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::addNewFigure() {
+    std::string figure_tag = *facade_.addNewFigure();
+    figure_cfg_dialog_.setTags(facade_.getFiguresTags());
+    figure_cfg_dialog_.showWith(figure_tag, false);
+}
+
 void MainWindow::applyExport() {
     ExportDialog *dialog = (ExportDialog *) sender();
     facade_.saveFigure(dialog->getSelectedTag(), *dialog->getPath());
@@ -48,6 +54,14 @@ void MainWindow::applyNewFigureLocation() {
     facade_.changeLocation(dialog->getSelectedTag(), dialog->getLocation());
 
     facade_.redrawScene();
+}
+
+void MainWindow::applyNewFigureVertices() {
+    std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(figure_cfg_dialog_.getSelectedTag());
+    std::shared_ptr<std::vector<obj3d::Vertex3D>> vertices = figure_cfg_dialog_.getVertices();
+    figure->setVertices(vertices);
+
+    facade_.drawScene();
 }
 
 void MainWindow::open() {
@@ -94,40 +108,37 @@ void MainWindow::viewExportDialog() {
     export_dialog_.show();
 }
 
+void MainWindow::viewFigureConfigDialog() {
+    figure_cfg_dialog_.setTags(facade_.getFiguresTags());
+    figure_cfg_dialog_.show();
+}
+
 void MainWindow::viewSurfaceConfigDialog() {
     surface_cfg_dialog_.setTags(facade_.getSurfacesTags());
     surface_cfg_dialog_.show();
 }
 
-//void MainWindow::saveAs() {
-//    QString path = QFileDialog::getSaveFileName(
-//                this, tr("Save as"), "../3DSurfaceVisualizer/resource/untitled.xml", tr("Figures *.xml"));
-//    if (!path.size()) {
-//        return;
-//    }
-//    facade_.saveScene(path.toStdString());
-//}
-
 void MainWindow::changeControlsObject() {
-    ControlsDialog *dialog = (ControlsDialog *) sender();
-    std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(dialog->getSelectedTag());
+    std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(ctrls_dialog_.getSelectedTag());
+    ctrls_dialog_.setLocation(figure->getLocation());
+}
 
-    dialog->setLocation(figure->getLocation());
+void MainWindow::changeConfigFigure() {
+    std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(figure_cfg_dialog_.getSelectedTag());
+    figure_cfg_dialog_.setVertices(figure->getVerticesVector());
 }
 
 void MainWindow::changeConfigSurface() {
-    SurfaceConfigurationDialog *dialog = (SurfaceConfigurationDialog *) sender();
-    std::shared_ptr<obj3d::Surface> surface = facade_.getSurface(dialog->getSelectedTag());
+    std::shared_ptr<obj3d::Surface> surface = facade_.getSurface(surface_cfg_dialog_.getSelectedTag());
 
-    dialog->setSurfaceTag(surface->getTag());
-    dialog->setSurfaceParameters(surface->getParameters());
+    surface_cfg_dialog_.setSurfaceTag(surface->getTag());
+    surface_cfg_dialog_.setSurfaceParameters(surface->getParameters());
 }
 
 void MainWindow::changeExportObject() {
-    ExportDialog *dialog = (ExportDialog *) sender();
-    std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(dialog->getSelectedTag());
+    std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(export_dialog_.getSelectedTag());
 
-    dialog->setPath(*figure->getMeta()->getPath());
+    export_dialog_.setPath(*figure->getMeta()->getPath());
 }
 
 void MainWindow::loadSurface(const QString &path) {
@@ -183,4 +194,11 @@ void MainWindow::setConnections() {
     connect(ui->act_configure_surface, SIGNAL(triggered()), this, SLOT(viewSurfaceConfigDialog()));
     connect(&surface_cfg_dialog_, SIGNAL(tagSelected()), this, SLOT(changeConfigSurface()));
     connect(&surface_cfg_dialog_, SIGNAL(parametersChanged()), this, SLOT(applyNewSurfaceParams()));
+
+    // figures config dialog
+    connect(ui->act_new_figure, SIGNAL(triggered()), this, SLOT(addNewFigure()));
+    connect(ui->act_configure_figure, SIGNAL(triggered()), this, SLOT(viewFigureConfigDialog()));
+    connect(&figure_cfg_dialog_, SIGNAL(tagSelected()), this, SLOT(changeConfigFigure()));
+    connect(&figure_cfg_dialog_, SIGNAL(figureChanged()), this, SLOT(applyNewFigureVertices()));
+
 }

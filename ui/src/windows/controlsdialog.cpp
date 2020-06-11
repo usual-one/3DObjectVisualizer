@@ -8,7 +8,7 @@ ControlsDialog::ControlsDialog(QWidget *parent) :
     location_(std::make_shared<Location>()) {
     ui->setupUi(this);
 
-    tags_manager_.setBox(ui->cmbx_object);
+    tags_manager_.setWidget(ui->cmbx_object);
     configureParamLines();
 
     setConnections();
@@ -20,7 +20,7 @@ ControlsDialog::ControlsDialog(const std::vector<std::string> &tags, QWidget *pa
     location_(std::make_shared<Location>()) {
     ui->setupUi(this);
 
-    tags_manager_.setBox(ui->cmbx_object);
+    tags_manager_.setWidget(ui->cmbx_object);
     setTags(tags);
     configureParamLines();
     fillWidgetValues();
@@ -196,17 +196,17 @@ void ControlsDialog::getWidgetValues() {
 }
 
 void ControlsDialog::fillStateValues() {
-    ui->lbl_moved_ox->setNum(location_->getMovement()->getX());
-    ui->lbl_moved_oy->setNum(location_->getMovement()->getY());
-    ui->lbl_moved_oz->setNum(location_->getMovement()->getZ());
+    ui->spbx_moved_ox->setValue(location_->getMovement()->getX());
+    ui->spbx_moved_oy->setValue(location_->getMovement()->getY());
+    ui->spbx_moved_oz->setValue(location_->getMovement()->getZ());
 
-    ui->lbl_rotated_ox->setNum(location_->getRotation()->getX());
-    ui->lbl_rotated_oy->setNum(location_->getRotation()->getY());
-    ui->lbl_rotated_oz->setNum(location_->getRotation()->getZ());
+    ui->spbx_rotated_ox->setValue(location_->getRotation()->getX());
+    ui->spbx_rotated_oy->setValue(location_->getRotation()->getY());
+    ui->spbx_rotated_oz->setValue(location_->getRotation()->getZ());
 
-    ui->lbl_scaled_ox->setNum(location_->getScaling()->getX());
-    ui->lbl_scaled_oy->setNum(location_->getScaling()->getY());
-    ui->lbl_scaled_oz->setNum(location_->getScaling()->getZ());
+    ui->spbx_scaled_ox->setValue(location_->getScaling()->getX());
+    ui->spbx_scaled_oy->setValue(location_->getScaling()->getY());
+    ui->spbx_scaled_oz->setValue(location_->getScaling()->getZ());
 }
 
 double ControlsDialog::getSliderValue(double begin, double end, QSlider *slider) {

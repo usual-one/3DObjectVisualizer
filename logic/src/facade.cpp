@@ -12,6 +12,12 @@ Facade::Facade(std::unique_ptr<BaseObj3DFileManager> file_manager,
     scene_manager_(std::move(scene_manager)),
     has_changes_(false) {}
 
+std::shared_ptr<std::string> Facade::addNewFigure() {
+    obj3d::Figure figure;
+    scene_manager_->getScene()->appendFigure(figure);
+    return figure.getTag();
+}
+
 void Facade::changeLocation(const std::string tag, std::shared_ptr<Location> location) {
     std::shared_ptr<obj3d::Figure> figure = getFigure(tag);
     std::shared_ptr<Location> current_location = figure->getLocation();

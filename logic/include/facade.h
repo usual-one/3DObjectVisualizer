@@ -15,6 +15,8 @@ public:
     Facade(std::unique_ptr<BaseObj3DFileManager> file_manager,
            std::unique_ptr<SceneManager> scene_manager);
 
+    std::shared_ptr<std::string> addNewFigure();
+
     void changeLocation(const std::string tag, std::shared_ptr<Location> location);
 
     void deleteSurface(const std::string &tag);

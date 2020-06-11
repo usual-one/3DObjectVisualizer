@@ -28,6 +28,8 @@ const std::string OUT_OF_RANGE_MESSAGE = "out of range";
 
 const std::string NOT_BASIS_MESSAGE = "vectors cannot form basis";
 
+const std::string VERTEX_NOT_FOUND_MESSAGE = "vertex not found";
+
 // surface
 const std::string CSV_VALUE_SEPARATOR = ",";
 
@@ -60,6 +62,11 @@ const double MAX_SPBX_RANGE_MIN = 1000000;
 const double MIN_SPBX_RANGE_MAX = -1000000;
 
 const double MAX_SPBX_RANGE_MAX = 1000000;
+
+// figure configuration dialog
+const double MIN_COORD_VALUE = -1000000;
+
+const double MAX_COORD_VALUE = 1000000;
 
 // controls dialog
 const double MIN_VALUE = -1000000;
@@ -113,5 +120,8 @@ const std::string XML_TAG_EDGE = "Edge";
 const std::string XML_ATTRIBUTE_BEGIN = "begin";
 
 const std::string XML_ATTRIBUTE_END = "end";
+
+// context menus
+const std::string MENU_ACTION_DELETE = "Delete";
 
 #endif // CONFIG_H

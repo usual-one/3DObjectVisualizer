@@ -42,8 +42,8 @@ bool TagsManager::isSelectable() {
     return selectable_;
 }
 
-void TagsManager::setBox(QComboBox *box) {
-    box_ = box;
+void TagsManager::setWidget(QComboBox *widget) {
+    box_ = widget;
 }
 
 void TagsManager::setTags(const std::vector<std::string> &tags) {
