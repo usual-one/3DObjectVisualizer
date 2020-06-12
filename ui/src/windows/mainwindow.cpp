@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
                      std::make_unique<SceneManager>(
                          std::make_unique<SceneDrawer>(ui->wdg_res)));
 
-    setConnections();
+    connectSignals();
 }
 
 MainWindow::~MainWindow() {
@@ -175,7 +175,7 @@ void MainWindow::openControls(const std::string &figure_tag) {
     ctrls_dialog_.show();
 }
 
-void MainWindow::setConnections() {
+void MainWindow::connectSignals() {
     connect(ui->act_open, SIGNAL(triggered()), this, SLOT(open()));
     connect(ui->act_exit, SIGNAL(triggered()), this, SLOT(exit()));
     connect(ui->act_view_values, SIGNAL(triggered()), this, SLOT(viewSurface()));

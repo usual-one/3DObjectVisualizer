@@ -3,6 +3,8 @@
 
 #include "logic/include/obj3d/figure/components/meta/location.h"
 #include "ui/include/utils/tagsmanager.h"
+#include "ui/include/utils/slidermanager.h"
+#include "ui/include/utils/dialmanager.h"
 
 #include <QDialog>
 #include <QSlider>
@@ -47,12 +49,18 @@ private slots:
 
     void cancelChanges();
 
+    void changeBorders();
+
     void changeLocation();
+
+    void changeState();
 
     void selectTag();
 
 private:
     void configureParamLines();
+
+    void connectSignals();
 
     void disableTagSelecting(bool value);
 
@@ -72,13 +80,29 @@ private:
 
     void setDialValue(QDial *dial, double value);
 
-    void setConnections();
-
     Ui::ControlsDialog *ui;
 
     std::shared_ptr<Location> location_;
 
     TagsManager tags_manager_;
+
+    SliderManager ox_movement_manager_;
+
+    SliderManager oy_movement_manager_;
+
+    SliderManager oz_movement_manager_;
+
+    SliderManager ox_scaling_manager_;
+
+    SliderManager oy_scaling_manager_;
+
+    SliderManager oz_scaling_manager_;
+
+    DialManager ox_rotation_manager_;
+
+    DialManager oy_rotation_manager_;
+
+    DialManager oz_rotation_manager_;
 
 };
 

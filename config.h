@@ -69,6 +69,10 @@ const double MIN_COORD_VALUE = -1000000;
 const double MAX_COORD_VALUE = 1000000;
 
 // controls dialog
+const double MIN_ROTATION_VALUE = 0;
+
+const double MAX_ROTATION_VALUE = 360;
+
 const double MIN_VALUE = -1000000;
 
 const double MAX_VALUE = 1000000;

@@ -58,6 +58,8 @@ private slots:
     void viewSurfaceConfigDialog();
 
 private:
+    void connectSignals();
+
     void loadSurface(const QString &path);
 
     void loadFigure(const QString &path);
@@ -65,8 +67,6 @@ private:
     void openSurfaceView(std::shared_ptr<obj3d::Surface> surface);
 
     void openControls(const std::string &figure_tag);
-
-    void setConnections();
 
     Ui::MainWindow *ui;
 
