@@ -1,7 +1,6 @@
 #include "ui/include/utils/slidermanager.h"
 
 SliderManager::SliderManager() :
-    value_(0),
     begin_spinbox_(nullptr),
     end_spinbox_(nullptr),
     value_spinbox_(nullptr),
@@ -13,8 +12,7 @@ void SliderManager::configureBorders(double minimum, double maximum) {
 }
 
 double SliderManager::getValue() {
-    updateWithValue();
-    return value_;
+    return value_spinbox_->value();
 }
 
 bool SliderManager::isValid() {
@@ -32,38 +30,47 @@ void SliderManager::setEnabled(bool enabled) {
 }
 
 void SliderManager::setValue(double value) {
-    setSpinBoxValue(value_spinbox_, value);
+    if (value < begin_spinbox_->value()) {
+        begin_spinbox_->setMaximum(value);
+        begin_spinbox_->setValue(value);
+    }
+    if (value > end_spinbox_->value()) {
+        end_spinbox_->setMinimum(value);
+        end_spinbox_->setValue(value);
+    }
+    updateWithBorders();
+    value_spinbox_->setValue(value);
     updateWithValue();
 }
 
-void SliderManager::setWidgets(QSlider *slider, QDoubleSpinBox *begin, QDoubleSpinBox *end, QDoubleSpinBox *value) {
+void SliderManager::setWidgets(QSlider *slider, QDoubleSpinBox *begin,
+                               QDoubleSpinBox *end, QDoubleSpinBox *value) {
     begin_spinbox_ = begin;
     end_spinbox_ = end;
     value_spinbox_ = value;
     slider_ = slider;
-    updateWithBorders();
     updateWithValue();
 }
 
 void SliderManager::updateWithBorders() {
-    value_spinbox_->setMinimum(begin_spinbox_->value());
-    value_spinbox_->setMaximum(end_spinbox_->value());
-    setSliderValue(slider_, value_, begin_spinbox_->value(), end_spinbox_->value());
+    value_spinbox_->setRange(begin_spinbox_->value(), end_spinbox_->value());
+    setSliderValue(slider_, value_spinbox_->value(), begin_spinbox_->value(), end_spinbox_->value());
 }
 
 void SliderManager::updateWithSlider() {
-    value_ = getSliderValue(slider_, begin_spinbox_->value(), end_spinbox_->value());
-    setSpinBoxValue(value_spinbox_, value_);
+    double value = calculateSliderValue(slider_, begin_spinbox_->value(), end_spinbox_->value());
+    value_spinbox_->setValue(value);
+    begin_spinbox_->setMaximum(value_spinbox_->value());
+    end_spinbox_->setMinimum(value_spinbox_->value());
 }
 
 void SliderManager::updateWithValue() {
-    value_ = value_spinbox_->value();
-    setSliderValue(slider_, value_, begin_spinbox_->value(), end_spinbox_->value());
-    begin_spinbox_->setMaximum(value_);
-    end_spinbox_->setMinimum(value_);
+    setSliderValue(slider_, value_spinbox_->value(), begin_spinbox_->value(), end_spinbox_->value());
+    begin_spinbox_->setMaximum(value_spinbox_->value());
+    end_spinbox_->setMinimum(value_spinbox_->value());
 }
 
-double SliderManager::getSliderValue(QSlider *slider, double begin, double end) {
+double SliderManager::calculateSliderValue(QSlider *slider, double begin, double end) {
     double value = begin + (end - begin) * (slider->value() - slider->minimum()) / (slider->maximum() - slider->minimum());
     return value;
 }
@@ -71,14 +78,4 @@ double SliderManager::getSliderValue(QSlider *slider, double begin, double end) 
 void SliderManager::setSliderValue(QSlider *slider, double value, double begin, double end) {
     value = slider->minimum() + (slider->maximum() - slider->minimum()) * (value - begin) / (end - begin);
     slider->setValue(value);
-}
-
-void SliderManager::setSpinBoxValue(QDoubleSpinBox *spinbox, double value) {
-    if (value < spinbox->minimum()) {
-        spinbox->setMinimum(value);
-    }
-    if (value > spinbox->maximum()) {
-        spinbox->setMaximum(value);
-    }
-    spinbox->setValue(value);
 }

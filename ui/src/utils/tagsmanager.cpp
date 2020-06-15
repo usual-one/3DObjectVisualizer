@@ -2,44 +2,44 @@
 #include "ui/include/utils/qcomboboxcontroller.h"
 
 TagsManager::TagsManager() :
-    current_(""),
-    available_({}),
-    selectable_(true),
     box_(nullptr) {}
 
-void TagsManager::addAvailavle(const std::string &tag) {
+void TagsManager::addAvailable(const std::string &tag) {
     if (isAvailable(tag)) {
         return;
     }
-    available_.push_back(tag);
+    QComboBoxController::addItem(box_, tag);
 }
 
-std::string TagsManager::getCurrent() {
-    return current_;
+void TagsManager::changeSelectedText(const std::string &tag) {
+    QComboBoxController::setCurrentText(box_, tag);
+}
+
+std::string TagsManager::getSelected() {
+    return QComboBoxController::getCurrentText(box_);
 }
 
 bool TagsManager::isAvailable(const std::string &tag) {
-    for (auto available_tag : available_) {
-        if (tag == available_tag) {
-            return true;
-        }
-    }
-    return false;
+    return QComboBoxController::contains(box_, tag);
+}
+
+bool TagsManager::isEmpty() {
+    return QComboBoxController::isEmpty(box_);
 }
 
 bool TagsManager::isValid() {
     return box_ != nullptr;
 }
 
+bool TagsManager::isSelectable() {
+    return box_->isEnabled();
+}
+
 void TagsManager::removeAvailable(const std::string &tag) {
     if (!isAvailable(tag)) {
         return;
     }
-    available_.erase(std::find(available_.begin(), available_.end(), tag));
-}
-
-bool TagsManager::isSelectable() {
-    return selectable_;
+    QComboBoxController::removeItem(box_, tag);
 }
 
 void TagsManager::setWidget(QComboBox *widget) {
@@ -47,28 +47,13 @@ void TagsManager::setWidget(QComboBox *widget) {
 }
 
 void TagsManager::setTags(const std::vector<std::string> &tags) {
-    available_ = tags;
-    if (isValid()) {
-        QComboBoxController::updateValues(box_, tags);
-    }
+    QComboBoxController::setItems(box_, tags);
 }
 
-void TagsManager::setCurrent() {
-    setCurrent(QComboBoxController::getCurrentValue(box_));
-}
-
-void TagsManager::setCurrent(const std::string &tag) {
-    current_ = tag;
-    QComboBoxController::setCurrentValue(box_, tag);
+void TagsManager::setSelected(const std::string &tag) {
+    QComboBoxController::setCurrentItem(box_, tag);
 }
 
 void TagsManager::setSelectable(bool selectable) {
-    selectable_ = selectable;
-}
-
-void TagsManager::updateCurrent(const std::string &tag) {
-    removeAvailable(current_);
-    addAvailavle(tag);
-    current_ = tag;
-    QComboBoxController::updateCurrentValue(box_, tag);
+    box_->setEnabled(selectable);
 }

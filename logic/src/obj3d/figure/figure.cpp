@@ -91,7 +91,7 @@ std::shared_ptr<obj3d::Vertex3D> obj3d::Figure::getVertex(size_t id) {
     return nullptr;
 }
 
-std::shared_ptr<Location> obj3d::Figure::getLocation() {
+std::shared_ptr<State> obj3d::Figure::getLocation() {
     return meta_->getLocation();
 }
 

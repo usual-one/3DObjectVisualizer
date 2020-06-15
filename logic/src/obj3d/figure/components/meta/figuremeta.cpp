@@ -3,7 +3,7 @@
 FigureMeta::FigureMeta() :
     hidden_(false),
     saved_(true),
-    location_(std::make_shared<Location>()),
+    location_(std::make_shared<State>()),
     path_(std::make_shared<std::string>()) {}
 
 std::shared_ptr<std::string> FigureMeta::getPath() {
@@ -30,6 +30,6 @@ void FigureMeta::setSaved(bool saved) {
     saved_ = saved;
 }
 
-std::shared_ptr<Location> FigureMeta::getLocation() {
+std::shared_ptr<State> FigureMeta::getLocation() {
     return location_;
 }

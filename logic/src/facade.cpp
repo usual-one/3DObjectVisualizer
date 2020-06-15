@@ -18,9 +18,9 @@ std::shared_ptr<std::string> Facade::addNewFigure() {
     return figure.getTag();
 }
 
-void Facade::changeLocation(const std::string tag, std::shared_ptr<Location> location) {
+void Facade::changeLocation(const std::string tag, std::shared_ptr<State> location) {
     std::shared_ptr<obj3d::Figure> figure = getFigure(tag);
-    std::shared_ptr<Location> current_location = figure->getLocation();
+    std::shared_ptr<State> current_location = figure->getLocation();
 
     if (*location->getMovement() != *current_location->getMovement()) {
         moveFigure(tag, location->getMovement()->getX() - current_location->getMovement()->getX(),

@@ -11,7 +11,7 @@ class FigureMeta {
 public:
     FigureMeta();
 
-    std::shared_ptr<Location> getLocation();
+    std::shared_ptr<State> getLocation();
 
     std::shared_ptr<std::string> getPath();
 
@@ -30,7 +30,7 @@ private:
 
     bool saved_;
 
-    std::shared_ptr<Location> location_;
+    std::shared_ptr<State> location_;
 
     std::shared_ptr<std::string> path_;
 

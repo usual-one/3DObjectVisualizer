@@ -47,7 +47,7 @@ void SurfaceConfigurationDialog::applyAndClose() {
 void SurfaceConfigurationDialog::applyChanges() {
     collectParams();
     emit parametersChanged();
-    tags_manager_.updateCurrent(*surface_tag_);
+    tags_manager_.changeSelectedText(*surface_tag_);
 }
 
 void SurfaceConfigurationDialog::cancelChanges() {
@@ -56,17 +56,14 @@ void SurfaceConfigurationDialog::cancelChanges() {
 }
 
 int SurfaceConfigurationDialog::execWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelectable(tag_selectable);
-    tags_manager_.setCurrent(tag);
-    if (!tags_manager_.isSelectable()) {
-        disableTagSelection(true);
-    }
+    tags_manager_.setSelected(tag);
+    enableTagSelection(tag_selectable);
     emit tagSelected();
     return exec();
 }
 
 std::string SurfaceConfigurationDialog::getSelectedTag() {
-    return tags_manager_.getCurrent();
+    return tags_manager_.getSelected();
 }
 
 std::shared_ptr<std::string> SurfaceConfigurationDialog::getSurfaceTag() {
@@ -92,13 +89,12 @@ void SurfaceConfigurationDialog::selectTag() {
     if (!ui->cmbx_surface->count()) {
         return;
     }
-    tags_manager_.setCurrent();
     emit tagSelected();
 }
 
 void SurfaceConfigurationDialog::surfaceTagChanged() {
     if (QComboBoxController::contains(ui->cmbx_surface, ui->ln_tag->text())) {
-        if (ui->ln_tag->text().toStdString() != tags_manager_.getCurrent()) {
+        if (ui->ln_tag->text().toStdString() != tags_manager_.getSelected()) {
             // TODO
         }
     }
@@ -132,23 +128,22 @@ void SurfaceConfigurationDialog::changeNormalizationAccess(int enabled) {
     ui->spbx_range_end->setEnabled(enabled);
 }
 
-void SurfaceConfigurationDialog::disableTagSelection(bool value) {
-    ui->btn_apply->setDisabled(value);
+void SurfaceConfigurationDialog::enableTagSelection(bool value) {
+    ui->btn_apply->setEnabled(value);
 
-    ui->lbl_surface->setDisabled(value);
-    ui->cmbx_surface->setDisabled(value);
+    ui->lbl_surface->setEnabled(value);
+    tags_manager_.setSelectable(value);
 }
 
 void SurfaceConfigurationDialog::setTags(const std::vector<std::string> &tags) {
     tags_manager_.setTags(tags);
     if (tags.size()) {
-        tags_manager_.setCurrent();
         emit tagSelected();
     }
 }
 
 void SurfaceConfigurationDialog::setDefaultState() {
-    disableTagSelection(false);
+    enableTagSelection(false);
 }
 
 void SurfaceConfigurationDialog::setParamLines() {
@@ -161,11 +156,8 @@ void SurfaceConfigurationDialog::setParamLines() {
 }
 
 void SurfaceConfigurationDialog::showWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelectable(tag_selectable);
-    tags_manager_.setCurrent(tag);
-    if (!tags_manager_.isSelectable()) {
-        disableTagSelection(true);
-    }
+    tags_manager_.setSelected(tag);
+    enableTagSelection(tag_selectable);
     emit tagSelected();
     show();
 }

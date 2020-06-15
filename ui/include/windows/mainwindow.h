@@ -8,6 +8,7 @@
 #include "ui/include/windows/exportdialog.h"
 #include "ui/include/windows/figureconfigurationdialog.h"
 #include "ui/include/windows/surfaceconfigurationdialog.h"
+#include "ui/include/windows/surfaceviewdialog.h"
 
 const int ERROR_DISPLAYING_TIMEOUT = 7000;
 
@@ -43,11 +44,13 @@ private slots:
 
     void changeExportObject();
 
+    void changeViewSurface();
+
     void exit();
 
     void open();
 
-    void viewSurface();
+    void viewSurfaceViewDialog();
 
     void viewControlsDialog();
 
@@ -79,6 +82,8 @@ private:
     FigureConfigurationDialog figure_cfg_dialog_;
 
     SurfaceConfigurationDialog surface_cfg_dialog_;
+
+    SurfaceViewDialog surface_view_dialog_;
 
 };
 #endif // MAINWINDOW_H

@@ -5,9 +5,9 @@
 
 #include "logic/include/obj3d/math/point3d.h"
 
-class Location {
+class State {
 public:
-    Location();
+    State();
 
     std::shared_ptr<obj3d::Point3D> getMovement();
 
@@ -15,7 +15,7 @@ public:
 
     std::shared_ptr<obj3d::Point3D> getScaling();
 
-    void copy(const Location &other);
+    void copy(const State &other);
 
 private:
 

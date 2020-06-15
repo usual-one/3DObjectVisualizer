@@ -19,7 +19,7 @@ class ControlsDialog : public QDialog
     Q_OBJECT
 
 public:
-    ControlsDialog(QWidget *parent = nullptr);
+    explicit ControlsDialog(QWidget *parent = nullptr);
 
     explicit ControlsDialog(const std::vector<std::string> &tags, QWidget *parent = nullptr);
 
@@ -31,34 +31,32 @@ public:
 
     bool hasLocation();
 
-    std::shared_ptr<Location> getLocation();
+    std::shared_ptr<State> getState();
 
-    void setLocation(std::shared_ptr<Location> new_location);
+    void setState(std::shared_ptr<State> new_state);
 
     void setTags(const std::vector<std::string> &tags);
 
     void showWith(const std::string &tag, bool tag_selectable = false);
 
 signals:
-    void locationChanged();
+    void stateChanged();
 
     void tagSelected();
 
 private slots:
-    void applyChanges();
-
-    void cancelChanges();
-
     void changeBorders();
 
-    void changeLocation();
+    void changeStateWithSliders();
 
-    void changeState();
+    void changeStateWithValues();
+
+    void close();
 
     void selectTag();
 
 private:
-    void configureParamLines();
+    void configureWidgets();
 
     void connectSignals();
 
@@ -70,19 +68,11 @@ private:
 
     void fillStateValues();
 
-    double getSliderValue(double begin, double end, QSlider *slider);
-
     void setDefaultState();
-
-    void setSliderValue(QSlider *slider, double value, double begin, double end);
-
-    double getDialValue(QDial *dial);
-
-    void setDialValue(QDial *dial, double value);
 
     Ui::ControlsDialog *ui;
 
-    std::shared_ptr<Location> location_;
+    std::shared_ptr<State> location_;
 
     TagsManager tags_manager_;
 

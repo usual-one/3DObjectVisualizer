@@ -11,9 +11,10 @@
 #include <QFileDialog>
 #include <QStandardItemModel>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow) {
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow),
+    ctrls_dialog_(ControlsDialog(nullptr)) {
     ui->setupUi(this);
 
     facade_ = Facade(std::make_unique<Obj3DFileManager>(),
@@ -50,8 +51,7 @@ void MainWindow::applyNewSurfaceParams() {
 }
 
 void MainWindow::applyNewFigureLocation() {
-    ControlsDialog *dialog = (ControlsDialog *) sender();
-    facade_.changeLocation(dialog->getSelectedTag(), dialog->getLocation());
+    facade_.changeLocation(ctrls_dialog_.getSelectedTag(), ctrls_dialog_.getState());
 
     facade_.redrawScene();
 }
@@ -94,8 +94,9 @@ void MainWindow::exit() {
     }
 }
 
-void MainWindow::viewSurface() {
-    openSurfaceView(nullptr);
+void MainWindow::viewSurfaceViewDialog() {
+    surface_view_dialog_.setTags(facade_.getSurfacesTags());
+    surface_view_dialog_.show();
 }
 
 void MainWindow::viewControlsDialog() {
@@ -120,7 +121,7 @@ void MainWindow::viewSurfaceConfigDialog() {
 
 void MainWindow::changeControlsObject() {
     std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(ctrls_dialog_.getSelectedTag());
-    ctrls_dialog_.setLocation(figure->getLocation());
+    ctrls_dialog_.setState(figure->getLocation());
 }
 
 void MainWindow::changeConfigFigure() {
@@ -137,8 +138,42 @@ void MainWindow::changeConfigSurface() {
 
 void MainWindow::changeExportObject() {
     std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(export_dialog_.getSelectedTag());
-
     export_dialog_.setPath(*figure->getMeta()->getPath());
+}
+
+void MainWindow::changeViewSurface() {
+    std::shared_ptr<obj3d::Surface> surface = facade_.getSurface(surface_view_dialog_.getSelectedTag());
+    surface_view_dialog_.setSurface(surface);
+}
+
+void MainWindow::connectSignals() {
+    connect(ui->act_open, SIGNAL(triggered()), this, SLOT(open()));
+    connect(ui->act_quit, SIGNAL(triggered()), this, SLOT(exit()));
+
+    // syrface view dialog
+    connect(ui->act_view_values, SIGNAL(triggered()), this, SLOT(viewSurfaceViewDialog()));
+    connect(&surface_view_dialog_, SIGNAL(tagSelected()), this, SLOT(changeViewSurface()));
+
+    // controls dialog
+    connect(ui->act_view_ctrls, SIGNAL(triggered()), this, SLOT(viewControlsDialog()));
+    connect(&ctrls_dialog_, SIGNAL(tagSelected()), this, SLOT(changeControlsObject()));
+    connect(&ctrls_dialog_, SIGNAL(stateChanged()), this, SLOT(applyNewFigureLocation()));
+
+    // export dialog
+    connect(ui->act_export, SIGNAL(triggered()), this, SLOT(viewExportDialog()));
+    connect(&export_dialog_, SIGNAL(tagSelected()), this, SLOT(changeExportObject()));
+    connect(&export_dialog_, SIGNAL(exportRequested()), this, SLOT(applyExport()));
+
+    // surface config dialog
+    connect(ui->act_configure_surface, SIGNAL(triggered()), this, SLOT(viewSurfaceConfigDialog()));
+    connect(&surface_cfg_dialog_, SIGNAL(tagSelected()), this, SLOT(changeConfigSurface()));
+    connect(&surface_cfg_dialog_, SIGNAL(parametersChanged()), this, SLOT(applyNewSurfaceParams()));
+
+    // figures config dialog
+    connect(ui->act_new_figure, SIGNAL(triggered()), this, SLOT(addNewFigure()));
+    connect(ui->act_configure_figure, SIGNAL(triggered()), this, SLOT(viewFigureConfigDialog()));
+    connect(&figure_cfg_dialog_, SIGNAL(tagSelected()), this, SLOT(changeConfigFigure()));
+    connect(&figure_cfg_dialog_, SIGNAL(figureChanged()), this, SLOT(applyNewFigureVertices()));
 }
 
 void MainWindow::loadSurface(const QString &path) {
@@ -159,46 +194,8 @@ void MainWindow::loadFigure(const QString &path) {
     facade_.drawScene();
 }
 
-void MainWindow::openSurfaceView(std::shared_ptr<obj3d::Surface> surface) {
-    std::vector<std::string> tags = facade_.getSurfacesTags();
-    std::shared_ptr<SearchParameters> params = std::make_shared<SearchParameters>(tags);
-    SurfaceViewDialog surface_dialog(surface, params);
-    int status_code = surface_dialog.exec();
-    if (status_code == QDialog::Accepted) {
-        openSurfaceView(facade_.getSurface(params->getSelected()));
-    }
-}
-
 void MainWindow::openControls(const std::string &figure_tag) {
     ctrls_dialog_.setTags(facade_.getFiguresTags());
-    ctrls_dialog_.setLocation(facade_.getFigure(figure_tag)->getLocation());
+    ctrls_dialog_.setState(facade_.getFigure(figure_tag)->getLocation());
     ctrls_dialog_.show();
-}
-
-void MainWindow::connectSignals() {
-    connect(ui->act_open, SIGNAL(triggered()), this, SLOT(open()));
-    connect(ui->act_exit, SIGNAL(triggered()), this, SLOT(exit()));
-    connect(ui->act_view_values, SIGNAL(triggered()), this, SLOT(viewSurface()));
-
-    // controls dialog
-    connect(ui->act_view_ctrls, SIGNAL(triggered()), this, SLOT(viewControlsDialog()));
-    connect(&ctrls_dialog_, SIGNAL(tagSelected()), this, SLOT(changeControlsObject()));
-    connect(&ctrls_dialog_, SIGNAL(locationChanged()), this, SLOT(applyNewFigureLocation()));
-
-    // export dialog
-    connect(ui->act_export, SIGNAL(triggered()), this, SLOT(viewExportDialog()));
-    connect(&export_dialog_, SIGNAL(tagSelected()), this, SLOT(changeExportObject()));
-    connect(&export_dialog_, SIGNAL(exportRequested()), this, SLOT(applyExport()));
-
-    // surface config dialog
-    connect(ui->act_configure_surface, SIGNAL(triggered()), this, SLOT(viewSurfaceConfigDialog()));
-    connect(&surface_cfg_dialog_, SIGNAL(tagSelected()), this, SLOT(changeConfigSurface()));
-    connect(&surface_cfg_dialog_, SIGNAL(parametersChanged()), this, SLOT(applyNewSurfaceParams()));
-
-    // figures config dialog
-    connect(ui->act_new_figure, SIGNAL(triggered()), this, SLOT(addNewFigure()));
-    connect(ui->act_configure_figure, SIGNAL(triggered()), this, SLOT(viewFigureConfigDialog()));
-    connect(&figure_cfg_dialog_, SIGNAL(tagSelected()), this, SLOT(changeConfigFigure()));
-    connect(&figure_cfg_dialog_, SIGNAL(figureChanged()), this, SLOT(applyNewFigureVertices()));
-
 }

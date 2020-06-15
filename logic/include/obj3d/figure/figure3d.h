@@ -35,7 +35,7 @@ public:
 
     std::set<std::shared_ptr<obj3d::Edge>> getEdges();
 
-    std::shared_ptr<Location> getLocation();
+    std::shared_ptr<State> getLocation();
 
     std::shared_ptr<FigureMeta> getMeta();
 

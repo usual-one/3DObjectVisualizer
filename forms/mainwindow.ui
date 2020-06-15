@@ -68,7 +68,7 @@
     <addaction name="act_open"/>
     <addaction name="act_export"/>
     <addaction name="separator"/>
-    <addaction name="act_exit"/>
+    <addaction name="act_quit"/>
    </widget>
    <widget class="QMenu" name="menuSurface">
     <property name="title">
@@ -108,9 +108,9 @@
     <string>Close</string>
    </property>
   </action>
-  <action name="act_exit">
+  <action name="act_quit">
    <property name="text">
-    <string>Exit</string>
+    <string>Quit</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
@@ -143,6 +143,9 @@
    <property name="text">
     <string>Values</string>
    </property>
+   <property name="shortcut">
+    <string>Space</string>
+   </property>
   </action>
   <action name="act_configure_surface">
    <property name="text">
@@ -152,6 +155,9 @@
   <action name="act_view_ctrls">
    <property name="text">
     <string>Controls</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+C</string>
    </property>
   </action>
   <action name="act_export">

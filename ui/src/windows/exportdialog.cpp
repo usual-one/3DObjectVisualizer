@@ -31,14 +31,14 @@ ExportDialog::~ExportDialog() {
 }
 
 int ExportDialog::execWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setCurrent(tag);
-    emit tagSelected();
+    tags_manager_.setSelected(tag);
     enableTagSelection(tag_selectable);
+    emit tagSelected();
     return exec();
 }
 
 std::string ExportDialog::getSelectedTag() {
-    return tags_manager_.getCurrent();
+    return tags_manager_.getSelected();
 }
 
 std::shared_ptr<std::string> ExportDialog::getPath() {
@@ -53,13 +53,12 @@ void ExportDialog::setPath(const std::string &path) {
 void ExportDialog::setTags(const std::vector<std::string> &tags) {
     tags_manager_.setTags(tags);
     if (tags.size()) {
-        tags_manager_.setCurrent();
         emit tagSelected();
     }
 }
 
 void ExportDialog::showWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setCurrent(tag);
+    tags_manager_.setSelected(tag);
     emit tagSelected();
     enableTagSelection(tag_selectable);
     show();
@@ -77,7 +76,6 @@ void ExportDialog::selectTag() {
     if (!ui->cmbx_object->count()) {
         return;
     }
-    tags_manager_.setCurrent();
     emit tagSelected();
 }
 
@@ -98,7 +96,7 @@ void ExportDialog::setPath() {
 
 void ExportDialog::enableTagSelection(bool enable) {
     ui->lbl_object->setEnabled(enable);
-    ui->cmbx_object->setEnabled(enable);
+    tags_manager_.setSelectable(enable);
 }
 
 void ExportDialog::enableExport(bool enable) {

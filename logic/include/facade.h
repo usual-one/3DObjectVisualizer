@@ -17,7 +17,7 @@ public:
 
     std::shared_ptr<std::string> addNewFigure();
 
-    void changeLocation(const std::string tag, std::shared_ptr<Location> location);
+    void changeLocation(const std::string tag, std::shared_ptr<State> location);
 
     void deleteSurface(const std::string &tag);
 

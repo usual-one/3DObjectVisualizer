@@ -22,9 +22,9 @@ FigureConfigurationDialog::FigureConfigurationDialog(const std::vector<std::stri
     ui(new Ui::FigureConfigurationDialog) {
     ui->setupUi(this);
 
-    tags_manager_.setWidget(ui->cmbx_figure);
     vertex_manager_.setWidget(ui->lst_vertices);
     connections_manager_.setWidget(ui->lst_connections);
+    tags_manager_.setWidget(ui->cmbx_figure);
     setTags(tags);
 
     configureWidgets();
@@ -36,14 +36,14 @@ FigureConfigurationDialog::~FigureConfigurationDialog() {
 }
 
 int FigureConfigurationDialog::execWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setCurrent(tag);
-    emit tagSelected();
+    tags_manager_.setSelected(tag);
     enableTagSelection(tag_selectable);
+    emit tagSelected();
     return exec();
 }
 
 std::string FigureConfigurationDialog::getSelectedTag() {
-    return tags_manager_.getCurrent();
+    return tags_manager_.getSelected();
 }
 
 std::shared_ptr<std::vector<obj3d::Vertex3D>> FigureConfigurationDialog::getVertices() {
@@ -53,7 +53,6 @@ std::shared_ptr<std::vector<obj3d::Vertex3D>> FigureConfigurationDialog::getVert
 void FigureConfigurationDialog::setTags(const std::vector<std::string> &tags) {
     tags_manager_.setTags(tags);
     if (tags.size()) {
-        tags_manager_.setCurrent();
         emit tagSelected();
     }
 }
@@ -64,9 +63,9 @@ void FigureConfigurationDialog::setVertices(const std::vector<obj3d::Vertex3D> &
 }
 
 void FigureConfigurationDialog::showWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setCurrent(tag);
-    emit tagSelected();
+    tags_manager_.setSelected(tag);
     enableTagSelection(tag_selectable);
+    emit tagSelected();
     show();
 }
 
@@ -107,7 +106,6 @@ void FigureConfigurationDialog::selectTag() {
     if (!ui->cmbx_figure->count()) {
         return;
     }
-    tags_manager_.setCurrent();
     emit tagSelected();
 }
 
@@ -206,7 +204,7 @@ void FigureConfigurationDialog::connectSignals() {
 
 void FigureConfigurationDialog::enableTagSelection(bool enable) {
     ui->lbl_figure->setEnabled(enable);
-    ui->cmbx_figure->setEnabled(enable);
+    tags_manager_.setSelectable(enable);
 }
 
 void FigureConfigurationDialog::setDefaultState() {
