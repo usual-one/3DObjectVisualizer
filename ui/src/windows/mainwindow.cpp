@@ -57,11 +57,10 @@ void MainWindow::applyNewFigureLocation() {
 }
 
 void MainWindow::applyNewFigureVertices() {
-    std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(figure_cfg_dialog_.getSelectedTag());
     std::shared_ptr<std::vector<obj3d::Vertex>> vertices = figure_cfg_dialog_.getVertices();
-    figure->setVertices(vertices);
+    facade_.updateFigureVertices(figure_cfg_dialog_.getSelectedTag(), vertices);
 
-    facade_.drawScene();
+    facade_.redrawScene();
 }
 
 void MainWindow::open() {
@@ -78,17 +77,19 @@ void MainWindow::open() {
 }
 
 void MainWindow::exit() {
-    if (!facade_.hasChanges()) {
+    if (!facade_.hasUnsaved()) {
         QCoreApplication::quit();
     }
-    std::shared_ptr<bool> save_needed = std::make_shared<bool>(false);
-    ExitDialog exit_dialog(save_needed, this);
-    int exit_status = exit_dialog.exec();
+    int exit_status = exit_dialog_.exec();
     if (exit_status == QDialog::Rejected) {
         return;
     } else if (exit_status == QDialog::Accepted) {
-        if (save_needed) {
-//            saveAs();
+        if (exit_dialog_.isSaveNeeded()) {
+            for (auto figure_tag : facade_.getFiguresTags()) {
+                if (!facade_.getFigure(figure_tag)->getMeta()->isSaved()) {
+                    export_dialog_.execWith(figure_tag, false);
+                }
+            }
         }
         QCoreApplication::quit();
     }
@@ -119,6 +120,10 @@ void MainWindow::viewSurfaceConfigDialog() {
     surface_cfg_dialog_.show();
 }
 
+void MainWindow::closeEvent(QCloseEvent *event) {
+    exit();
+}
+
 void MainWindow::changeControlsObject() {
     std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(ctrls_dialog_.getSelectedTag());
     ctrls_dialog_.setState(figure->getState());
@@ -146,6 +151,30 @@ void MainWindow::changeViewSurface() {
     surface_view_dialog_.setSurface(surface);
 }
 
+void MainWindow::deleteFigure() {
+    std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(figure_cfg_dialog_.getSelectedTag());
+    if (!figure->getMeta()->isSaved()) {
+        exit_dialog_.execIrrevocable();
+        if (exit_dialog_.isSaveNeeded()) {
+            export_dialog_.execWith(*figure->getTag(), false);
+        }
+    }
+    facade_.deleteFigure(*figure->getTag());
+    facade_.redrawScene();
+}
+
+void MainWindow::deleteSurface() {
+    std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(surface_cfg_dialog_.getSelectedTag());
+    if (!figure->getMeta()->isSaved()) {
+        exit_dialog_.execIrrevocable();
+        if (exit_dialog_.isSaveNeeded()) {
+            export_dialog_.execWith(*figure->getTag(), false);
+        }
+    }
+    facade_.deleteSurface(*figure->getTag());
+    facade_.redrawScene();
+}
+
 void MainWindow::hideFigure(int hidden) {
     facade_.hideFigure(figure_cfg_dialog_.getSelectedTag(), hidden);
     facade_.redrawScene();
@@ -160,7 +189,7 @@ void MainWindow::connectSignals() {
     connect(ui->act_open, SIGNAL(triggered()), this, SLOT(open()));
     connect(ui->act_quit, SIGNAL(triggered()), this, SLOT(exit()));
 
-    // syrface view dialog
+    // surface view dialog
     connect(ui->act_view_values, SIGNAL(triggered()), this, SLOT(viewSurfaceViewDialog()));
     connect(&surface_view_dialog_, SIGNAL(tagSelected()), this, SLOT(changeViewSurface()));
 
@@ -178,6 +207,7 @@ void MainWindow::connectSignals() {
     connect(ui->act_configure_surface, SIGNAL(triggered()), this, SLOT(viewSurfaceConfigDialog()));
     connect(&surface_cfg_dialog_, SIGNAL(tagSelected()), this, SLOT(changeConfigSurface()));
     connect(&surface_cfg_dialog_, SIGNAL(surfaceChanged()), this, SLOT(applyNewSurfaceParams()));
+    connect(&surface_cfg_dialog_, SIGNAL(surfaceDeleted()), this, SLOT(deleteSurface()));
     connect(&surface_cfg_dialog_, SIGNAL(surfaceHidden(int)), this, SLOT(hideSurface(int)));
 
     // figures config dialog
@@ -185,6 +215,7 @@ void MainWindow::connectSignals() {
     connect(ui->act_configure_figure, SIGNAL(triggered()), this, SLOT(viewFigureConfigDialog()));
     connect(&figure_cfg_dialog_, SIGNAL(tagSelected()), this, SLOT(changeConfigFigure()));
     connect(&figure_cfg_dialog_, SIGNAL(figureChanged()), this, SLOT(applyNewFigureVertices()));
+    connect(&figure_cfg_dialog_, SIGNAL(figureDeleted()), this, SLOT(deleteFigure()));
     connect(&figure_cfg_dialog_, SIGNAL(figureHidden(int)), this, SLOT(hideFigure(int)));
 }
 
