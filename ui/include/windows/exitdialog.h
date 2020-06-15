@@ -11,9 +11,13 @@ class ExitDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit ExitDialog(std::shared_ptr<bool> save_needed, QWidget *parent = nullptr);
+    explicit ExitDialog(QWidget *parent = nullptr);
 
     ~ExitDialog();
+
+    int execIrrevocable();
+
+    bool isSaveNeeded();
 
 private slots:
     void close();
@@ -23,9 +27,13 @@ private slots:
     void save();
 
 private:
+    void connectSignals();
+
+    void enableCanceling(bool enable);
+
     Ui::ExitDialog *ui;
 
-    std::shared_ptr<bool> save_needed_;
+    bool save_needed_;
 };
 
 #endif // EXITDIALOG_H

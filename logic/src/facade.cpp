@@ -26,26 +26,32 @@ void Facade::changeLocation(const std::string tag, std::shared_ptr<State> locati
         moveFigure(tag, location->getMovement()->getX() - current_location->getMovement()->getX(),
                    location->getMovement()->getY() - current_location->getMovement()->getY(),
                    location->getMovement()->getZ() - current_location->getMovement()->getZ());
+        figure->getMeta()->setSaved(false);
     }
     if (*location->getRotation() != *current_location->getRotation()) {
         rotateFigure(tag, location->getRotation()->getX() - current_location->getRotation()->getX(),
                    location->getRotation()->getY() - current_location->getRotation()->getY(),
                    location->getRotation()->getZ() - current_location->getRotation()->getZ());
+        figure->getMeta()->setSaved(false);
     }
     if (*location->getScaling() != *current_location->getScaling()) {
         scaleFigure(tag, location->getScaling()->getX() / current_location->getScaling()->getX(),
                     location->getScaling()->getY() / current_location->getScaling()->getY(),
                     location->getScaling()->getZ() / current_location->getScaling()->getZ());
+        figure->getMeta()->setSaved(false);
     }
     figure->getState()->copy(*location);
 }
 
 void Facade::deleteSurface(const std::string &tag) {
     scene_manager_->getScene()->deleteSurface(tag);
-    deleteFigure(tag);
+    scene_manager_->getScene()->deleteFigure(tag);
 }
 
 void Facade::deleteFigure(const std::string &tag) {
+    if (scene_manager_->getScene()->getFigure(tag)->getSessionState()->isSurface()) {
+        scene_manager_->getScene()->deleteSurface(tag);
+    }
     scene_manager_->getScene()->deleteFigure(tag);
 }
 
@@ -53,8 +59,13 @@ void Facade::drawScene() {
     scene_manager_->drawScene();
 }
 
-bool Facade::hasChanges()  {
-    return has_changes_;
+bool Facade::hasUnsaved()  {
+    for (auto tag : getFiguresTags()) {
+        if (!getFigure(tag)->getMeta()->isSaved()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void Facade::hideFigure(const std::string &tag, bool hidden) {
@@ -129,5 +140,12 @@ void Facade::redrawScene() {
 void Facade::saveFigure(const std::string &tag, const std::string &path) {
     std::shared_ptr<obj3d::Figure> figure = getFigure(tag);
     figure->getMeta()->setPath(path);
+    figure->getMeta()->setSaved(true);
     file_manager_->saveFigure(figure);
+}
+
+void Facade::updateFigureVertices(const std::string &tag, std::shared_ptr<std::vector<obj3d::Vertex>> vertices) {
+    std::shared_ptr<obj3d::Figure> figure = getFigure(tag);
+    figure->setVertices(vertices);
+    figure->getMeta()->setSaved(false);
 }

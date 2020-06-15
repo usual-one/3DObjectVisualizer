@@ -5,6 +5,7 @@
 
 #include "logic/include/facade.h"
 #include "ui/include/windows/controlsdialog.h"
+#include "ui/include/windows/exitdialog.h"
 #include "ui/include/windows/exportdialog.h"
 #include "ui/include/windows/figureconfigurationdialog.h"
 #include "ui/include/windows/surfaceconfigurationdialog.h"
@@ -46,6 +47,10 @@ private slots:
 
     void changeViewSurface();
 
+    void deleteFigure();
+
+    void deleteSurface();
+
     void hideFigure(int hidden);
 
     void hideSurface(int hidden);
@@ -65,6 +70,8 @@ private slots:
     void viewSurfaceConfigDialog();
 
 private:
+    void closeEvent(QCloseEvent *event) override;
+
     void connectSignals();
 
     void loadSurface(const QString &path);
@@ -80,6 +87,8 @@ private:
     Facade facade_;
 
     ControlsDialog ctrls_dialog_;
+
+    ExitDialog exit_dialog_;
 
     ExportDialog export_dialog_;
 

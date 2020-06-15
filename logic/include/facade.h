@@ -25,7 +25,7 @@ public:
 
     void drawScene();
 
-    bool hasChanges();
+    bool hasUnsaved();
 
     void hideFigure(const std::string &tag, bool hidden);
 
@@ -48,6 +48,8 @@ public:
     void redrawScene();
 
     void saveFigure(const std::string &tag, const std::string &path);
+
+    void updateFigureVertices(const std::string &tag, std::shared_ptr<std::vector<obj3d::Vertex>> vertices);
 
 private:
     void moveFigure(const std::string &tag, double x, double y, double z);
