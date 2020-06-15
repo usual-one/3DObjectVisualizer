@@ -9,17 +9,17 @@
 #include "logic/include/obj3d/math/plane.h"
 
 namespace obj3d {
-    class Vertex3D;
+    class Vertex;
 }
 
-class obj3d::Vertex3D {
+class obj3d::Vertex {
 public:
-    Vertex3D() = delete;
+    Vertex() = delete;
 
-    Vertex3D(const obj3d::Vector3D &pos, size_t id);
+    Vertex(const obj3d::Vector3D &pos, size_t id);
 
-    Vertex3D(const obj3d::Vector3D &pos, size_t id,
-             const std::set<std::shared_ptr<obj3d::Vertex3D>> connections);
+    Vertex(const obj3d::Vector3D &pos, size_t id,
+             const std::set<std::shared_ptr<obj3d::Vertex>> connections);
 
     size_t getID() const;
 
@@ -33,15 +33,15 @@ public:
 
     void setConnections(const std::set<size_t> &connections);
 
-    void setConnections(const std::set<std::shared_ptr<obj3d::Vertex3D>> &connections);
+    void setConnections(const std::set<std::shared_ptr<obj3d::Vertex>> &connections);
 
-    void addConnection(std::shared_ptr<obj3d::Vertex3D> connection);
+    void addConnection(std::shared_ptr<obj3d::Vertex> connection);
 
     void addConnection(size_t id);
 
-    bool operator==(const obj3d::Vertex3D &other);
+    bool operator==(const obj3d::Vertex &other);
 
-    bool operator!=(const obj3d::Vertex3D &other);
+    bool operator!=(const obj3d::Vertex &other);
 
     void transform(const obj3d::Matrix &transform_matr);
 

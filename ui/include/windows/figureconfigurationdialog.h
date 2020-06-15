@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-#include "logic/include/obj3d/figure/components/vertex3d.h"
+#include "logic/include/obj3d/figure/components/vertex.h"
 
 #include "ui/include/windows/connectionadditiondialog.h"
 #include "ui/include/utils/tagsmanager.h"
@@ -28,11 +28,11 @@ public:
 
     std::string getSelectedTag();
 
-    std::shared_ptr<std::vector<obj3d::Vertex3D>> getVertices();
+    std::shared_ptr<std::vector<obj3d::Vertex>> getVertices();
 
     void setTags(const std::vector<std::string> &tags);
 
-    void setVertices(const std::vector<obj3d::Vertex3D> &vertices);
+    void setVertices(const std::vector<obj3d::Vertex> &vertices);
 
     void showWith(const std::string &tag, bool tag_selectable = false);
 
@@ -40,6 +40,10 @@ signals:
     void tagSelected();
 
     void figureChanged();
+
+    void figureDeleted();
+
+    void figureHidden(int hidden);
 
 private slots:
     void addVertex();
@@ -53,6 +57,8 @@ private slots:
     void editVertex();
 
     void deleteVertex();
+
+    void deleteFigure();
 
     void selectTag();
 

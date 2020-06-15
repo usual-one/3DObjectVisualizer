@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "logic/include/obj3d/figure/figure3d.h"
+#include "logic/include/obj3d/figure/figure.h"
 #include "logic/include/obj3d/surface/surface.h"
 
 class Scene {
@@ -16,6 +16,10 @@ public:
     void appendFigure(std::shared_ptr<obj3d::Figure> figure);
 
     void appendFigure(obj3d::Figure figure);
+
+    bool containsSurface(const std::string &tag);
+
+    bool containsFigure(const std::string &tag);
 
     void deleteFigure(const std::string &tag);
 

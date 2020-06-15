@@ -20,7 +20,7 @@ obj3d::Figure QtXMLManager::toFigure(QDomDocument &element) {
 
     QDomElement vertices_DOM = firstChildElement(figure_DOM, XML_TAG_VERTICES);
     for (auto vertex_element : elementsByTagName(vertices_DOM, XML_TAG_VERTEX)) {
-        figure.addVertex(std::make_shared<obj3d::Vertex3D>(toVertex(vertex_element)));
+        figure.addVertex(std::make_shared<obj3d::Vertex>(toVertex(vertex_element)));
     }
 
     QDomElement edges_DOM = firstChildElement(figure_DOM, XML_TAG_EDGES);
@@ -31,9 +31,9 @@ obj3d::Figure QtXMLManager::toFigure(QDomDocument &element) {
     return figure;
 }
 
-obj3d::Vertex3D QtXMLManager::toVertex(QDomElement &element) {
+obj3d::Vertex QtXMLManager::toVertex(QDomElement &element) {
     obj3d::Point3D pos = toPoint3D(elementsByTagName(element, XML_TAG_POSITION)[0]);
-    return obj3d::Vertex3D(pos, getAttributeInt(element, XML_ATTRIBUTE_ID));
+    return obj3d::Vertex(pos, getAttributeInt(element, XML_ATTRIBUTE_ID));
 }
 
 obj3d::Point3D QtXMLManager::toPoint3D(QDomElement &element) {
@@ -67,7 +67,7 @@ QDomElement QtXMLManager::toDOM(obj3d::Figure &figure) {
     return figure_DOM;
 }
 
-QDomElement QtXMLManager::toDOM(obj3d::Vertex3D &vertex) {
+QDomElement QtXMLManager::toDOM(obj3d::Vertex &vertex) {
     QDomElement vertex_DOM = createElement(XML_TAG_VERTEX);
 
     setAttribute(vertex_DOM, XML_ATTRIBUTE_ID, vertex.getID());

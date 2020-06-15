@@ -46,7 +46,7 @@ std::string FigureConfigurationDialog::getSelectedTag() {
     return tags_manager_.getSelected();
 }
 
-std::shared_ptr<std::vector<obj3d::Vertex3D>> FigureConfigurationDialog::getVertices() {
+std::shared_ptr<std::vector<obj3d::Vertex>> FigureConfigurationDialog::getVertices() {
     return vertex_manager_.getVertices();
 }
 
@@ -57,7 +57,7 @@ void FigureConfigurationDialog::setTags(const std::vector<std::string> &tags) {
     }
 }
 
-void FigureConfigurationDialog::setVertices(const std::vector<obj3d::Vertex3D> &vertices) {
+void FigureConfigurationDialog::setVertices(const std::vector<obj3d::Vertex> &vertices) {
     vertex_manager_.setVertices(vertices);
     setDefaultState();
 }
@@ -90,7 +90,7 @@ void FigureConfigurationDialog::cancelChanges() {
 }
 
 void FigureConfigurationDialog::editVertex() {
-    obj3d::Vertex3D vertex = vertex_manager_.getCurrent();
+    obj3d::Vertex vertex = vertex_manager_.getCurrent();
     vertex.getPosition()->setX(ui->spbx_point_ox->value());
     vertex.getPosition()->setY(ui->spbx_point_oy->value());
     vertex.getPosition()->setZ(ui->spbx_point_oz->value());
@@ -102,6 +102,17 @@ void FigureConfigurationDialog::deleteVertex() {
     vertex_manager_.removeCurrent();
 }
 
+void FigureConfigurationDialog::deleteFigure() {
+    emit figureDeleted();
+
+    tags_manager_.removeSelected();
+    if (tags_manager_.isEmpty()) {
+        reject();
+    } else {
+        emit tagSelected();
+    }
+}
+
 void FigureConfigurationDialog::selectTag() {
     if (!ui->cmbx_figure->count()) {
         return;
@@ -111,7 +122,7 @@ void FigureConfigurationDialog::selectTag() {
 
 void FigureConfigurationDialog::selectVertex() {
     vertex_manager_.updateCurrent();
-    obj3d::Vertex3D current = vertex_manager_.getCurrent();
+    obj3d::Vertex current = vertex_manager_.getCurrent();
     ui->lbl_id_value->setNum((int) current.getID());
     ui->spbx_point_ox->setValue(current.getPosition()->getX());
     ui->spbx_point_oy->setValue(current.getPosition()->getY());
@@ -129,9 +140,9 @@ void FigureConfigurationDialog::showVertexContexMenu(const QPoint &pos) {
 }
 
 void FigureConfigurationDialog::viewConnectionAdditionDialog() {
-    std::shared_ptr<std::vector<obj3d::Vertex3D>> vertices =
-            std::make_shared<std::vector<obj3d::Vertex3D>>(*vertex_manager_.getVertices());
-    obj3d::Vertex3D current = vertex_manager_.getCurrent();
+    std::shared_ptr<std::vector<obj3d::Vertex>> vertices =
+            std::make_shared<std::vector<obj3d::Vertex>>(*vertex_manager_.getVertices());
+    obj3d::Vertex current = vertex_manager_.getCurrent();
 
     for (auto it = vertices->begin(); it < vertices->end(); it++) {
         if (*it == current) {
@@ -187,6 +198,12 @@ void FigureConfigurationDialog::connectSignals() {
     // Connection adding button
     connect(ui->btn_edit_connections, SIGNAL(clicked()), this, SLOT(viewConnectionAdditionDialog()));
 
+    // Delete button
+    connect(ui->btn_delete, SIGNAL(clicked()), this, SLOT(deleteFigure()));
+
+    // Hide CheckBox
+    connect(ui->chbx_hide, SIGNAL(stateChanged(int)), this, SIGNAL(figureHidden(int)));
+
     // Vertices list
     connect(ui->lst_vertices, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(selectVertex()));
     connect(ui->lst_vertices, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(showVertexContexMenu(const QPoint &)));
@@ -214,9 +231,9 @@ void FigureConfigurationDialog::setDefaultState() {
 
 void FigureConfigurationDialog::setConnections() {
     connections_manager_.clear();
-    obj3d::Vertex3D vertex = vertex_manager_.getCurrent();
+    obj3d::Vertex vertex = vertex_manager_.getCurrent();
     for (auto id : vertex.getConnections()) {
-        obj3d::Vertex3D connection = vertex_manager_.getVertex(id);
+        obj3d::Vertex connection = vertex_manager_.getVertex(id);
         connections_manager_.add(connection);
     }
 }

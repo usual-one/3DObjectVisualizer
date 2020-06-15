@@ -14,7 +14,7 @@ public:
 private:
     obj3d::Figure toFigure(QDomDocument &element);
 
-    obj3d::Vertex3D toVertex(QDomElement &element);
+    obj3d::Vertex toVertex(QDomElement &element);
 
     obj3d::Point3D toPoint3D(QDomElement &element);
 
@@ -22,7 +22,7 @@ private:
 
     QDomElement toDOM(obj3d::Figure &figure);
 
-    QDomElement toDOM(obj3d::Vertex3D &vertex);
+    QDomElement toDOM(obj3d::Vertex &vertex);
 
     QDomElement toDOM(const obj3d::Edge &edge);
 

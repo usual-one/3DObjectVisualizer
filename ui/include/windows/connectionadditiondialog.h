@@ -18,15 +18,15 @@ public:
 
     ~ConnectionAdditionDialog();
 
-    void setCurrent(obj3d::Vertex3D &vertex);
+    void setCurrent(obj3d::Vertex &vertex);
 
-    void setVertices(std::shared_ptr<std::vector<obj3d::Vertex3D>> vertices);
+    void setVertices(std::shared_ptr<std::vector<obj3d::Vertex>> vertices);
 
-    void setConnections(std::shared_ptr<std::vector<obj3d::Vertex3D>> connections);
+    void setConnections(std::shared_ptr<std::vector<obj3d::Vertex>> connections);
 
-    std::shared_ptr<std::vector<obj3d::Vertex3D>> getVertices();
+    std::shared_ptr<std::vector<obj3d::Vertex>> getVertices();
 
-    std::shared_ptr<std::vector<obj3d::Vertex3D>> getConnections();
+    std::shared_ptr<std::vector<obj3d::Vertex>> getConnections();
 
 private slots:
     void addConnection();

@@ -1,7 +1,7 @@
 #ifndef CANVASFIGURE_H
 #define CANVASFIGURE_H
 
-#include "logic/include/obj3d/figure/figure3d.h"
+#include "logic/include/obj3d/figure/figure.h"
 #include "logic/include/scene/constructor/figure/canvasvertex.h"
 #include "logic/include/scene/constructor/figure/canvasedge.h"
 

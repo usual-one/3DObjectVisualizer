@@ -46,6 +46,10 @@ private slots:
 
     void changeViewSurface();
 
+    void hideFigure(int hidden);
+
+    void hideSurface(int hidden);
+
     void exit();
 
     void open();

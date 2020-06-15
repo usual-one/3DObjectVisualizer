@@ -27,6 +27,10 @@ public:
 
     bool hasChanges();
 
+    void hideFigure(const std::string &tag, bool hidden);
+
+    void hideSurface(const std::string &tag, bool hidden);
+
     bool isValid();
 
     Scene loadScene(const std::string &path);

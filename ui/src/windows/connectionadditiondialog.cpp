@@ -16,28 +16,28 @@ ConnectionAdditionDialog::~ConnectionAdditionDialog() {
     delete ui;
 }
 
-void ConnectionAdditionDialog::setCurrent(obj3d::Vertex3D &vertex) {
+void ConnectionAdditionDialog::setCurrent(obj3d::Vertex &vertex) {
     ui->lbl_vertex_value->setText(QString::fromStdString(VertexListManager::toString(vertex)));
 }
 
-void ConnectionAdditionDialog::setVertices(std::shared_ptr<std::vector<obj3d::Vertex3D>> vertices) {
+void ConnectionAdditionDialog::setVertices(std::shared_ptr<std::vector<obj3d::Vertex>> vertices) {
     vertex_manager_.setVertices(*vertices);
 }
 
-void ConnectionAdditionDialog::setConnections(std::shared_ptr<std::vector<obj3d::Vertex3D>> connections) {
+void ConnectionAdditionDialog::setConnections(std::shared_ptr<std::vector<obj3d::Vertex>> connections) {
     connection_manager_.setVertices(*connections);
 }
 
-std::shared_ptr<std::vector<obj3d::Vertex3D>> ConnectionAdditionDialog::getVertices() {
+std::shared_ptr<std::vector<obj3d::Vertex>> ConnectionAdditionDialog::getVertices() {
     return vertex_manager_.getVertices();
 }
 
-std::shared_ptr<std::vector<obj3d::Vertex3D>> ConnectionAdditionDialog::getConnections() {
+std::shared_ptr<std::vector<obj3d::Vertex>> ConnectionAdditionDialog::getConnections() {
     return connection_manager_.getVertices();
 }
 
 void ConnectionAdditionDialog::addConnection() {
-    obj3d::Vertex3D vertex = vertex_manager_.getCurrent();
+    obj3d::Vertex vertex = vertex_manager_.getCurrent();
     connection_manager_.add(vertex);
     vertex_manager_.removeCurrent();
 }
@@ -51,7 +51,7 @@ void ConnectionAdditionDialog::cancelChanges() {
 }
 
 void ConnectionAdditionDialog::removeConnection() {
-    obj3d::Vertex3D vertex = connection_manager_.getCurrent();
+    obj3d::Vertex vertex = connection_manager_.getCurrent();
     vertex_manager_.add(vertex);
     connection_manager_.removeCurrent();
 }

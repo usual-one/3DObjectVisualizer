@@ -9,6 +9,9 @@ CONFIG += c++17
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
+    logic/src/obj3d/figure/components/figuresessionstate.cpp \
+    logic/src/obj3d/figure/components/state.cpp \
+    logic/src/obj3d/figure/components/vertex.cpp \
     logic/src/utils/xml/qtxmlmanager.cpp \
     ui/src/utils/dialmanager.cpp \
     ui/src/utils/exception/vertexlistexception.cpp \
@@ -16,8 +19,7 @@ SOURCES += \
     ui/src/utils/vertexlistmanager.cpp \
     ui/src/windows/exportdialog.cpp \
     logic/src/obj3d/figure/components/edge.cpp \
-    logic/src/obj3d/figure/components/meta/figuremeta.cpp \
-    logic/src/obj3d/figure/components/vertex3d.cpp \
+    logic/src/obj3d/figure/components/figuremeta.cpp \
     logic/src/obj3d/math/basis3d.cpp \
     logic/src/obj3d/math/exception/mathexception.cpp \
     logic/src/obj3d/math/matrix.cpp \
@@ -40,7 +42,6 @@ SOURCES += \
     logic/src/facade.cpp \
     logic/src/file_manager/figurefilemanager.cpp \
     logic/src/obj3d/figure/figure.cpp \
-    logic/src/obj3d/figure/components/meta/location.cpp \
     logic/src/file_manager/csvfilemanager.cpp \
     logic/src/file_manager/fileexception.cpp \
     logic/src/file_manager/filemanager.cpp \
@@ -70,6 +71,11 @@ SOURCES += \
     ui/src/utils/qcomboboxcontroller.cpp
 
 HEADERS += \
+    logic/include/obj3d/figure/components/figuresessionstate.h \
+    logic/include/obj3d/figure/components/state.h \
+    logic/include/obj3d/figure/components/figuremeta.h \
+    logic/include/obj3d/figure/components/vertex.h \
+    logic/include/obj3d/figure/figure.h \
     logic/include/utils/xml/qtxmlmanager.h \
     logic/include/utils/xml/xmlmanager.h \
     ui/include/utils/dialmanager.h \
@@ -77,8 +83,6 @@ HEADERS += \
     ui/include/utils/slidermanager.h \
     ui/include/utils/vertexlistmanager.h \
     ui/include/windows/exportdialog.h \
-    logic/include/obj3d/figure/figure3d.h \
-    logic/include/obj3d/figure/components/vertex3d.h \
     logic/include/obj3d/math/basis3d.h \
     logic/include/obj3d/math/exception/basisexception.h \
     logic/include/obj3d/math/exception/mathexception.h \
@@ -104,8 +108,6 @@ HEADERS += \
     logic/include/scene/exception/unknowntagexception.h \
     logic/include/scene/searchparameters.h \
     config.h \
-    logic/include/obj3d/figure/components/meta/location.h \
-    logic/include/obj3d/figure/components/meta/figuremeta.h \
     logic/include/utils/mathcalculator.h \
     logic/include/utils/qtdtconverter.h \
     ui/include/utils/qcomboboxcontroller.h \

@@ -5,9 +5,10 @@
 
 #include "logic/include/obj3d/object3d.h"
 #include "logic/include/obj3d/figure/components/edge.h"
-#include "logic/include/obj3d/figure/components/vertex3d.h"
+#include "logic/include/obj3d/figure/components/vertex.h"
 #include "logic/include/obj3d/surface/surface.h"
-#include "logic/include/obj3d/figure/components/meta/figuremeta.h"
+#include "logic/include/obj3d/figure/components/figuremeta.h"
+#include "logic/include/obj3d/figure/components/figuresessionstate.h"
 
 namespace obj3d {
     class Figure;
@@ -21,13 +22,13 @@ public:
 
     void addEdge(std::shared_ptr<obj3d::Edge> edge);
 
-    void addVertex(std::shared_ptr<obj3d::Vertex3D> vertex);
+    void addVertex(std::shared_ptr<obj3d::Vertex> vertex);
 
     bool contains(const obj3d::Edge &edge);
 
-    bool contains(const obj3d::Vertex3D vertex);
+    bool contains(const obj3d::Vertex vertex);
 
-    void setVertices(std::shared_ptr<std::vector<obj3d::Vertex3D>> &vertices);
+    void setVertices(std::shared_ptr<std::vector<obj3d::Vertex>> &vertices);
 
     void transform(const obj3d::Matrix &transform_matr);
 
@@ -35,15 +36,17 @@ public:
 
     std::set<std::shared_ptr<obj3d::Edge>> getEdges();
 
-    std::shared_ptr<State> getLocation();
+    std::shared_ptr<State> getState();
 
     std::shared_ptr<FigureMeta> getMeta();
 
-    std::set<std::shared_ptr<obj3d::Vertex3D>> getVertices();
+    std::shared_ptr<FigureSessionState> getSessionState();
 
-    std::vector<obj3d::Vertex3D> getVerticesVector();
+    std::set<std::shared_ptr<obj3d::Vertex>> getVertices();
 
-    std::shared_ptr<obj3d::Vertex3D> getVertex(size_t id);
+    std::vector<obj3d::Vertex> getVerticesVector();
+
+    std::shared_ptr<obj3d::Vertex> getVertex(size_t id);
 
 private:
     void createDefaultTag();
@@ -52,11 +55,14 @@ private:
 
     static size_t count_;
 
-    std::set<std::shared_ptr<obj3d::Vertex3D>> vertices_;
+    std::set<std::shared_ptr<obj3d::Vertex>> vertices_;
 
     std::set<std::shared_ptr<obj3d::Edge>> edges_;
 
     std::shared_ptr<FigureMeta> meta_;
+
+    std::shared_ptr<FigureSessionState> session_state_;
+
 };
 
 #endif // FIGURE_H

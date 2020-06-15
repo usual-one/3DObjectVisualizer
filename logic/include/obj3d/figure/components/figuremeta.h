@@ -4,33 +4,20 @@
 #include <memory>
 #include <string>
 
-#include "logic/include/obj3d/figure/components/meta/location.h"
-
-
 class FigureMeta {
 public:
     FigureMeta();
 
-    std::shared_ptr<State> getLocation();
-
     std::shared_ptr<std::string> getPath();
 
-    bool isHidden();
-
     bool isSaved();
-
-    void setHidden(bool hidden);
 
     void setPath(const std::string &path);
 
     void setSaved(bool saved);
 
 private:
-    bool hidden_;
-
     bool saved_;
-
-    std::shared_ptr<State> location_;
 
     std::shared_ptr<std::string> path_;
 

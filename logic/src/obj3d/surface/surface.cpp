@@ -14,21 +14,21 @@ obj3d::Surface::Surface(const std::vector<std::vector<double>> &values) {
     params_ = calculateParameters();
 }
 
-std::set<std::shared_ptr<obj3d::Vertex3D>> obj3d::Surface::toVertices() const {
-    std::vector<std::vector<std::shared_ptr<obj3d::Vertex3D>>> vertices_matr = {};
+std::set<std::shared_ptr<obj3d::Vertex>> obj3d::Surface::toVertices() const {
+    std::vector<std::vector<std::shared_ptr<obj3d::Vertex>>> vertices_matr = {};
     std::vector<std::vector<obj3d::Point3D>> points = toPoints3D();
 
     for (size_t i = 0; i < points.size(); i++) {
         vertices_matr.push_back({});
         for (size_t j = 0; j < points[i].size(); j++) {
-            vertices_matr[i].push_back(std::make_shared<obj3d::Vertex3D>(points[i][j],
+            vertices_matr[i].push_back(std::make_shared<obj3d::Vertex>(points[i][j],
                                                                          i * points[0].size() + j));
         }
     }
 
     setConnections(vertices_matr);
 
-    std::set<std::shared_ptr<obj3d::Vertex3D>> vertices_set = {};
+    std::set<std::shared_ptr<obj3d::Vertex>> vertices_set = {};
     for (auto row : vertices_matr) {
         vertices_set.insert(row.begin(), row.end());
     }
@@ -100,7 +100,7 @@ std::vector<std::vector<obj3d::Point3D>> obj3d::Surface::toPoints3D() const {
     return points;
 }
 
-void obj3d::Surface::setConnections(std::vector<std::vector<std::shared_ptr<obj3d::Vertex3D>>> &vertices) const {
+void obj3d::Surface::setConnections(std::vector<std::vector<std::shared_ptr<obj3d::Vertex>>> &vertices) const {
     for (size_t i = 0; i < vertices.size(); i++) {
         for (size_t j = 0; j < vertices[i].size(); j++) {
             if (j > 0) {

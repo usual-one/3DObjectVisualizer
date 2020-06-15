@@ -20,7 +20,7 @@ std::shared_ptr<std::string> Facade::addNewFigure() {
 
 void Facade::changeLocation(const std::string tag, std::shared_ptr<State> location) {
     std::shared_ptr<obj3d::Figure> figure = getFigure(tag);
-    std::shared_ptr<State> current_location = figure->getLocation();
+    std::shared_ptr<State> current_location = figure->getState();
 
     if (*location->getMovement() != *current_location->getMovement()) {
         moveFigure(tag, location->getMovement()->getX() - current_location->getMovement()->getX(),
@@ -37,7 +37,7 @@ void Facade::changeLocation(const std::string tag, std::shared_ptr<State> locati
                     location->getScaling()->getY() / current_location->getScaling()->getY(),
                     location->getScaling()->getZ() / current_location->getScaling()->getZ());
     }
-    figure->getLocation()->copy(*location);
+    figure->getState()->copy(*location);
 }
 
 void Facade::deleteSurface(const std::string &tag) {
@@ -55,6 +55,18 @@ void Facade::drawScene() {
 
 bool Facade::hasChanges()  {
     return has_changes_;
+}
+
+void Facade::hideFigure(const std::string &tag, bool hidden) {
+    if (scene_manager_->getScene()->containsFigure(tag)) {
+        scene_manager_->getScene()->getFigure(tag)->getSessionState()->setHidden(hidden);
+    }
+}
+
+void Facade::hideSurface(const std::string &tag, bool hidden) {
+    if (scene_manager_->getScene()->containsSurface(tag)) {
+        scene_manager_->getScene()->getFigure(tag)->getSessionState()->setHidden(hidden);
+    }
 }
 
 bool Facade::isValid() {

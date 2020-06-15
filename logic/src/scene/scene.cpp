@@ -24,6 +24,24 @@ void Scene::appendFigure(obj3d::Figure figure) {
     appendFigure(std::make_shared<obj3d::Figure>(figure));
 }
 
+bool Scene::containsSurface(const std::string &tag) {
+    for (auto surface_tag : getSurfacesTags()) {
+        if (*surface_tag == tag) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Scene::containsFigure(const std::string &tag) {
+    for (auto figure_tag : getFiguresTags()) {
+        if (*figure_tag == tag) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void Scene::deleteFigure(const std::string &tag) {
     figures_.erase(std::find(figures_.begin(), figures_.end(), getFigure(tag)));
 }

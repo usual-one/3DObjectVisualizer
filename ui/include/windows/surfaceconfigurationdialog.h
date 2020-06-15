@@ -39,7 +39,11 @@ public:
     void setTags(const std::vector<std::string> &tags);
 
 signals:
-    void parametersChanged();
+    void surfaceChanged();
+
+    void surfaceDeleted();
+
+    void surfaceHidden(int hidden);
 
     void tagSelected();
 
@@ -49,6 +53,8 @@ private slots:
     void applyChanges();
 
     void cancelChanges();
+
+    void deleteSurface();
 
     void selectTag();
 

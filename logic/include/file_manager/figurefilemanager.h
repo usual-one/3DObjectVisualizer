@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "logic/include/obj3d/figure/figure3d.h"
+#include "logic/include/obj3d/figure/figure.h"
 #include "logic/include/utils/xml/xmlmanager.h"
 #include "logic/include/file_manager/filemanager.h"
 

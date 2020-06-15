@@ -5,12 +5,12 @@
 #include <string>
 
 #include "logic/include/obj3d/math/point2d.h"
-#include "logic/include/obj3d/figure/components/vertex3d.h"
+#include "logic/include/obj3d/figure/components/vertex.h"
 #include "logic/include/scene/constructor/camera.h"
 
 class CanvasVertex {
 public:
-    CanvasVertex(obj3d::Vertex3D &vertex, Camera &camera);
+    CanvasVertex(obj3d::Vertex &vertex, Camera &camera);
 
     size_t getID() const;
 

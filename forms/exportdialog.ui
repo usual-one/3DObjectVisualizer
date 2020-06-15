@@ -81,7 +81,13 @@
       <widget class="QComboBox" name="cmbx_object">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>300</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>300</width>
          <height>30</height>
         </size>
        </property>
@@ -89,6 +95,19 @@
         <enum>Qt::NoFocus</enum>
        </property>
       </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>

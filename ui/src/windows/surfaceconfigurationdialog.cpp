@@ -46,13 +46,24 @@ void SurfaceConfigurationDialog::applyAndClose() {
 
 void SurfaceConfigurationDialog::applyChanges() {
     collectParams();
-    emit parametersChanged();
+    emit surfaceChanged();
     tags_manager_.changeSelectedText(*surface_tag_);
 }
 
 void SurfaceConfigurationDialog::cancelChanges() {
     setDefaultState();
     reject();
+}
+
+void SurfaceConfigurationDialog::deleteSurface() {
+    emit surfaceDeleted();
+
+    tags_manager_.removeSelected();
+    if (tags_manager_.isEmpty()) {
+        reject();
+    } else {
+        emit tagSelected();
+    }
 }
 
 int SurfaceConfigurationDialog::execWith(const std::string &tag, bool tag_selectable) {
@@ -86,7 +97,7 @@ void SurfaceConfigurationDialog::setSurfaceTag(std::shared_ptr<std::string> tag)
 }
 
 void SurfaceConfigurationDialog::selectTag() {
-    if (!ui->cmbx_surface->count()) {
+    if (tags_manager_.isEmpty()) {
         return;
     }
     emit tagSelected();
@@ -189,9 +200,14 @@ void SurfaceConfigurationDialog::connectSignals() {
     connect(ui->btn_cancel, SIGNAL(clicked()), this, SLOT(cancelChanges()));
     connect(ui->btn_ok, SIGNAL(clicked()), this, SLOT(applyAndClose()));
 
-    // Normalized Checkbox
-    connect(ui->chbx_normalized, SIGNAL(stateChanged(int)),
-            this, SLOT(changeNormalizationAccess(int)));
+    // Hide CheckBox
+    connect(ui->chbx_hide, SIGNAL(stateChanged(int)), this, SIGNAL(surfaceHidden(int)));
+
+    // Delete Button
+    connect(ui->btn_delete, SIGNAL(clicked()), this, SLOT(deleteSurface()));
+
+    // Normalized CheckBox
+    connect(ui->chbx_normalized, SIGNAL(stateChanged(int)), this, SLOT(changeNormalizationAccess(int)));
 
     // Tag LineEdit
     connect(ui->ln_tag, SIGNAL(editingFinished()), this, SLOT(surfaceTagChanged()));

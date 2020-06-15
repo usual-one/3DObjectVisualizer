@@ -1,7 +1,7 @@
 #ifndef CONTROLSDIALOG_H
 #define CONTROLSDIALOG_H
 
-#include "logic/include/obj3d/figure/components/meta/location.h"
+#include "logic/include/obj3d/figure/components/state.h"
 #include "ui/include/utils/tagsmanager.h"
 #include "ui/include/utils/slidermanager.h"
 #include "ui/include/utils/dialmanager.h"

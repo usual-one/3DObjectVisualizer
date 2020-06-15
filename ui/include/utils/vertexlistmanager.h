@@ -1,7 +1,7 @@
 #ifndef VERTEXLISTMANAGER_H
 #define VERTEXLISTMANAGER_H
 
-#include "logic/include/obj3d/figure/components/vertex3d.h"
+#include "logic/include/obj3d/figure/components/vertex.h"
 
 #include <QListWidget>
 
@@ -11,17 +11,17 @@ public:
 
     size_t add();
 
-    void add(obj3d::Vertex3D &vertex);
+    void add(obj3d::Vertex &vertex);
 
     void clear();
 
-    bool contains(const obj3d::Vertex3D &vertex);
+    bool contains(const obj3d::Vertex &vertex);
 
-    obj3d::Vertex3D getCurrent();
+    obj3d::Vertex getCurrent();
 
-    obj3d::Vertex3D getVertex(size_t id);
+    obj3d::Vertex getVertex(size_t id);
 
-    std::shared_ptr<std::vector<obj3d::Vertex3D>> getVertices();
+    std::shared_ptr<std::vector<obj3d::Vertex>> getVertices();
 
     std::set<size_t> getVertexIDs();
 
@@ -31,17 +31,17 @@ public:
 
     void setCurrentID(size_t id);
 
-    void setVertices(const std::vector<obj3d::Vertex3D> &vertices);
+    void setVertices(const std::vector<obj3d::Vertex> &vertices);
 
     void setWidget(QListWidget *widget);
 
-    static std::string toString(obj3d::Vertex3D &vertex);
+    static std::string toString(obj3d::Vertex &vertex);
 
     void updateCurrent();
 
-    void updateCurrent(obj3d::Vertex3D &vertex);
+    void updateCurrent(obj3d::Vertex &vertex);
 
-    void updateVertices(const std::vector<obj3d::Vertex3D> &vertices);
+    void updateVertices(const std::vector<obj3d::Vertex> &vertices);
 
 private:
     bool contains(size_t id);
@@ -52,13 +52,13 @@ private:
 
     void updateWidget();
 
-    void updateWidget(obj3d::Vertex3D &vertex);
+    void updateWidget(obj3d::Vertex &vertex);
 
-    void updateWidget(const std::vector<obj3d::Vertex3D> &vertices);
+    void updateWidget(const std::vector<obj3d::Vertex> &vertices);
 
     size_t current_id_;
 
-    std::shared_ptr<std::vector<obj3d::Vertex3D>> vertices_;
+    std::shared_ptr<std::vector<obj3d::Vertex>> vertices_;
 
     QListWidget *widget_;
 

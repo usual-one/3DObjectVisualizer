@@ -33,6 +33,9 @@ public:
     void removeAvailable(const std::string &tag);
     // removes tag from list of tags that can be selected
 
+    void removeSelected();
+    // removes selected tag from list of tags that can be selected
+
     void setWidget(QComboBox *widget);
     // sets combobox widget
 

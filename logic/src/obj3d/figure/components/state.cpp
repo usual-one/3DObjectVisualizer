@@ -1,4 +1,4 @@
-#include "logic/include/obj3d/figure/components/meta/location.h"
+#include "logic/include/obj3d/figure/components/state.h"
 
 State::State() :
     movement_(std::make_shared<obj3d::Point3D>(0, 0, 0)),

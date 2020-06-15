@@ -1,7 +1,7 @@
 #ifndef XMLMANAGER_H
 #define XMLMANAGER_H
 
-#include "logic/include/obj3d/figure/figure3d.h"
+#include "logic/include/obj3d/figure/figure.h"
 #include <string>
 
 class XMLManager {

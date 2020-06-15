@@ -1,7 +1,7 @@
 #ifndef EDGE_H
 #define EDGE_H
 
-#include "logic/include/obj3d/figure/components/vertex3d.h"
+#include "logic/include/obj3d/figure/components/vertex.h"
 
 namespace obj3d {
     class Edge;

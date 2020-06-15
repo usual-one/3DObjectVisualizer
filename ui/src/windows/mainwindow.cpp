@@ -58,7 +58,7 @@ void MainWindow::applyNewFigureLocation() {
 
 void MainWindow::applyNewFigureVertices() {
     std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(figure_cfg_dialog_.getSelectedTag());
-    std::shared_ptr<std::vector<obj3d::Vertex3D>> vertices = figure_cfg_dialog_.getVertices();
+    std::shared_ptr<std::vector<obj3d::Vertex>> vertices = figure_cfg_dialog_.getVertices();
     figure->setVertices(vertices);
 
     facade_.drawScene();
@@ -121,7 +121,7 @@ void MainWindow::viewSurfaceConfigDialog() {
 
 void MainWindow::changeControlsObject() {
     std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(ctrls_dialog_.getSelectedTag());
-    ctrls_dialog_.setState(figure->getLocation());
+    ctrls_dialog_.setState(figure->getState());
 }
 
 void MainWindow::changeConfigFigure() {
@@ -146,6 +146,16 @@ void MainWindow::changeViewSurface() {
     surface_view_dialog_.setSurface(surface);
 }
 
+void MainWindow::hideFigure(int hidden) {
+    facade_.hideFigure(figure_cfg_dialog_.getSelectedTag(), hidden);
+    facade_.redrawScene();
+}
+
+void MainWindow::hideSurface(int hidden) {
+    facade_.hideSurface(surface_cfg_dialog_.getSelectedTag(), hidden);
+    facade_.redrawScene();
+}
+
 void MainWindow::connectSignals() {
     connect(ui->act_open, SIGNAL(triggered()), this, SLOT(open()));
     connect(ui->act_quit, SIGNAL(triggered()), this, SLOT(exit()));
@@ -167,13 +177,15 @@ void MainWindow::connectSignals() {
     // surface config dialog
     connect(ui->act_configure_surface, SIGNAL(triggered()), this, SLOT(viewSurfaceConfigDialog()));
     connect(&surface_cfg_dialog_, SIGNAL(tagSelected()), this, SLOT(changeConfigSurface()));
-    connect(&surface_cfg_dialog_, SIGNAL(parametersChanged()), this, SLOT(applyNewSurfaceParams()));
+    connect(&surface_cfg_dialog_, SIGNAL(surfaceChanged()), this, SLOT(applyNewSurfaceParams()));
+    connect(&surface_cfg_dialog_, SIGNAL(surfaceHidden(int)), this, SLOT(hideSurface(int)));
 
     // figures config dialog
     connect(ui->act_new_figure, SIGNAL(triggered()), this, SLOT(addNewFigure()));
     connect(ui->act_configure_figure, SIGNAL(triggered()), this, SLOT(viewFigureConfigDialog()));
     connect(&figure_cfg_dialog_, SIGNAL(tagSelected()), this, SLOT(changeConfigFigure()));
     connect(&figure_cfg_dialog_, SIGNAL(figureChanged()), this, SLOT(applyNewFigureVertices()));
+    connect(&figure_cfg_dialog_, SIGNAL(figureHidden(int)), this, SLOT(hideFigure(int)));
 }
 
 void MainWindow::loadSurface(const QString &path) {
@@ -196,6 +208,6 @@ void MainWindow::loadFigure(const QString &path) {
 
 void MainWindow::openControls(const std::string &figure_tag) {
     ctrls_dialog_.setTags(facade_.getFiguresTags());
-    ctrls_dialog_.setState(facade_.getFigure(figure_tag)->getLocation());
+    ctrls_dialog_.setState(facade_.getFigure(figure_tag)->getState());
     ctrls_dialog_.show();
 }

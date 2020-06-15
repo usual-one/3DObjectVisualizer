@@ -42,6 +42,10 @@ void TagsManager::removeAvailable(const std::string &tag) {
     QComboBoxController::removeItem(box_, tag);
 }
 
+void TagsManager::removeSelected() {
+    removeAvailable(getSelected());
+}
+
 void TagsManager::setWidget(QComboBox *widget) {
     box_ = widget;
 }

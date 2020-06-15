@@ -1,20 +1,25 @@
-#include "logic/include/obj3d/figure/figure3d.h"
+#include "logic/include/obj3d/figure/figure.h"
 #include "config.h"
 
 size_t obj3d::Figure::count_ = 0;
 
 obj3d::Figure::Figure() :
-    meta_(std::make_shared<FigureMeta>()) {
+    meta_(std::make_shared<FigureMeta>()),
+    session_state_(std::make_shared<FigureSessionState>()) {
     count_++;
     createDefaultTag();
 }
 
 obj3d::Figure::Figure(obj3d::Surface &surface) :
-    meta_(std::make_shared<FigureMeta>()) {
+    meta_(std::make_shared<FigureMeta>()),
+    session_state_(std::make_shared<FigureSessionState>()) {
     count_++;
     tag_ = surface.getTag();
+
     vertices_ = surface.toVertices();
     setEdges();
+
+    session_state_->setSurface(true);
 }
 
 void obj3d::Figure::addEdge(std::shared_ptr<obj3d::Edge> edge) {
@@ -26,7 +31,7 @@ void obj3d::Figure::addEdge(std::shared_ptr<obj3d::Edge> edge) {
     getVertex(edge->getEnd())->addConnection(edge->getBegin());
 }
 
-void obj3d::Figure::addVertex(std::shared_ptr<obj3d::Vertex3D> vertex) {
+void obj3d::Figure::addVertex(std::shared_ptr<obj3d::Vertex> vertex) {
     if (contains(*vertex)) {
         return;
     }
@@ -42,7 +47,7 @@ bool obj3d::Figure::contains(const obj3d::Edge &edge) {
     return false;
 }
 
-bool obj3d::Figure::contains(const obj3d::Vertex3D vertex) {
+bool obj3d::Figure::contains(const obj3d::Vertex vertex) {
     for (auto existing_vertex : vertices_) {
         if (*existing_vertex == vertex) {
             return true;
@@ -51,11 +56,11 @@ bool obj3d::Figure::contains(const obj3d::Vertex3D vertex) {
     return false;
 }
 
-void obj3d::Figure::setVertices(std::shared_ptr<std::vector<obj3d::Vertex3D>> &vertices) {
+void obj3d::Figure::setVertices(std::shared_ptr<std::vector<obj3d::Vertex>> &vertices) {
     vertices_.clear();
     edges_.clear();
     for (auto vertex : *vertices) {
-        addVertex(std::make_shared<obj3d::Vertex3D>(vertex));
+        addVertex(std::make_shared<obj3d::Vertex>(vertex));
     }
     setEdges();
 }
@@ -66,12 +71,12 @@ void obj3d::Figure::transform(const Matrix &transform_matr) {
     }
 }
 
-std::set<std::shared_ptr<obj3d::Vertex3D>> obj3d::Figure::getVertices() {
+std::set<std::shared_ptr<obj3d::Vertex>> obj3d::Figure::getVertices() {
     return vertices_;
 }
 
-std::vector<obj3d::Vertex3D> obj3d::Figure::getVerticesVector() {
-    std::vector<obj3d::Vertex3D> vec;
+std::vector<obj3d::Vertex> obj3d::Figure::getVerticesVector() {
+    std::vector<obj3d::Vertex> vec;
     for (auto vertex : vertices_) {
         vec.push_back(*vertex);
     }
@@ -82,7 +87,7 @@ std::set<std::shared_ptr<obj3d::Edge>> obj3d::Figure::getEdges() {
     return edges_;
 }
 
-std::shared_ptr<obj3d::Vertex3D> obj3d::Figure::getVertex(size_t id) {
+std::shared_ptr<obj3d::Vertex> obj3d::Figure::getVertex(size_t id) {
     for (auto vertex : vertices_) {
         if (vertex->getID() == id) {
             return vertex;
@@ -91,12 +96,16 @@ std::shared_ptr<obj3d::Vertex3D> obj3d::Figure::getVertex(size_t id) {
     return nullptr;
 }
 
-std::shared_ptr<State> obj3d::Figure::getLocation() {
-    return meta_->getLocation();
+std::shared_ptr<State> obj3d::Figure::getState() {
+    return session_state_->getState();
 }
 
 std::shared_ptr<FigureMeta> obj3d::Figure::getMeta() {
     return meta_;
+}
+
+std::shared_ptr<FigureSessionState> obj3d::Figure::getSessionState() {
+    return session_state_;
 }
 
 obj3d::Point3D obj3d::Figure::getAverageLocation() {
