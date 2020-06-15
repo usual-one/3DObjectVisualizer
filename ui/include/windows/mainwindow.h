@@ -55,7 +55,7 @@ private slots:
 
     void hideSurface(int hidden);
 
-    void exit();
+    bool exit();
 
     void open();
 

@@ -8,6 +8,7 @@
 
 #include "config.h"
 
+#include <QCloseEvent>
 #include <QFileDialog>
 #include <QStandardItemModel>
 
@@ -76,13 +77,13 @@ void MainWindow::open() {
     }
 }
 
-void MainWindow::exit() {
+bool MainWindow::exit() {
     if (!facade_.hasUnsaved()) {
         QCoreApplication::quit();
     }
     int exit_status = exit_dialog_.exec();
     if (exit_status == QDialog::Rejected) {
-        return;
+        return false;
     } else if (exit_status == QDialog::Accepted) {
         if (exit_dialog_.isSaveNeeded()) {
             for (auto figure_tag : facade_.getFiguresTags()) {
@@ -93,6 +94,7 @@ void MainWindow::exit() {
         }
         QCoreApplication::quit();
     }
+    return true;
 }
 
 void MainWindow::viewSurfaceViewDialog() {
@@ -121,7 +123,9 @@ void MainWindow::viewSurfaceConfigDialog() {
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
-    exit();
+    if (!exit()) {
+        event->ignore();
+    }
 }
 
 void MainWindow::changeControlsObject() {
