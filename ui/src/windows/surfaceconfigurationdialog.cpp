@@ -139,6 +139,10 @@ void SurfaceConfigurationDialog::changeNormalizationAccess(int enabled) {
     ui->spbx_range_end->setEnabled(enabled);
 }
 
+void SurfaceConfigurationDialog::enableSurfaceDeleting(bool value) {
+    ui->btn_delete->setEnabled(value);
+}
+
 void SurfaceConfigurationDialog::enableTagSelection(bool value) {
     ui->btn_apply->setEnabled(value);
 

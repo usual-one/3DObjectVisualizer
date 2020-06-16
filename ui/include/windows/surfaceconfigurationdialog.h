@@ -22,6 +22,8 @@ public:
 
     ~SurfaceConfigurationDialog();
 
+    void enableSurfaceDeleting(bool value);
+
     std::string getSelectedTag();
 
     std::shared_ptr<std::string> getSurfaceTag();

@@ -230,7 +230,9 @@ void MainWindow::loadSurface(const QString &path) {
 
     for (auto tag : loaded_scene.getSurfacesTags()) {
         std::shared_ptr<obj3d::Surface> surface = loaded_scene.getSurface(*tag);
+        surface_cfg_dialog_.enableSurfaceDeleting(false);
         int cfg_status = surface_cfg_dialog_.execWith(*surface->getTag());
+        surface_cfg_dialog_.enableSurfaceDeleting(true);
         if (cfg_status == QDialog::Rejected) {
             facade_.deleteSurface(*surface->getTag());
         }
