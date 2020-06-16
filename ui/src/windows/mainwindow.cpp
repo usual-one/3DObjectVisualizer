@@ -32,7 +32,12 @@ MainWindow::~MainWindow() {
 void MainWindow::addNewFigure() {
     std::string figure_tag = *facade_.addNewFigure();
     figure_cfg_dialog_.setTags(facade_.getFiguresTags());
-    figure_cfg_dialog_.showWith(figure_tag, false);
+    figure_cfg_dialog_.enableFigureDeleting(false);
+    int dialog_status = figure_cfg_dialog_.execWith(figure_tag, false);
+    if (dialog_status == QDialog::Rejected) {
+        facade_.deleteFigure(figure_tag);
+    }
+    figure_cfg_dialog_.enableFigureDeleting(true);
 }
 
 void MainWindow::applyExport() {

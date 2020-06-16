@@ -24,6 +24,8 @@ public:
 
     ~FigureConfigurationDialog();
 
+    void enableFigureDeleting(bool value);
+
     int execWith(const std::string &tag, bool tag_selectable = false);
 
     std::string getFigureTag();

@@ -35,6 +35,10 @@ FigureConfigurationDialog::~FigureConfigurationDialog() {
     delete ui;
 }
 
+void FigureConfigurationDialog::enableFigureDeleting(bool value) {
+    ui->btn_delete->setEnabled(value);
+}
+
 int FigureConfigurationDialog::execWith(const std::string &tag, bool tag_selectable) {
     tags_manager_.setSelected(tag);
     enableTagSelection(tag_selectable);
@@ -64,7 +68,7 @@ void FigureConfigurationDialog::setTags(const std::vector<std::string> &tags) {
 
 void FigureConfigurationDialog::setVertices(const std::vector<obj3d::Vertex> &vertices) {
     vertex_manager_.setVertices(vertices);
-    setDefaultState();
+    clearVertexWidgets();
 }
 
 void FigureConfigurationDialog::setFigureTag(const std::string &tag) {
