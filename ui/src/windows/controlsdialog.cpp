@@ -305,6 +305,11 @@ void ControlsDialog::connectSignals() {
 void ControlsDialog::disableSeparateScaling(int disable) {
     oy_scaling_manager_.setEnabled(!disable);
     oz_scaling_manager_.setEnabled(!disable);
+
+    ui->lbl_ox_scale->setDisabled(disable);
+    ui->lbl_oy_scale->setDisabled(disable);
+    ui->lbl_oz_scale->setDisabled(disable);
+
     if (disable) {
         oy_scaling_manager_.updateWithOther(&ox_scaling_manager_);
         oz_scaling_manager_.updateWithOther(&ox_scaling_manager_);
