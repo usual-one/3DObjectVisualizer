@@ -42,6 +42,11 @@ int FigureConfigurationDialog::execWith(const std::string &tag, bool tag_selecta
     return exec();
 }
 
+std::string FigureConfigurationDialog::getFigureTag() {
+    figure_tag_ = ui->ln_tag->text().toStdString();
+    return figure_tag_;
+}
+
 std::string FigureConfigurationDialog::getSelectedTag() {
     return tags_manager_.getSelected();
 }
@@ -60,6 +65,11 @@ void FigureConfigurationDialog::setTags(const std::vector<std::string> &tags) {
 void FigureConfigurationDialog::setVertices(const std::vector<obj3d::Vertex> &vertices) {
     vertex_manager_.setVertices(vertices);
     setDefaultState();
+}
+
+void FigureConfigurationDialog::setFigureTag(const std::string &tag) {
+    figure_tag_ = tag;
+    ui->ln_tag->setText(QString::fromStdString(tag));
 }
 
 void FigureConfigurationDialog::showWith(const std::string &tag, bool tag_selectable) {
@@ -83,6 +93,7 @@ void FigureConfigurationDialog::applyAndClose() {
 
 void FigureConfigurationDialog::applyChanges() {
     emit figureChanged();
+    tags_manager_.changeSelectedText(figure_tag_);
 }
 
 void FigureConfigurationDialog::cancelChanges() {

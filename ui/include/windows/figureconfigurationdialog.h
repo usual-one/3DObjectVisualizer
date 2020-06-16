@@ -26,6 +26,8 @@ public:
 
     int execWith(const std::string &tag, bool tag_selectable = false);
 
+    std::string getFigureTag();
+
     std::string getSelectedTag();
 
     std::shared_ptr<std::vector<obj3d::Vertex>> getVertices();
@@ -33,6 +35,8 @@ public:
     void setTags(const std::vector<std::string> &tags);
 
     void setVertices(const std::vector<obj3d::Vertex> &vertices);
+
+    void setFigureTag(const std::string &tag);
 
     void showWith(const std::string &tag, bool tag_selectable = false);
 
@@ -90,6 +94,8 @@ private:
     ConnectionAdditionDialog connection_addition_dialog_;
 
     TagsManager tags_manager_;
+
+    std::string figure_tag_;
 
 };
 

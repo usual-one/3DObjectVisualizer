@@ -60,6 +60,7 @@ void MainWindow::applyNewFigureLocation() {
 void MainWindow::applyNewFigureVertices() {
     std::shared_ptr<std::vector<obj3d::Vertex>> vertices = figure_cfg_dialog_.getVertices();
     facade_.updateFigureVertices(figure_cfg_dialog_.getSelectedTag(), vertices);
+    facade_.getFigure(figure_cfg_dialog_.getSelectedTag())->setTag(figure_cfg_dialog_.getFigureTag());
 
     facade_.redrawScene();
 }
@@ -135,6 +136,7 @@ void MainWindow::changeControlsObject() {
 
 void MainWindow::changeConfigFigure() {
     std::shared_ptr<obj3d::Figure> figure = facade_.getFigure(figure_cfg_dialog_.getSelectedTag());
+    figure_cfg_dialog_.setFigureTag(*figure->getTag());
     figure_cfg_dialog_.setVertices(figure->getVerticesVector());
 }
 
