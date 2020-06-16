@@ -5,7 +5,7 @@
 #include <QMenu>
 
 FigureConfigurationDialog::FigureConfigurationDialog(QWidget *parent) :
-    QDialog(parent),
+    BaseTagSelectingDialog(parent),
     ui(new Ui::FigureConfigurationDialog) {
     ui->setupUi(this);
 
@@ -18,7 +18,7 @@ FigureConfigurationDialog::FigureConfigurationDialog(QWidget *parent) :
 }
 
 FigureConfigurationDialog::FigureConfigurationDialog(const std::vector<std::string> &tags, QWidget *parent) :
-    QDialog(parent),
+    BaseTagSelectingDialog(parent),
     ui(new Ui::FigureConfigurationDialog) {
     ui->setupUi(this);
 
@@ -40,10 +40,8 @@ void FigureConfigurationDialog::enableFigureDeleting(bool value) {
 }
 
 int FigureConfigurationDialog::execWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelected(tag);
     enableTagSelection(tag_selectable);
-    emit tagSelected();
-    return exec();
+    return BaseTagSelectingDialog::execWith(tag, tag_selectable);
 }
 
 std::string FigureConfigurationDialog::getFigureTag() {
@@ -51,19 +49,8 @@ std::string FigureConfigurationDialog::getFigureTag() {
     return figure_tag_;
 }
 
-std::string FigureConfigurationDialog::getSelectedTag() {
-    return tags_manager_.getSelected();
-}
-
 std::shared_ptr<std::vector<obj3d::Vertex>> FigureConfigurationDialog::getVertices() {
     return vertex_manager_.getVertices();
-}
-
-void FigureConfigurationDialog::setTags(const std::vector<std::string> &tags) {
-    tags_manager_.setTags(tags);
-    if (tags.size()) {
-        emit tagSelected();
-    }
 }
 
 void FigureConfigurationDialog::setVertices(const std::vector<obj3d::Vertex> &vertices) {
@@ -77,10 +64,8 @@ void FigureConfigurationDialog::setFigureTag(const std::string &tag) {
 }
 
 void FigureConfigurationDialog::showWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelected(tag);
     enableTagSelection(tag_selectable);
-    emit tagSelected();
-    show();
+    BaseTagSelectingDialog::showWith(tag, tag_selectable);
 }
 
 void FigureConfigurationDialog::addVertex() {
@@ -126,13 +111,6 @@ void FigureConfigurationDialog::deleteFigure() {
     } else {
         emit tagSelected();
     }
-}
-
-void FigureConfigurationDialog::selectTag() {
-    if (!ui->cmbx_figure->count()) {
-        return;
-    }
-    emit tagSelected();
 }
 
 void FigureConfigurationDialog::selectVertex() {
@@ -236,7 +214,6 @@ void FigureConfigurationDialog::connectSignals() {
 
 void FigureConfigurationDialog::enableTagSelection(bool enable) {
     ui->lbl_figure->setEnabled(enable);
-    tags_manager_.setSelectable(enable);
 }
 
 void FigureConfigurationDialog::setDefaultState() {

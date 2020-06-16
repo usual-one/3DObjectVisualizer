@@ -3,14 +3,13 @@
 
 #include <QDialog>
 
-#include "ui/include/utils/tagsmanager.h"
+#include "ui/include/windows/basetagselectingdialog.h"
 
 namespace Ui {
 class ExportDialog;
 }
 
-class ExportDialog : public QDialog
-{
+class ExportDialog : public BaseTagSelectingDialog {
     Q_OBJECT
 
 public:
@@ -22,20 +21,14 @@ public:
 
     int execWith(const std::string &tag, bool tag_selectable);
 
-    std::string getSelectedTag();
-
     std::shared_ptr<std::string> getPath();
 
     void setPath(const std::string &path);
-
-    void setTags(const std::vector<std::string> &tags);
 
     void showWith(const std::string &tag, bool tag_selectable);
 
 signals:
     void exportRequested();
-
-    void tagSelected();
 
     void pathChanged();
 
@@ -43,8 +36,6 @@ private slots:
     void cancelExport();
 
     void requestExport();
-
-    void selectTag();
 
     void selectPath();
 
@@ -58,8 +49,6 @@ private:
     void setConnections();
 
     Ui::ExportDialog *ui;
-
-    TagsManager tags_manager_;
 
     std::shared_ptr<std::string> path_;
 };

@@ -60,6 +60,7 @@ SOURCES += \
     ui/src/utils/tagsmanager.cpp \
     ui/src/utils/vertexlistmanager.cpp \
     ui/src/utils/qcomboboxcontroller.cpp \
+    ui/src/windows/basetagselectingdialog.cpp \
     ui/src/windows/connectionadditiondialog.cpp \
     ui/src/windows/controlsdialog.cpp \
     ui/src/windows/exitdialog.cpp \
@@ -116,7 +117,6 @@ HEADERS += \
     logic/include/scene/exception/unknowntagexception.h \
     logic/include/scene/scene.h \
     logic/include/scene/scenemanager.h \
-    logic/include/scene/searchparameters.h \
     logic/include/utils/exception/matrixcalculatorexception.h \
     logic/include/utils/exception/stringsplitterexception.h \
     logic/include/utils/mathcalculator.h \
@@ -131,6 +131,7 @@ HEADERS += \
     ui/include/utils/tagsmanager.h \
     ui/include/utils/vertexlistmanager.h \
     ui/include/utils/qcomboboxcontroller.h \
+    ui/include/windows/basetagselectingdialog.h \
     ui/include/windows/connectionadditiondialog.h \
     ui/include/windows/controlsdialog.h \
     ui/include/windows/exitdialog.h \

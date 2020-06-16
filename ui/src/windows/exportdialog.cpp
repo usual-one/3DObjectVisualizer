@@ -5,7 +5,7 @@
 #include "ui_exportdialog.h"
 
 ExportDialog::ExportDialog(QWidget *parent) :
-    QDialog(parent),
+    BaseTagSelectingDialog(parent),
     ui(new Ui::ExportDialog),
     path_(std::make_shared<std::string>()) {
     ui->setupUi(this);
@@ -16,7 +16,7 @@ ExportDialog::ExportDialog(QWidget *parent) :
 }
 
 ExportDialog::ExportDialog(const std::vector<std::string> &tags, QWidget *parent) :
-    QDialog(parent),
+    BaseTagSelectingDialog(parent),
     ui(new Ui::ExportDialog),
     path_(std::make_shared<std::string>()) {
 
@@ -31,14 +31,8 @@ ExportDialog::~ExportDialog() {
 }
 
 int ExportDialog::execWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelected(tag);
     enableTagSelection(tag_selectable);
-    emit tagSelected();
-    return exec();
-}
-
-std::string ExportDialog::getSelectedTag() {
-    return tags_manager_.getSelected();
+    return BaseTagSelectingDialog::execWith(tag, tag_selectable);
 }
 
 std::shared_ptr<std::string> ExportDialog::getPath() {
@@ -50,18 +44,9 @@ void ExportDialog::setPath(const std::string &path) {
     emit pathChanged();
 }
 
-void ExportDialog::setTags(const std::vector<std::string> &tags) {
-    tags_manager_.setTags(tags);
-    if (tags.size()) {
-        emit tagSelected();
-    }
-}
-
 void ExportDialog::showWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelected(tag);
-    emit tagSelected();
     enableTagSelection(tag_selectable);
-    show();
+    BaseTagSelectingDialog::showWith(tag, tag_selectable);
 }
 
 void ExportDialog::cancelExport() {
@@ -70,13 +55,6 @@ void ExportDialog::cancelExport() {
 
 void ExportDialog::requestExport() {
     emit exportRequested();
-}
-
-void ExportDialog::selectTag() {
-    if (!ui->cmbx_object->count()) {
-        return;
-    }
-    emit tagSelected();
 }
 
 void ExportDialog::selectPath() {
@@ -96,7 +74,6 @@ void ExportDialog::setPath() {
 
 void ExportDialog::enableTagSelection(bool enable) {
     ui->lbl_object->setEnabled(enable);
-    tags_manager_.setSelectable(enable);
 }
 
 void ExportDialog::enableExport(bool enable) {

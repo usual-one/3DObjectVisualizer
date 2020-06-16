@@ -3,7 +3,7 @@
 #include "ui_controlsdialog.h"
 
 ControlsDialog::ControlsDialog(QWidget *parent) :
-    QDialog(parent),
+    BaseTagSelectingDialog(parent),
     ui(new Ui::ControlsDialog),
     location_(std::make_shared<State>()) {
     ui->setupUi(this);
@@ -15,7 +15,7 @@ ControlsDialog::ControlsDialog(QWidget *parent) :
 }
 
 ControlsDialog::ControlsDialog(const std::vector<std::string> &tags, QWidget *parent) :
-    QDialog(parent),
+    BaseTagSelectingDialog(parent),
     ui(new Ui::ControlsDialog),
     location_(std::make_shared<State>()) {
     ui->setupUi(this);
@@ -36,7 +36,7 @@ ControlsDialog::~ControlsDialog() {
 
 void ControlsDialog::close() {
     reject();
-    disableTagSelecting(false);
+    enableTagSelection(true);
 }
 
 void ControlsDialog::changeBorders() {
@@ -48,18 +48,13 @@ void ControlsDialog::changeBorders() {
     oz_scaling_manager_.updateWithBorders();
 }
 
-void ControlsDialog::disableTagSelecting(bool value) {
-    ui->lbl_object->setDisabled(value);
+void ControlsDialog::enableTagSelection(bool value) {
+    ui->lbl_object->setEnabled(value);
 }
 
 int ControlsDialog::execWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelectable(tag_selectable);
-    tags_manager_.setSelected(tag);
-    if (!tags_manager_.isSelectable()) {
-        disableTagSelecting(true);
-    }
-    emit tagSelected();
-    return exec();
+    enableTagSelection(tag_selectable);
+    return BaseTagSelectingDialog::execWith(tag, tag_selectable);
 }
 
 bool ControlsDialog::hasLocation() {
@@ -76,28 +71,10 @@ void ControlsDialog::setState(std::shared_ptr<State> new_location) {
     fillStateValues();
 }
 
-void ControlsDialog::setTags(const std::vector<std::string> &tags) {
-    tags_manager_.setTags(tags);
-    if (tags.size()) {
-        emit tagSelected();
-    }
-}
-
 void ControlsDialog::showWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelectable(tag_selectable);
-    tags_manager_.setSelected(tag);
-    if (!tags_manager_.isSelectable()) {
-        disableTagSelecting(true);
-    }
-    emit tagSelected();
-    show();
+    enableTagSelection(tag_selectable);
+    BaseTagSelectingDialog::showWith(tag, tag_selectable);
 }
-
-std::string ControlsDialog::getSelectedTag() {
-    return tags_manager_.getSelected();
-}
-
-#include <QDebug>
 
 void ControlsDialog::changeStateWithSliders() {
     ox_movement_manager_.updateWithSlider();
@@ -149,14 +126,6 @@ void ControlsDialog::changeStateWithValues() {
 
     getWidgetValues();
     emit stateChanged();
-}
-
-
-void ControlsDialog::selectTag() {
-    if (tags_manager_.isEmpty()) {
-        return;
-    }
-    emit tagSelected();
 }
 
 void ControlsDialog::configureWidgets() {
@@ -252,7 +221,7 @@ void ControlsDialog::fillStateValues() {
 }
 
 void ControlsDialog::setDefaultState() {
-    disableTagSelecting(false);
+    enableTagSelection(true);
 }
 
 void ControlsDialog::connectSignals() {

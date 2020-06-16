@@ -3,16 +3,15 @@
 
 #include <QDialog>
 
+#include "ui/include/windows/basetagselectingdialog.h"
 #include "logic/include/obj3d/surface/surface.h"
-#include "logic/include/scene/searchparameters.h"
 #include "ui/include/utils/tagsmanager.h"
 
 namespace Ui {
 class SurfaceViewDialog;
 }
 
-class SurfaceViewDialog : public QDialog
-{
+class SurfaceViewDialog : public BaseTagSelectingDialog {
     Q_OBJECT
 
 public:
@@ -24,20 +23,11 @@ public:
 
     int execWith(const std::string &tag, bool tag_selectable);
 
-    std::string getSelectedTag();
-
     void setSurface(std::shared_ptr<obj3d::Surface> &surface);
-
-    void setTags(const std::vector<std::string> &tags);
 
     void showWith(const std::string &tag, bool tag_selectable);
 
-signals:
-    void tagSelected();
-
 private slots:
-    void selectTag();
-
     void close();
 
 private:
@@ -46,8 +36,6 @@ private:
     void enableTagSelection(bool enable);
 
     Ui::SurfaceViewDialog *ui;
-
-    TagsManager tags_manager_;
 
 };
 

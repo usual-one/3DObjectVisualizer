@@ -6,13 +6,13 @@
 #include <QDialog>
 
 #include "logic/include/obj3d/surface/surface.h"
-#include "ui/include/utils/tagsmanager.h"
+#include "ui/include/windows/basetagselectingdialog.h"
 
 namespace Ui {
 class SurfaceConfigurationDialog;
 }
 
-class SurfaceConfigurationDialog : public QDialog {
+class SurfaceConfigurationDialog : public BaseTagSelectingDialog {
     Q_OBJECT
 
 public:
@@ -23,8 +23,6 @@ public:
     ~SurfaceConfigurationDialog();
 
     void enableSurfaceDeleting(bool value);
-
-    std::string getSelectedTag();
 
     std::shared_ptr<std::string> getSurfaceTag();
 
@@ -38,16 +36,12 @@ public:
 
     int execWith(const std::string &tag, bool tag_selectable = false);
 
-    void setTags(const std::vector<std::string> &tags);
-
 signals:
     void surfaceChanged();
 
     void surfaceDeleted();
 
     void surfaceHidden(int hidden);
-
-    void tagSelected();
 
 private slots:
     void applyAndClose();
@@ -57,8 +51,6 @@ private slots:
     void cancelChanges();
 
     void deleteSurface();
-
-    void selectTag();
 
     void surfaceTagChanged(); // TODO
 
@@ -80,8 +72,6 @@ private:
     void connectSignals();
 
     Ui::SurfaceConfigurationDialog *ui;
-
-    TagsManager tags_manager_;
 
     std::shared_ptr<std::string> surface_tag_;
 

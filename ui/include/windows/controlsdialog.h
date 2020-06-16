@@ -2,7 +2,7 @@
 #define CONTROLSDIALOG_H
 
 #include "logic/include/obj3d/figure/components/state.h"
-#include "ui/include/utils/tagsmanager.h"
+#include "ui/include/windows/basetagselectingdialog.h"
 #include "ui/include/utils/slidermanager.h"
 #include "ui/include/utils/dialmanager.h"
 
@@ -14,8 +14,7 @@ namespace Ui {
 class ControlsDialog;
 }
 
-class ControlsDialog : public QDialog
-{
+class ControlsDialog : public BaseTagSelectingDialog {
     Q_OBJECT
 
 public:
@@ -27,22 +26,16 @@ public:
 
     int execWith(const std::string &tag, bool tag_selectable = false);
 
-    std::string getSelectedTag();
-
     bool hasLocation();
 
     std::shared_ptr<State> getState();
 
     void setState(std::shared_ptr<State> new_state);
 
-    void setTags(const std::vector<std::string> &tags);
-
     void showWith(const std::string &tag, bool tag_selectable = false);
 
 signals:
     void stateChanged();
-
-    void tagSelected();
 
 private slots:
     void changeBorders();
@@ -55,14 +48,12 @@ private slots:
 
     void disableSeparateScaling(int disable);
 
-    void selectTag();
-
 private:
     void configureWidgets();
 
     void connectSignals();
 
-    void disableTagSelecting(bool value);
+    void enableTagSelection(bool value);
 
     void fillWidgetValues();
 
@@ -75,8 +66,6 @@ private:
     Ui::ControlsDialog *ui;
 
     std::shared_ptr<State> location_;
-
-    TagsManager tags_manager_;
 
     SliderManager ox_movement_manager_;
 

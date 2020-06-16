@@ -7,7 +7,7 @@
 #include "ui/include/utils/qcomboboxcontroller.h"
 
 SurfaceConfigurationDialog::SurfaceConfigurationDialog(QWidget *parent) :
-    QDialog(parent),
+    BaseTagSelectingDialog(parent),
     ui(new Ui::SurfaceConfigurationDialog) {
     ui->setupUi(this);
 
@@ -22,7 +22,7 @@ SurfaceConfigurationDialog::SurfaceConfigurationDialog(QWidget *parent) :
 
 SurfaceConfigurationDialog::SurfaceConfigurationDialog(const std::vector<std::string> &tags,
                                                        QWidget *parent) :
-    QDialog(parent),
+    BaseTagSelectingDialog(parent),
     ui(new Ui::SurfaceConfigurationDialog) {
     ui->setupUi(this);
 
@@ -69,14 +69,8 @@ void SurfaceConfigurationDialog::deleteSurface() {
 }
 
 int SurfaceConfigurationDialog::execWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelected(tag);
     enableTagSelection(tag_selectable);
-    emit tagSelected();
-    return exec();
-}
-
-std::string SurfaceConfigurationDialog::getSelectedTag() {
-    return tags_manager_.getSelected();
+    return BaseTagSelectingDialog::execWith(tag, tag_selectable);
 }
 
 std::shared_ptr<std::string> SurfaceConfigurationDialog::getSurfaceTag() {
@@ -96,13 +90,6 @@ void SurfaceConfigurationDialog::setSurfaceParameters(std::shared_ptr<obj3d::Sur
 void SurfaceConfigurationDialog::setSurfaceTag(std::shared_ptr<std::string> tag) {
     *surface_tag_ = *tag;
     ui->ln_tag->setText(QString::fromStdString(*tag));
-}
-
-void SurfaceConfigurationDialog::selectTag() {
-    if (tags_manager_.isEmpty()) {
-        return;
-    }
-    emit tagSelected();
 }
 
 void SurfaceConfigurationDialog::surfaceTagChanged() {
@@ -154,15 +141,8 @@ void SurfaceConfigurationDialog::enableTagSelection(bool value) {
     ui->btn_apply->setEnabled(value);
 
     ui->lbl_surface->setEnabled(value);
-    tags_manager_.setSelectable(value);
 }
 
-void SurfaceConfigurationDialog::setTags(const std::vector<std::string> &tags) {
-    tags_manager_.setTags(tags);
-    if (tags.size()) {
-        emit tagSelected();
-    }
-}
 
 void SurfaceConfigurationDialog::setDefaultState() {
     enableTagSelection(true);
@@ -178,10 +158,8 @@ void SurfaceConfigurationDialog::setParamLines() {
 }
 
 void SurfaceConfigurationDialog::showWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelected(tag);
     enableTagSelection(tag_selectable);
-    emit tagSelected();
-    show();
+    BaseTagSelectingDialog::showWith(tag, tag_selectable);
 }
 
 void SurfaceConfigurationDialog::collectParams() {

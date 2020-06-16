@@ -6,15 +6,14 @@
 #include "logic/include/obj3d/figure/components/vertex.h"
 
 #include "ui/include/windows/connectionadditiondialog.h"
-#include "ui/include/utils/tagsmanager.h"
+#include "ui/include/windows/basetagselectingdialog.h"
 #include "ui/include/utils/vertexlistmanager.h"
 
 namespace Ui {
 class FigureConfigurationDialog;
 }
 
-class FigureConfigurationDialog : public QDialog
-{
+class FigureConfigurationDialog : public BaseTagSelectingDialog {
     Q_OBJECT
 
 public:
@@ -30,11 +29,7 @@ public:
 
     std::string getFigureTag();
 
-    std::string getSelectedTag();
-
     std::shared_ptr<std::vector<obj3d::Vertex>> getVertices();
-
-    void setTags(const std::vector<std::string> &tags);
 
     void setVertices(const std::vector<obj3d::Vertex> &vertices);
 
@@ -43,8 +38,6 @@ public:
     void showWith(const std::string &tag, bool tag_selectable = false);
 
 signals:
-    void tagSelected();
-
     void figureChanged();
 
     void figureDeleted();
@@ -65,8 +58,6 @@ private slots:
     void deleteVertex();
 
     void deleteFigure();
-
-    void selectTag();
 
     void selectVertex();
 
@@ -94,8 +85,6 @@ private:
     VertexListManager connections_manager_;
 
     ConnectionAdditionDialog connection_addition_dialog_;
-
-    TagsManager tags_manager_;
 
     std::string figure_tag_;
 

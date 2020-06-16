@@ -4,7 +4,7 @@
 #include <QStandardItemModel>
 
 SurfaceViewDialog::SurfaceViewDialog(QWidget *parent) :
-    QDialog(parent),
+    BaseTagSelectingDialog(parent),
     ui(new Ui::SurfaceViewDialog) {
     ui->setupUi(this);
 
@@ -14,7 +14,7 @@ SurfaceViewDialog::SurfaceViewDialog(QWidget *parent) :
 }
 
 SurfaceViewDialog::SurfaceViewDialog(const std::vector<std::string> &tags, QWidget *parent):
-    QDialog(parent),
+    BaseTagSelectingDialog(parent),
     ui(new Ui::SurfaceViewDialog) {
     ui->setupUi(this);
 
@@ -29,14 +29,8 @@ SurfaceViewDialog::~SurfaceViewDialog() {
 }
 
 int SurfaceViewDialog::execWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelected(tag);
     enableTagSelection(tag_selectable);
-    emit tagSelected();
-    return exec();
-}
-
-std::string SurfaceViewDialog::getSelectedTag() {
-    return tags_manager_.getSelected();
+    return BaseTagSelectingDialog::execWith(tag, tag_selectable);
 }
 
 void SurfaceViewDialog::setSurface(std::shared_ptr<obj3d::Surface> &surface) {
@@ -49,25 +43,9 @@ void SurfaceViewDialog::setSurface(std::shared_ptr<obj3d::Surface> &surface) {
     }
 }
 
-void SurfaceViewDialog::setTags(const std::vector<std::string> &tags) {
-    tags_manager_.setTags(tags);
-    if (!tags.empty()) {
-        emit tagSelected();
-    }
-}
-
 void SurfaceViewDialog::showWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelected(tag);
     enableTagSelection(tag_selectable);
-    emit tagSelected();
-    show();
-}
-
-void SurfaceViewDialog::selectTag() {
-    if (tags_manager_.isEmpty()) {
-        return;
-    }
-    emit tagSelected();
+    BaseTagSelectingDialog::showWith(tag, tag_selectable);
 }
 
 void SurfaceViewDialog::close() {
@@ -81,6 +59,5 @@ void SurfaceViewDialog::connectSignals() {
 }
 
 void SurfaceViewDialog::enableTagSelection(bool enable) {
-    tags_manager_.setSelectable(enable);
     ui->lbl_surface->setEnabled(enable);
 }
