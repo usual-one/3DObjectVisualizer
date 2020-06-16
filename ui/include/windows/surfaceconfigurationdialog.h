@@ -65,6 +65,8 @@ private slots:
     void changeNormalizationAccess(int enabled);
 
 private:
+    void closeEvent(QCloseEvent *event) override;
+
     void enableTagSelection(bool value);
 
     void setDefaultState();

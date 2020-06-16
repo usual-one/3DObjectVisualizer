@@ -1,3 +1,5 @@
+#include <QCloseEvent>
+
 #include "config.h"
 #include "ui/include/windows/surfaceconfigurationdialog.h"
 #include "ui_surfaceconfigurationdialog.h"
@@ -139,6 +141,11 @@ void SurfaceConfigurationDialog::changeNormalizationAccess(int enabled) {
     ui->spbx_range_end->setEnabled(enabled);
 }
 
+void SurfaceConfigurationDialog::closeEvent(QCloseEvent *event) {
+    event->ignore();
+    cancelChanges();
+}
+
 void SurfaceConfigurationDialog::enableSurfaceDeleting(bool value) {
     ui->btn_delete->setEnabled(value);
 }
@@ -158,7 +165,7 @@ void SurfaceConfigurationDialog::setTags(const std::vector<std::string> &tags) {
 }
 
 void SurfaceConfigurationDialog::setDefaultState() {
-    enableTagSelection(false);
+    enableTagSelection(true);
 }
 
 void SurfaceConfigurationDialog::setParamLines() {
