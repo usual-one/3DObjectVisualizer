@@ -11,6 +11,15 @@ public:
     void configureBorders(double minimum, double maximum);
     // sets const borders to border spinboxes. sets begin spinbox minimum to given, sets end spinbox maximum to given
 
+    double getBegin();
+    // returns begin border value
+
+    double getEnd();
+    // returns end border value
+
+    double getRangeSize();
+    // returns size of range within borders
+
     double getValue();
     // returns current slider value with regard to border spinboxes values
 
@@ -29,6 +38,9 @@ public:
 
     void updateWithBorders();
     // updates slider value and value spinbox borders with regard to border spinbox values
+
+    void updateWithOther(SliderManager *other);
+    // updates top border spinbox to a value that slider would have same value as other slider
 
     void updateWithSlider();
     // updates value spinbox value with regard to slider value

@@ -53,6 +53,8 @@ private slots:
 
     void close();
 
+    void disableSeparateScaling(int disable);
+
     void selectTag();
 
 private:

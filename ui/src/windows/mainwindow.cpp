@@ -232,7 +232,6 @@ void MainWindow::loadSurface(const QString &path) {
         if (cfg_status == QDialog::Rejected) {
             facade_.deleteSurface(*surface->getTag());
         }
-        ctrls_dialog_.showWith(*surface->getTag());
     }
 }
 

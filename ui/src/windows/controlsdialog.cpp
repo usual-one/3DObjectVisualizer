@@ -97,6 +97,8 @@ std::string ControlsDialog::getSelectedTag() {
     return tags_manager_.getSelected();
 }
 
+#include <QDebug>
+
 void ControlsDialog::changeStateWithSliders() {
     ox_movement_manager_.updateWithSlider();
     oy_movement_manager_.updateWithSlider();
@@ -107,8 +109,17 @@ void ControlsDialog::changeStateWithSliders() {
     oz_rotation_manager_.updateWithDial();
 
     ox_scaling_manager_.updateWithSlider();
-    oy_scaling_manager_.updateWithSlider();
-    oz_scaling_manager_.updateWithSlider();
+    if (ui->chbx_all->isChecked()) {
+        oy_scaling_manager_.setValue(oy_scaling_manager_.getBegin() +
+                                     (ox_scaling_manager_.getValue() - ox_scaling_manager_.getBegin())
+                                     * oy_scaling_manager_.getRangeSize() / ox_scaling_manager_.getRangeSize());
+        oz_scaling_manager_.setValue(oz_scaling_manager_.getBegin() +
+                                     (ox_scaling_manager_.getValue() - ox_scaling_manager_.getBegin()) * oz_scaling_manager_.getRangeSize() /
+                                     ox_scaling_manager_.getRangeSize());
+    } else {
+        oy_scaling_manager_.updateWithSlider();
+        oz_scaling_manager_.updateWithSlider();
+    }
 
     getWidgetValues();
     emit stateChanged();
@@ -124,8 +135,17 @@ void ControlsDialog::changeStateWithValues() {
     oz_rotation_manager_.updateWithValue();
 
     ox_scaling_manager_.updateWithValue();
-    oy_scaling_manager_.updateWithValue();
-    oz_scaling_manager_.updateWithValue();
+    if (ui->chbx_all->isChecked()) {
+        oy_scaling_manager_.setValue(oy_scaling_manager_.getBegin() +
+                                     (ox_scaling_manager_.getValue() - ox_scaling_manager_.getBegin()) * oy_scaling_manager_.getRangeSize() /
+                                     ox_scaling_manager_.getRangeSize());
+        oz_scaling_manager_.setValue(oz_scaling_manager_.getBegin() +
+                                     (ox_scaling_manager_.getValue() - ox_scaling_manager_.getBegin()) * oz_scaling_manager_.getRangeSize() /
+                                     ox_scaling_manager_.getRangeSize());
+    } else {
+        oy_scaling_manager_.updateWithValue();
+        oz_scaling_manager_.updateWithValue();
+    }
 
     getWidgetValues();
     emit stateChanged();
@@ -239,6 +259,9 @@ void ControlsDialog::connectSignals() {
     // buttons
     connect(ui->btn_close, SIGNAL(clicked()), this, SLOT(close()));
 
+    // Scaling CheckBox
+    connect(ui->chbx_all, SIGNAL(stateChanged(int)), this, SLOT(disableSeparateScaling(int)));
+
     // current state values
     connect(ui->spbx_moved_ox, SIGNAL(editingFinished()), this, SLOT(changeStateWithValues()));
     connect(ui->spbx_moved_oy, SIGNAL(editingFinished()), this, SLOT(changeStateWithValues()));
@@ -277,5 +300,14 @@ void ControlsDialog::connectSignals() {
 
     // Tags Combobox
     connect(ui->cmbx_object, SIGNAL(activated(int)), this, SLOT(selectTag()));
+}
+
+void ControlsDialog::disableSeparateScaling(int disable) {
+    oy_scaling_manager_.setEnabled(!disable);
+    oz_scaling_manager_.setEnabled(!disable);
+    if (disable) {
+        oy_scaling_manager_.updateWithOther(&ox_scaling_manager_);
+        oz_scaling_manager_.updateWithOther(&ox_scaling_manager_);
+    }
 }
 

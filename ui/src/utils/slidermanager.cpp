@@ -11,6 +11,18 @@ void SliderManager::configureBorders(double minimum, double maximum) {
     end_spinbox_->setMaximum(maximum);
 }
 
+double SliderManager::getBegin() {
+    return begin_spinbox_->value();
+}
+
+double SliderManager::getEnd() {
+    return end_spinbox_->value();
+}
+
+double SliderManager::getRangeSize() {
+    return end_spinbox_->value() - begin_spinbox_->value();
+}
+
 double SliderManager::getValue() {
     return value_spinbox_->value();
 }
@@ -55,6 +67,11 @@ void SliderManager::setWidgets(QSlider *slider, QDoubleSpinBox *begin,
 void SliderManager::updateWithBorders() {
     value_spinbox_->setRange(begin_spinbox_->value(), end_spinbox_->value());
     setSliderValue(slider_, value_spinbox_->value(), begin_spinbox_->value(), end_spinbox_->value());
+}
+
+void SliderManager::updateWithOther(SliderManager *other) {
+    end_spinbox_->setValue(getBegin() + other->getRangeSize() * (getValue() - getBegin()) / (other->getValue() - other->getBegin()));
+    updateWithBorders();
 }
 
 void SliderManager::updateWithSlider() {
