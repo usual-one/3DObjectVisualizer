@@ -17,8 +17,6 @@ public:
 
     std::shared_ptr<std::string> addNewFigure();
 
-    void changeLocation(const std::string tag, std::shared_ptr<State> location);
-
     void deleteSurface(const std::string &tag);
 
     void deleteFigure(const std::string &tag);
@@ -51,13 +49,9 @@ public:
 
     void updateFigureVertices(const std::string &tag, std::shared_ptr<std::vector<obj3d::Vertex>> vertices);
 
+    void updateFigureState(const std::string tag, std::shared_ptr<FigureStateDTO> state);
+
 private:
-    void moveFigure(const std::string &tag, double x, double y, double z);
-
-    void rotateFigure(const std::string &tag, double x, double y, double z);
-
-    void scaleFigure(const std::string &tag, double x, double y, double z);
-
     std::unique_ptr<BaseObj3DFileManager> file_manager_;
 
     std::unique_ptr<SceneManager> scene_manager_;

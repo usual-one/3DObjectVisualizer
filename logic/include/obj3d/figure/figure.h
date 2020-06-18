@@ -9,6 +9,7 @@
 #include "logic/include/obj3d/surface/surface.h"
 #include "logic/include/obj3d/figure/components/figuremeta.h"
 #include "logic/include/obj3d/figure/components/figuresessionstate.h"
+#include "logic/include/dto/figurestatedto.h"
 
 namespace obj3d {
     class Figure;
@@ -30,13 +31,11 @@ public:
 
     void setVertices(std::shared_ptr<std::vector<obj3d::Vertex>> &vertices);
 
-    void transform(const obj3d::Matrix &transform_matr);
-
     obj3d::Point3D getAverageLocation();
 
     std::set<std::shared_ptr<obj3d::Edge>> getEdges();
 
-    std::shared_ptr<State> getState();
+    std::shared_ptr<FigureStateDTO> getState();
 
     std::shared_ptr<FigureMeta> getMeta();
 
@@ -48,10 +47,20 @@ public:
 
     std::shared_ptr<obj3d::Vertex> getVertex(size_t id);
 
+    void updateState(std::shared_ptr<FigureStateDTO> state);
+
 private:
     void createDefaultTag();
 
+    void move(const obj3d::Vector3D &vec);
+
+    void rotate(const obj3d::Vector3D &vec);
+
+    void scale(const obj3d::Vector3D &vec);
+
     void setEdges();
+
+    void transform(const obj3d::Matrix &transform_matr);
 
     static size_t count_;
 

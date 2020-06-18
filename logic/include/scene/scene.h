@@ -35,8 +35,6 @@ public:
 
     std::shared_ptr<obj3d::Figure> getFigure(const std::string &tag);
 
-    void transformFigure(const std::string &tag, const obj3d::Matrix &transform_matr);
-
     void update(const Scene &other);
 
 private:

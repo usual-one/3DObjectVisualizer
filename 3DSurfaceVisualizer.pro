@@ -9,6 +9,7 @@ CONFIG += c++17
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
+    logic/src/dto/figurestatedto.cpp \
     logic/src/facade.cpp \
     logic/src/file_manager/csvfilemanager.cpp \
     logic/src/file_manager/exception/fileexception.cpp \
@@ -72,6 +73,7 @@ SOURCES += \
 
 HEADERS += \
     config.h \
+    logic/include/dto/figurestatedto.h \
     logic/include/facade.h \
     logic/include/file_manager/baseobj3dfilemanager.h \
     logic/include/file_manager/csvfilemanager.h \

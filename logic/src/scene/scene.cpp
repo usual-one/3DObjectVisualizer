@@ -93,10 +93,6 @@ std::shared_ptr<obj3d::Figure> Scene::getFigure(const std::string &tag) {
     throw UnknownTagException(UNKNOWN_TAG_MESSAGE, tag);
 }
 
-void Scene::transformFigure(const std::string &tag, const obj3d::Matrix &transform_matr) {
-    getFigure(tag)->transform(transform_matr);
-}
-
 void Scene::update(const Scene &other) {
     std::vector<std::shared_ptr<std::string>> figure_tags = getFiguresTags();
     for (auto figure : other.figures_) {

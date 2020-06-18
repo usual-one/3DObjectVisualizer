@@ -57,6 +57,18 @@ obj3d::Vector3D obj3d::Vector3D::operator*(const obj3d::Vector3D &other) {
     return vectorProduct(other);
 }
 
+obj3d::Vector3D obj3d::Vector3D::operator-(const obj3d::Vector3D &other) {
+    obj3d::Vector3D result;
+    result.setX(getX() - other.getX());
+    result.setY(getY() - other.getY());
+    result.setZ(getZ() - other.getZ());
+    return result;
+}
+
+obj3d::Vector3D obj3d::Vector3D::operator/(const obj3d::Vector3D &other) {
+    return coordsRatio(other);
+}
+
 obj3d::Matrix obj3d::Vector3D::toHomogeneousMatrix() {
     obj3d::Matrix matr = toMatrix();
     matr.addRow({1});
@@ -79,6 +91,14 @@ obj3d::Vector3D obj3d::Vector3D::vectorProduct(const obj3d::Vector3D &vec) {
     return obj3d::Vector3D(i_matr.calculateDeterminant(),
                            -j_matr.calculateDeterminant(),
                            k_matr.calculateDeterminant());
+}
+
+obj3d::Vector3D obj3d::Vector3D::coordsRatio(const obj3d::Vector3D &vec) {
+    obj3d::Vector3D result;
+    result.setX(getX() / vec.getX());
+    result.setY(getY() / vec.getY());
+    result.setZ(getZ() / vec.getZ());
+    return result;
 }
 
 void obj3d::Vector3D::fromMatrix(const obj3d::Matrix &matr) {

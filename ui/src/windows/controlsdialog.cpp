@@ -5,7 +5,7 @@
 ControlsDialog::ControlsDialog(QWidget *parent) :
     BaseTagSelectingDialog(parent),
     ui(new Ui::ControlsDialog),
-    location_(std::make_shared<State>()) {
+    state_(std::make_shared<State>()) {
     ui->setupUi(this);
 
     tags_manager_.setWidget(ui->cmbx_object);
@@ -17,7 +17,7 @@ ControlsDialog::ControlsDialog(QWidget *parent) :
 ControlsDialog::ControlsDialog(const std::vector<std::string> &tags, QWidget *parent) :
     BaseTagSelectingDialog(parent),
     ui(new Ui::ControlsDialog),
-    location_(std::make_shared<State>()) {
+    state_(std::make_shared<State>()) {
     ui->setupUi(this);
 
     tags_manager_.setWidget(ui->cmbx_object);
@@ -57,16 +57,16 @@ int ControlsDialog::execWith(const std::string &tag, bool tag_selectable) {
     return BaseTagSelectingDialog::execWith(tag, tag_selectable);
 }
 
-bool ControlsDialog::hasLocation() {
-    return location_ != nullptr;
+bool ControlsDialog::hasState() {
+    return state_ != nullptr;
 }
 
-std::shared_ptr<State> ControlsDialog::getState() {
-    return location_;
+std::shared_ptr<FigureStateDTO> ControlsDialog::getState() {
+    return std::make_unique<FigureStateDTO>(state_);
 }
 
-void ControlsDialog::setState(std::shared_ptr<State> new_location) {
-    location_->copy(*new_location);
+void ControlsDialog::setState(std::shared_ptr<FigureStateDTO> new_state) {
+    state_->copy(new_state->getState());
     fillWidgetValues();
     fillStateValues();
 }
@@ -179,45 +179,45 @@ void ControlsDialog::configureWidgets() {
 }
 
 void ControlsDialog::fillWidgetValues() {
-    ox_movement_manager_.setValue(location_->getMovement()->getX());
-    oy_movement_manager_.setValue(location_->getMovement()->getY());
-    oz_movement_manager_.setValue(location_->getMovement()->getZ());
+    ox_movement_manager_.setValue(state_->getMovement()->getX());
+    oy_movement_manager_.setValue(state_->getMovement()->getY());
+    oz_movement_manager_.setValue(state_->getMovement()->getZ());
 
-    ox_rotation_manager_.setValue(location_->getRotation()->getX());
-    oy_rotation_manager_.setValue(location_->getRotation()->getY());
-    oz_rotation_manager_.setValue(location_->getRotation()->getZ());
+    ox_rotation_manager_.setValue(state_->getRotation()->getX());
+    oy_rotation_manager_.setValue(state_->getRotation()->getY());
+    oz_rotation_manager_.setValue(state_->getRotation()->getZ());
 
-    ox_scaling_manager_.setValue(location_->getScaling()->getX());
-    oy_scaling_manager_.setValue(location_->getScaling()->getY());
-    oz_scaling_manager_.setValue(location_->getScaling()->getZ());
+    ox_scaling_manager_.setValue(state_->getScaling()->getX());
+    oy_scaling_manager_.setValue(state_->getScaling()->getY());
+    oz_scaling_manager_.setValue(state_->getScaling()->getZ());
 }
 
 void ControlsDialog::getWidgetValues() {
-    location_->getMovement()->setX(ox_movement_manager_.getValue());
-    location_->getMovement()->setY(oy_movement_manager_.getValue());
-    location_->getMovement()->setZ(oz_movement_manager_.getValue());
+    state_->getMovement()->setX(ox_movement_manager_.getValue());
+    state_->getMovement()->setY(oy_movement_manager_.getValue());
+    state_->getMovement()->setZ(oz_movement_manager_.getValue());
 
-    location_->getRotation()->setX(ox_rotation_manager_.getValue());
-    location_->getRotation()->setY(oy_rotation_manager_.getValue());
-    location_->getRotation()->setZ(oz_rotation_manager_.getValue());
+    state_->getRotation()->setX(ox_rotation_manager_.getValue());
+    state_->getRotation()->setY(oy_rotation_manager_.getValue());
+    state_->getRotation()->setZ(oz_rotation_manager_.getValue());
 
-    location_->getScaling()->setX(ox_scaling_manager_.getValue());
-    location_->getScaling()->setY(oy_scaling_manager_.getValue());
-    location_->getScaling()->setZ(oz_scaling_manager_.getValue());
+    state_->getScaling()->setX(ox_scaling_manager_.getValue());
+    state_->getScaling()->setY(oy_scaling_manager_.getValue());
+    state_->getScaling()->setZ(oz_scaling_manager_.getValue());
 }
 
 void ControlsDialog::fillStateValues() {
-    ui->spbx_moved_ox->setValue(location_->getMovement()->getX());
-    ui->spbx_moved_oy->setValue(location_->getMovement()->getY());
-    ui->spbx_moved_oz->setValue(location_->getMovement()->getZ());
+    ui->spbx_moved_ox->setValue(state_->getMovement()->getX());
+    ui->spbx_moved_oy->setValue(state_->getMovement()->getY());
+    ui->spbx_moved_oz->setValue(state_->getMovement()->getZ());
 
-    ui->spbx_rotated_ox->setValue(location_->getRotation()->getX());
-    ui->spbx_rotated_oy->setValue(location_->getRotation()->getY());
-    ui->spbx_rotated_oz->setValue(location_->getRotation()->getZ());
+    ui->spbx_rotated_ox->setValue(state_->getRotation()->getX());
+    ui->spbx_rotated_oy->setValue(state_->getRotation()->getY());
+    ui->spbx_rotated_oz->setValue(state_->getRotation()->getZ());
 
-    ui->spbx_scaled_ox->setValue(location_->getScaling()->getX());
-    ui->spbx_scaled_oy->setValue(location_->getScaling()->getY());
-    ui->spbx_scaled_oz->setValue(location_->getScaling()->getZ());
+    ui->spbx_scaled_ox->setValue(state_->getScaling()->getX());
+    ui->spbx_scaled_oy->setValue(state_->getScaling()->getY());
+    ui->spbx_scaled_oz->setValue(state_->getScaling()->getZ());
 }
 
 void ControlsDialog::setDefaultState() {

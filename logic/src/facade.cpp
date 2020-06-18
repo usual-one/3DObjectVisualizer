@@ -18,29 +18,8 @@ std::shared_ptr<std::string> Facade::addNewFigure() {
     return figure.getTag();
 }
 
-void Facade::changeLocation(const std::string tag, std::shared_ptr<State> location) {
-    std::shared_ptr<obj3d::Figure> figure = getFigure(tag);
-    std::shared_ptr<State> current_location = figure->getState();
-
-    if (*location->getMovement() != *current_location->getMovement()) {
-        moveFigure(tag, location->getMovement()->getX() - current_location->getMovement()->getX(),
-                   location->getMovement()->getY() - current_location->getMovement()->getY(),
-                   location->getMovement()->getZ() - current_location->getMovement()->getZ());
-        figure->getMeta()->setSaved(false);
-    }
-    if (*location->getRotation() != *current_location->getRotation()) {
-        rotateFigure(tag, location->getRotation()->getX() - current_location->getRotation()->getX(),
-                   location->getRotation()->getY() - current_location->getRotation()->getY(),
-                   location->getRotation()->getZ() - current_location->getRotation()->getZ());
-        figure->getMeta()->setSaved(false);
-    }
-    if (*location->getScaling() != *current_location->getScaling()) {
-        scaleFigure(tag, location->getScaling()->getX() / current_location->getScaling()->getX(),
-                    location->getScaling()->getY() / current_location->getScaling()->getY(),
-                    location->getScaling()->getZ() / current_location->getScaling()->getZ());
-        figure->getMeta()->setSaved(false);
-    }
-    figure->getState()->copy(*location);
+void Facade::updateFigureState(const std::string tag, std::shared_ptr<FigureStateDTO> state) {
+    getFigure(tag)->updateState(state);
 }
 
 void Facade::deleteSurface(const std::string &tag) {
@@ -88,21 +67,6 @@ Scene Facade::loadScene(const std::string &path) {
     Scene scene = file_manager_->read(path);
     scene_manager_->updateScene(scene);
     return scene;
-}
-
-void Facade::moveFigure(const std::string &tag, double x, double y, double z) {
-    scene_manager_->getScene()->
-            transformFigure(tag, TransformMatrixBuilder::createMovementMatrix(x, y, z));
-}
-
-void Facade::rotateFigure(const std::string &tag, double x, double y, double z) {
-    scene_manager_->getScene()->
-            transformFigure(tag, TransformMatrixBuilder::createRotationMatrix(x, y, z));
-}
-
-void Facade::scaleFigure(const std::string &tag, double x, double y, double z) {
-    scene_manager_->getScene()->
-            transformFigure(tag, TransformMatrixBuilder::createScalingMatrix(x, y, z));
 }
 
 std::vector<std::string> Facade::getSurfacesTags() {

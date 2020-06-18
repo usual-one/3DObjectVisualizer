@@ -2,9 +2,14 @@
 
 #include "logic/include/obj3d/math/transformmatrixbuilder.h"
 #include "logic/include/utils/mathcalculator.h"
+#include "logic/include/obj3d/math/vector3d.h"
 
 obj3d::Matrix TransformMatrixBuilder::createRotationMatrix(double x, double y, double z) {
     return createRotationOxMatrix(x) * createRotationOyMatrix(y) * createRotatianOzMatrix(z);
+}
+
+obj3d::Matrix TransformMatrixBuilder::createRotationMatrix(const obj3d::Vector3D &vec) {
+    return createRotationMatrix(vec.getX(), vec.getY(), vec.getZ());
 }
 
 obj3d::Matrix TransformMatrixBuilder::createMovementMatrix(double x, double y, double z) {
@@ -16,6 +21,10 @@ obj3d::Matrix TransformMatrixBuilder::createMovementMatrix(double x, double y, d
     return obj3d::Matrix(matr);
 }
 
+obj3d::Matrix TransformMatrixBuilder::createMovementMatrix(const obj3d::Vector3D &vec) {
+    return createMovementMatrix(vec.getX(), vec.getY(), vec.getZ());
+}
+
 obj3d::Matrix TransformMatrixBuilder::createScalingMatrix(double x, double y, double z) {
     std::vector<std::vector<double>> matr = {};
     matr.push_back({x, 0, 0, 0});
@@ -23,6 +32,10 @@ obj3d::Matrix TransformMatrixBuilder::createScalingMatrix(double x, double y, do
     matr.push_back({0, 0, z, 0});
     matr.push_back({0, 0, 0, 1});
     return obj3d::Matrix(matr);
+}
+
+obj3d::Matrix TransformMatrixBuilder::createScalingMatrix(const obj3d::Vector3D &vec) {
+    return createScalingMatrix(vec.getX(), vec.getY(), vec.getZ());
 }
 
 obj3d::Matrix TransformMatrixBuilder::createRotationOxMatrix(double degrees) {

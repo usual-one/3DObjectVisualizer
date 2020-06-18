@@ -2,6 +2,7 @@
 #define CONTROLSDIALOG_H
 
 #include "logic/include/obj3d/figure/components/state.h"
+#include "logic/include/dto/figurestatedto.h"
 #include "ui/include/windows/basetagselectingdialog.h"
 #include "ui/include/utils/slidermanager.h"
 #include "ui/include/utils/dialmanager.h"
@@ -26,11 +27,11 @@ public:
 
     int execWith(const std::string &tag, bool tag_selectable = false);
 
-    bool hasLocation();
+    bool hasState();
 
-    std::shared_ptr<State> getState();
+    std::shared_ptr<FigureStateDTO> getState();
 
-    void setState(std::shared_ptr<State> new_state);
+    void setState(std::shared_ptr<FigureStateDTO> new_state);
 
     void showWith(const std::string &tag, bool tag_selectable = false);
 
@@ -65,7 +66,7 @@ private:
 
     Ui::ControlsDialog *ui;
 
-    std::shared_ptr<State> location_;
+    std::shared_ptr<State> state_;
 
     SliderManager ox_movement_manager_;
 

@@ -40,10 +40,16 @@ public:
 
     obj3d::Vector3D operator*(const obj3d::Vector3D &other);
 
+    obj3d::Vector3D operator-(const obj3d::Vector3D &other);
+
+    obj3d::Vector3D operator/(const obj3d::Vector3D &other);
+
 private:
     obj3d::Matrix toHomogeneousMatrix();
 
     obj3d::Vector3D vectorProduct(const obj3d::Vector3D &vec);
+
+    obj3d::Vector3D coordsRatio(const obj3d::Vector3D &vec);
 
 };
 

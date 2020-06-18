@@ -1,4 +1,5 @@
 #include "logic/include/obj3d/figure/figure.h"
+#include "logic/include/obj3d/math/transformmatrixbuilder.h"
 #include "config.h"
 
 size_t obj3d::Figure::count_ = 0;
@@ -65,12 +66,6 @@ void obj3d::Figure::setVertices(std::shared_ptr<std::vector<obj3d::Vertex>> &ver
     setEdges();
 }
 
-void obj3d::Figure::transform(const Matrix &transform_matr) {
-    for (auto vertex : vertices_) {
-        vertex->transform(transform_matr);
-    }
-}
-
 std::set<std::shared_ptr<obj3d::Vertex>> obj3d::Figure::getVertices() {
     return vertices_;
 }
@@ -87,6 +82,10 @@ std::set<std::shared_ptr<obj3d::Edge>> obj3d::Figure::getEdges() {
     return edges_;
 }
 
+std::shared_ptr<FigureStateDTO> obj3d::Figure::getState() {
+    return std::make_shared<FigureStateDTO>(getSessionState()->getState());
+}
+
 std::shared_ptr<obj3d::Vertex> obj3d::Figure::getVertex(size_t id) {
     for (auto vertex : vertices_) {
         if (vertex->getID() == id) {
@@ -96,8 +95,21 @@ std::shared_ptr<obj3d::Vertex> obj3d::Figure::getVertex(size_t id) {
     return nullptr;
 }
 
-std::shared_ptr<State> obj3d::Figure::getState() {
-    return session_state_->getState();
+void obj3d::Figure::updateState(std::shared_ptr<FigureStateDTO> state) {
+    if (*state->getState().getMovement() != *getSessionState()->getState()->getMovement()) {
+        move(*state->getState().getMovement() - *getSessionState()->getState()->getMovement());
+        getMeta()->setSaved(false);
+    }
+    if (*state->getState().getRotation() != *getSessionState()->getState()->getRotation()) {
+        rotate(*state->getState().getRotation() - *getSessionState()->getState()->getRotation());
+        getMeta()->setSaved(false);
+    }
+    if (*state->getState().getScaling() != *getSessionState()->getState()->getScaling()) {
+        scale(*state->getState().getScaling() / *getSessionState()->getState()->getScaling());
+        getMeta()->setSaved(false);
+    }
+
+    getSessionState()->getState()->copy(state->getState());
 }
 
 std::shared_ptr<FigureMeta> obj3d::Figure::getMeta() {
@@ -125,6 +137,18 @@ void obj3d::Figure::createDefaultTag() {
     tag_ = std::make_shared<std::string>(DEFAULT_FIGURE_TAG + std::to_string(count_));
 }
 
+void obj3d::Figure::move(const obj3d::Vector3D &vec) {
+    transform(TransformMatrixBuilder::createMovementMatrix(vec));
+}
+
+void obj3d::Figure::rotate(const obj3d::Vector3D &vec) {
+    transform(TransformMatrixBuilder::createRotationMatrix(vec));
+}
+
+void obj3d::Figure::scale(const obj3d::Vector3D &vec) {
+    transform(TransformMatrixBuilder::createScalingMatrix(vec));
+}
+
 void obj3d::Figure::setEdges() {
     edges_.clear();
     for (auto vertex : vertices_) {
@@ -134,5 +158,11 @@ void obj3d::Figure::setEdges() {
                 edges_.insert(std::make_shared<obj3d::Edge>(new_edge));
             }
         }
+    }
+}
+
+void obj3d::Figure::transform(const Matrix &transform_matr) {
+    for (auto vertex : vertices_) {
+        vertex->transform(transform_matr);
     }
 }

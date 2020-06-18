@@ -57,8 +57,7 @@ void MainWindow::applyNewSurfaceParams() {
 }
 
 void MainWindow::applyNewFigureLocation() {
-    facade_.changeLocation(ctrls_dialog_.getSelectedTag(), ctrls_dialog_.getState());
-
+    facade_.updateFigureState(ctrls_dialog_.getSelectedTag(), ctrls_dialog_.getState());
     facade_.redrawScene();
 }
 
