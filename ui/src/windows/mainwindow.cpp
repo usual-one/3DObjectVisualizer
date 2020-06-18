@@ -30,7 +30,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::addNewFigure() {
-    std::string figure_tag = *facade_.addNewFigure();
+    std::string figure_tag = facade_.addNewFigure();
     figure_cfg_dialog_.setTags(facade_.getFiguresTags());
     figure_cfg_dialog_.enableFigureDeleting(false);
     int dialog_status = figure_cfg_dialog_.execWith(figure_tag, false);
@@ -50,7 +50,7 @@ void MainWindow::applyNewSurfaceParams() {
     std::shared_ptr<obj3d::Surface> surface = facade_.getSurface(surface_cfg_dialog_.getSelectedTag());
 
     surface->updateParameters(surface_cfg_dialog_.getSurfaceParameters());
-    facade_.recalculateSurface(*surface->getTag());
+    facade_.recalculateSurface(surface->getTag());
 
     facade_.updateFigureSessionState(surface_cfg_dialog_.getSelectedTag(), surface_cfg_dialog_.getSurfaceSessionState());
     facade_.drawScene();
@@ -163,10 +163,10 @@ void MainWindow::deleteFigure() {
     if (!figure->getMeta()->isSaved()) {
         exit_dialog_.execIrrevocable();
         if (exit_dialog_.isSaveNeeded()) {
-            export_dialog_.execWith(*figure->getTag(), false);
+            export_dialog_.execWith(figure->getTag(), false);
         }
     }
-    facade_.deleteFigure(*figure->getTag());
+    facade_.deleteFigure(figure->getTag());
     facade_.redrawScene();
 }
 
@@ -175,10 +175,10 @@ void MainWindow::deleteSurface() {
     if (!figure->getMeta()->isSaved()) {
         exit_dialog_.execIrrevocable();
         if (exit_dialog_.isSaveNeeded()) {
-            export_dialog_.execWith(*figure->getTag(), false);
+            export_dialog_.execWith(figure->getTag(), false);
         }
     }
-    facade_.deleteSurface(*figure->getTag());
+    facade_.deleteSurface(figure->getTag());
     facade_.redrawScene();
 }
 
@@ -230,12 +230,12 @@ void MainWindow::loadSurface(const QString &path) {
     Scene loaded_scene = facade_.loadScene(path.toStdString());
 
     for (auto tag : loaded_scene.getSurfacesTags()) {
-        std::shared_ptr<obj3d::Surface> surface = loaded_scene.getSurface(*tag);
+        std::shared_ptr<obj3d::Surface> surface = loaded_scene.getSurface(tag);
         surface_cfg_dialog_.enableSurfaceDeleting(false);
-        int cfg_status = surface_cfg_dialog_.execWith(*surface->getTag());
+        int cfg_status = surface_cfg_dialog_.execWith(surface->getTag());
         surface_cfg_dialog_.enableSurfaceDeleting(true);
         if (cfg_status == QDialog::Rejected) {
-            facade_.deleteSurface(*surface->getTag());
+            facade_.deleteSurface(surface->getTag());
         }
     }
 }

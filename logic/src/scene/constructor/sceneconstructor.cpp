@@ -16,6 +16,9 @@ std::shared_ptr<obj3d::Rectangle2D> SceneConstructor::getScope() {
 
 std::shared_ptr<obj3d::Rectangle2D> SceneConstructor::getScope(
         const std::vector<obj3d::Point2D> &projected_points) {
+    if (projected_points.empty()) {
+        return camera_->getScope();
+    }
     return camera_->calculateScope(projected_points);
 }
 

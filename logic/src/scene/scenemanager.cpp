@@ -57,7 +57,7 @@ void SceneManager::updateScene(const Scene &other) {
 std::vector<std::shared_ptr<CanvasFigure>> SceneManager::createCanvasFigures() {
     std::vector<std::shared_ptr<obj3d::Figure>> figures = {};
     for (auto tag : scene_->getFiguresTags()) {
-        std::shared_ptr<obj3d::Figure> figure = scene_->getFigure(*tag);
+        std::shared_ptr<obj3d::Figure> figure = scene_->getFigure(tag);
         if (!figure->getSessionState()->isHidden()) {
             figures.push_back(figure);
         }

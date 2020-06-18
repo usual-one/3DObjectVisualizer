@@ -27,9 +27,9 @@ public:
 
     bool isFigureTag(const std::string &tag);
 
-    std::vector<std::shared_ptr<std::string>> getSurfacesTags();
+    std::vector<std::string> getSurfacesTags();
 
-    std::vector<std::shared_ptr<std::string>> getFiguresTags();
+    std::vector<std::string> getFiguresTags();
 
     std::shared_ptr<obj3d::Surface> getSurface(const std::string &tag);
 

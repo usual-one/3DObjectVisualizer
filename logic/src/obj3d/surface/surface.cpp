@@ -9,7 +9,7 @@ size_t obj3d::Surface::count_ = 0;
 
 obj3d::Surface::Surface(const std::vector<std::vector<double>> &values) {
     count_++;
-    tag_ = std::make_shared<std::string>(DEFAULT_SURFACE_TAG + std::to_string(count_));
+    setTag(DEFAULT_SURFACE_TAG + std::to_string(count_));
     values_ = values;
     params_ = calculateParameters();
 }

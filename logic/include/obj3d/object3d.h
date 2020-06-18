@@ -10,12 +10,12 @@ namespace obj3d {
 
 class obj3d::Object3D {
 public:
-    std::shared_ptr<std::string> getTag();
+    const std::string &getTag() const;
 
     void setTag(const std::string &tag);
 
 protected:
-    std::shared_ptr<std::string> tag_;
+    std::string tag_;
 
 };
 

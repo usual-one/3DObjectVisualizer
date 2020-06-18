@@ -14,8 +14,8 @@ void Scene::appendSurface(std::shared_ptr<obj3d::Surface> surface) {
 }
 
 void Scene::appendFigure(std::shared_ptr<obj3d::Figure> figure) {
-    if (isFigureTag(*figure->getTag())) {
-        deleteFigure(*figure->getTag());
+    if (isFigureTag(figure->getTag())) {
+        deleteFigure(figure->getTag());
     }
     figures_.push_back(figure);
 }
@@ -26,7 +26,7 @@ void Scene::appendFigure(obj3d::Figure figure) {
 
 bool Scene::containsSurface(const std::string &tag) {
     for (auto surface_tag : getSurfacesTags()) {
-        if (*surface_tag == tag) {
+        if (surface_tag == tag) {
             return true;
         }
     }
@@ -35,7 +35,7 @@ bool Scene::containsSurface(const std::string &tag) {
 
 bool Scene::containsFigure(const std::string &tag) {
     for (auto figure_tag : getFiguresTags()) {
-        if (*figure_tag == tag) {
+        if (figure_tag == tag) {
             return true;
         }
     }
@@ -52,23 +52,23 @@ void Scene::deleteSurface(const std::string &tag) {
 
 bool Scene::isFigureTag(const std::string &tag) {
     for (auto figure : figures_) {
-        if (*figure->getTag() == tag) {
+        if (figure->getTag() == tag) {
             return true;
         }
     }
     return false;
 }
 
-std::vector<std::shared_ptr<std::string>> Scene::getSurfacesTags() {
-    std::vector<std::shared_ptr<std::string>> tags = {};
+std::vector<std::string> Scene::getSurfacesTags() {
+    std::vector<std::string> tags = {};
     for (auto surface : surfaces_) {
         tags.push_back(surface->getTag());
     }
     return tags;
 }
 
-std::vector<std::shared_ptr<std::string>> Scene::getFiguresTags() {
-    std::vector<std::shared_ptr<std::string>> tags = {};
+std::vector<std::string> Scene::getFiguresTags() {
+    std::vector<std::string> tags = {};
     for (auto figure : figures_) {
         tags.push_back(figure->getTag());
     }
@@ -77,7 +77,7 @@ std::vector<std::shared_ptr<std::string>> Scene::getFiguresTags() {
 
 std::shared_ptr<obj3d::Surface> Scene::getSurface(const std::string &tag) {
     for (auto surface : surfaces_) {
-        if (*surface->getTag() == tag) {
+        if (surface->getTag() == tag) {
             return surface;
         }
     }
@@ -86,7 +86,7 @@ std::shared_ptr<obj3d::Surface> Scene::getSurface(const std::string &tag) {
 
 std::shared_ptr<obj3d::Figure> Scene::getFigure(const std::string &tag) {
     for (auto figure : figures_) {
-        if (*figure->getTag() == tag) {
+        if (figure->getTag() == tag) {
             return figure;
         }
     }
@@ -94,13 +94,13 @@ std::shared_ptr<obj3d::Figure> Scene::getFigure(const std::string &tag) {
 }
 
 void Scene::update(const Scene &other) {
-    std::vector<std::shared_ptr<std::string>> figure_tags = getFiguresTags();
+    std::vector<std::string> figure_tags = getFiguresTags();
     for (auto figure : other.figures_) {
         if (std::find(figure_tags.begin(), figure_tags.end(), figure->getTag()) == figure_tags.end()) {
             figures_.push_back(figure);
         }
     }
-    std::vector<std::shared_ptr<std::string>> surface_tags = getSurfacesTags();
+    std::vector<std::string> surface_tags = getSurfacesTags();
     for (auto surface : other.surfaces_) {
         if (std::find(surface_tags.begin(), surface_tags.end(), surface->getTag()) == surface_tags.end()) {
             surfaces_.push_back(surface);

@@ -15,7 +15,7 @@ obj3d::Figure::Figure(obj3d::Surface &surface) :
     meta_(std::make_shared<FigureMeta>()),
     session_state_(std::make_shared<FigureSessionState>()) {
     count_++;
-    tag_ = surface.getTag();
+    setTag(surface.getTag());
 
     vertices_ = surface.toVertices();
     setEdges();
@@ -71,7 +71,7 @@ std::set<std::shared_ptr<obj3d::Vertex>> obj3d::Figure::getVertices() {
 }
 
 std::shared_ptr<SessionStateDTO> obj3d::Figure::getSessionStateDTO() {
-    return std::make_shared<SessionStateDTO>(getSessionState()->isHidden(), *getTag());
+    return std::make_shared<SessionStateDTO>(getSessionState()->isHidden(), getTag());
 }
 
 std::shared_ptr<FigureVerticesDTO> obj3d::Figure::getVerticesDTO() {
@@ -155,7 +155,7 @@ obj3d::Point3D obj3d::Figure::getAverageLocation() {
 }
 
 void obj3d::Figure::createDefaultTag() {
-    tag_ = std::make_shared<std::string>(DEFAULT_FIGURE_TAG + std::to_string(count_));
+    setTag(DEFAULT_FIGURE_TAG + std::to_string(count_));
 }
 
 void obj3d::Figure::move(const obj3d::Vector3D &vec) {
