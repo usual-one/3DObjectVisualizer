@@ -33,12 +33,12 @@ int SurfaceViewDialog::execWith(const std::string &tag, bool tag_selectable) {
     return BaseTagSelectingDialog::execWith(tag, tag_selectable);
 }
 
-void SurfaceViewDialog::setSurface(std::shared_ptr<obj3d::Surface> &surface) {
-    ui->tbl_surface->setRowCount(surface->getValues().size());
-    ui->tbl_surface->setColumnCount(surface->getValues()[0].size());
-    for (size_t i = 0; i < surface->getValues().size(); i++) {
-        for (size_t j = 0; j < surface->getValues()[i].size(); j++) {
-            ui->tbl_surface->setItem(i, j, new QTableWidgetItem(QString::number(surface->getValues()[i][j])));
+void SurfaceViewDialog::setSurface(std::shared_ptr<SurfaceValuesDTO> values) {
+    ui->tbl_surface->setRowCount(values->getValues().size());
+    ui->tbl_surface->setColumnCount(values->getValues()[0].size());
+    for (size_t i = 0; i < values->getValues().size(); i++) {
+        for (size_t j = 0; j < values->getValues()[i].size(); j++) {
+            ui->tbl_surface->setItem(i, j, new QTableWidgetItem(QString::number(values->getValues()[i][j])));
         }
     }
 }

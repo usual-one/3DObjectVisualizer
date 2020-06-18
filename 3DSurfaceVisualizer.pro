@@ -14,6 +14,7 @@ SOURCES += \
     logic/src/dto/figurestatedto.cpp \
     logic/src/dto/figureverticesdto.cpp \
     logic/src/dto/surfaceparametersdto.cpp \
+    logic/src/dto/surfacevaluesdto.cpp \
     logic/src/facade.cpp \
     logic/src/file_manager/csvfilemanager.cpp \
     logic/src/file_manager/exception/fileexception.cpp \

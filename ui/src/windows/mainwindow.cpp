@@ -155,7 +155,7 @@ void MainWindow::changeExportObject() {
 
 void MainWindow::changeViewSurface() {
     std::shared_ptr<obj3d::Surface> surface = facade_.getSurface(surface_view_dialog_.getSelectedTag());
-    surface_view_dialog_.setSurface(surface);
+    surface_view_dialog_.setSurface(surface->getValuesDTO());
 }
 
 void MainWindow::deleteFigure() {

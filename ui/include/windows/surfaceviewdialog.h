@@ -4,7 +4,7 @@
 #include <QDialog>
 
 #include "ui/include/windows/basetagselectingdialog.h"
-#include "logic/include/obj3d/surface/surface.h"
+#include "logic/include/dto/surfacevaluesdto.h"
 #include "ui/include/utils/tagsmanager.h"
 
 namespace Ui {
@@ -23,7 +23,7 @@ public:
 
     int execWith(const std::string &tag, bool tag_selectable);
 
-    void setSurface(std::shared_ptr<obj3d::Surface> &surface);
+    void setSurface(std::shared_ptr<SurfaceValuesDTO> values);
 
     void showWith(const std::string &tag, bool tag_selectable);
 

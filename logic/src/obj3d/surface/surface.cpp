@@ -44,6 +44,10 @@ std::shared_ptr<SurfaceParametersDTO> obj3d::Surface::getParametersDTO() {
     return std::make_shared<SurfaceParametersDTO>(*getParameters());
 }
 
+std::shared_ptr<SurfaceValuesDTO> obj3d::Surface::getValuesDTO() {
+    return std::make_shared<SurfaceValuesDTO>(getValues());
+}
+
 void obj3d::Surface::setParameters(std::shared_ptr<obj3d::SurfaceParameters> params) {
     params_ = params;
 }
