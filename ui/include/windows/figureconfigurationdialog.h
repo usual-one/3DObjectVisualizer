@@ -4,6 +4,8 @@
 #include <QDialog>
 
 #include "logic/include/obj3d/figure/components/vertex.h"
+#include "logic/include/dto/sessionstatedto.h"
+#include "logic/include/dto/figureverticesdto.h"
 
 #include "ui/include/windows/connectionadditiondialog.h"
 #include "ui/include/windows/basetagselectingdialog.h"
@@ -27,13 +29,13 @@ public:
 
     int execWith(const std::string &tag, bool tag_selectable = false);
 
-    std::string getFigureTag();
+    std::shared_ptr<SessionStateDTO> getFigureSessionState();
 
-    std::shared_ptr<std::vector<obj3d::Vertex>> getVertices();
+    std::shared_ptr<FigureVerticesDTO> getVertices();
 
-    void setVertices(const std::vector<obj3d::Vertex> &vertices);
+    void setVertices(std::shared_ptr<FigureVerticesDTO> vertices);
 
-    void setFigureTag(const std::string &tag);
+    void setFigureSessionState(std::shared_ptr<SessionStateDTO> state);
 
     void showWith(const std::string &tag, bool tag_selectable = false);
 

@@ -9,7 +9,11 @@ CONFIG += c++17
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
+    logic/src/dto/figuremetadto.cpp \
+    logic/src/dto/figuresessionstatedto.cpp \
     logic/src/dto/figurestatedto.cpp \
+    logic/src/dto/figureverticesdto.cpp \
+    logic/src/dto/surfaceparametersdto.cpp \
     logic/src/facade.cpp \
     logic/src/file_manager/csvfilemanager.cpp \
     logic/src/file_manager/exception/fileexception.cpp \
@@ -73,7 +77,12 @@ SOURCES += \
 
 HEADERS += \
     config.h \
+    logic/include/dto/figuremetadto.h \
     logic/include/dto/figurestatedto.h \
+    logic/include/dto/figureverticesdto.h \
+    logic/include/dto/sessionstatedto.h \
+    logic/include/dto/surfaceparametersdto.h \
+    logic/include/dto/surfacevaluesdto.h \
     logic/include/facade.h \
     logic/include/file_manager/baseobj3dfilemanager.h \
     logic/include/file_manager/csvfilemanager.h \

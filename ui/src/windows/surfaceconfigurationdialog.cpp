@@ -13,7 +13,6 @@ SurfaceConfigurationDialog::SurfaceConfigurationDialog(QWidget *parent) :
 
     tags_manager_.setWidget(ui->cmbx_surface);
 
-    surface_tag_ = std::make_shared<std::string>();
     surface_params_ = std::make_shared<obj3d::SurfaceParameters>();
 
     configureParamWidgets();
@@ -49,7 +48,7 @@ void SurfaceConfigurationDialog::applyAndClose() {
 void SurfaceConfigurationDialog::applyChanges() {
     collectParams();
     emit surfaceChanged();
-    tags_manager_.changeSelectedText(*surface_tag_);
+    tags_manager_.changeSelectedText(ui->ln_tag->text().toStdString());
 }
 
 void SurfaceConfigurationDialog::cancelChanges() {
@@ -71,25 +70,6 @@ void SurfaceConfigurationDialog::deleteSurface() {
 int SurfaceConfigurationDialog::execWith(const std::string &tag, bool tag_selectable) {
     enableTagSelection(tag_selectable);
     return BaseTagSelectingDialog::execWith(tag, tag_selectable);
-}
-
-std::shared_ptr<std::string> SurfaceConfigurationDialog::getSurfaceTag() {
-    return surface_tag_;
-}
-
-std::shared_ptr<obj3d::SurfaceParameters> SurfaceConfigurationDialog::getSurfaceParameters() {
-    return surface_params_;
-}
-
-void SurfaceConfigurationDialog::setSurfaceParameters(std::shared_ptr<obj3d::SurfaceParameters> params) {
-    *surface_params_ = *params;
-    setParamLines();
-    changeNormalizationAccess(ui->chbx_normalized->isChecked());
-}
-
-void SurfaceConfigurationDialog::setSurfaceTag(std::shared_ptr<std::string> tag) {
-    *surface_tag_ = *tag;
-    ui->ln_tag->setText(QString::fromStdString(*tag));
 }
 
 void SurfaceConfigurationDialog::surfaceTagChanged() {
@@ -137,6 +117,25 @@ void SurfaceConfigurationDialog::enableSurfaceDeleting(bool value) {
     ui->btn_delete->setEnabled(value);
 }
 
+std::shared_ptr<SessionStateDTO> SurfaceConfigurationDialog::getSurfaceSessionState() {
+    return std::make_shared<SessionStateDTO>(ui->chbx_hide->isChecked(), ui->ln_tag->text().toStdString());
+}
+
+std::shared_ptr<SurfaceParametersDTO> SurfaceConfigurationDialog::getSurfaceParameters() {
+    return std::make_shared<SurfaceParametersDTO>(*surface_params_);
+}
+
+void SurfaceConfigurationDialog::setSurfaceParameters(std::shared_ptr<SurfaceParametersDTO> params) {
+    *surface_params_ = params->getParameters();
+    setParamLines();
+    changeNormalizationAccess(ui->chbx_normalized->isChecked());
+}
+
+void SurfaceConfigurationDialog::setSurfaceSessionState(std::shared_ptr<SessionStateDTO> state) {
+    ui->ln_tag->setText(QString::fromStdString(state->getTag()));
+    ui->chbx_hide->setChecked(state->getHidden());
+}
+
 void SurfaceConfigurationDialog::enableTagSelection(bool value) {
     ui->btn_apply->setEnabled(value);
 
@@ -163,8 +162,6 @@ void SurfaceConfigurationDialog::showWith(const std::string &tag, bool tag_selec
 }
 
 void SurfaceConfigurationDialog::collectParams() {
-    *surface_tag_ = ui->ln_tag->text().toStdString();
-
     surface_params_->setNormalizationNeeded(ui->chbx_normalized->isChecked());
     surface_params_->setXStep(ui->spbx_ox_step->value());
     surface_params_->setYStep(ui->spbx_oy_step->value());
@@ -190,7 +187,7 @@ void SurfaceConfigurationDialog::connectSignals() {
     connect(ui->btn_ok, SIGNAL(clicked()), this, SLOT(applyAndClose()));
 
     // Hide CheckBox
-    connect(ui->chbx_hide, SIGNAL(stateChanged(int)), this, SIGNAL(surfaceHidden(int)));
+//    connect(ui->chbx_hide, SIGNAL(stateChanged(int)), this, SIGNAL(surfaceHidden(int)));
 
     // Delete Button
     connect(ui->btn_delete, SIGNAL(clicked()), this, SLOT(deleteSurface()));

@@ -10,6 +10,9 @@
 #include "logic/include/obj3d/figure/components/figuremeta.h"
 #include "logic/include/obj3d/figure/components/figuresessionstate.h"
 #include "logic/include/dto/figurestatedto.h"
+#include "logic/include/dto/figuremetadto.h"
+#include "logic/include/dto/sessionstatedto.h"
+#include "logic/include/dto/figureverticesdto.h"
 
 namespace obj3d {
     class Figure;
@@ -29,25 +32,33 @@ public:
 
     bool contains(const obj3d::Vertex vertex);
 
-    void setVertices(std::shared_ptr<std::vector<obj3d::Vertex>> &vertices);
-
     obj3d::Point3D getAverageLocation();
 
     std::set<std::shared_ptr<obj3d::Edge>> getEdges();
 
-    std::shared_ptr<FigureStateDTO> getState();
+    std::shared_ptr<FigureStateDTO> getStateDTO();
 
     std::shared_ptr<FigureMeta> getMeta();
+
+    std::shared_ptr<FigureMetaDTO> getMetaDTO();
 
     std::shared_ptr<FigureSessionState> getSessionState();
 
     std::set<std::shared_ptr<obj3d::Vertex>> getVertices();
 
+    std::shared_ptr<SessionStateDTO> getSessionStateDTO();
+
+    std::shared_ptr<FigureVerticesDTO> getVerticesDTO();
+
     std::vector<obj3d::Vertex> getVerticesVector();
 
     std::shared_ptr<obj3d::Vertex> getVertex(size_t id);
 
+    void updateSessionState(std::shared_ptr<SessionStateDTO> state);
+
     void updateState(std::shared_ptr<FigureStateDTO> state);
+
+    void updateVertices(std::shared_ptr<FigureVerticesDTO> vertices);
 
 private:
     void createDefaultTag();
@@ -59,6 +70,8 @@ private:
     void scale(const obj3d::Vector3D &vec);
 
     void setEdges();
+
+    void setVertices(std::vector<obj3d::Vertex> &vertices);
 
     void transform(const obj3d::Matrix &transform_matr);
 

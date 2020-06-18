@@ -57,10 +57,10 @@ bool obj3d::Figure::contains(const obj3d::Vertex vertex) {
     return false;
 }
 
-void obj3d::Figure::setVertices(std::shared_ptr<std::vector<obj3d::Vertex>> &vertices) {
+void obj3d::Figure::setVertices(std::vector<Vertex> &vertices) {
     vertices_.clear();
     edges_.clear();
-    for (auto vertex : *vertices) {
+    for (auto vertex : vertices) {
         addVertex(std::make_shared<obj3d::Vertex>(vertex));
     }
     setEdges();
@@ -68,6 +68,14 @@ void obj3d::Figure::setVertices(std::shared_ptr<std::vector<obj3d::Vertex>> &ver
 
 std::set<std::shared_ptr<obj3d::Vertex>> obj3d::Figure::getVertices() {
     return vertices_;
+}
+
+std::shared_ptr<SessionStateDTO> obj3d::Figure::getSessionStateDTO() {
+    return std::make_shared<SessionStateDTO>(getSessionState()->isHidden(), *getTag());
+}
+
+std::shared_ptr<FigureVerticesDTO> obj3d::Figure::getVerticesDTO() {
+    return std::make_shared<FigureVerticesDTO>(getVerticesVector());
 }
 
 std::vector<obj3d::Vertex> obj3d::Figure::getVerticesVector() {
@@ -82,7 +90,7 @@ std::set<std::shared_ptr<obj3d::Edge>> obj3d::Figure::getEdges() {
     return edges_;
 }
 
-std::shared_ptr<FigureStateDTO> obj3d::Figure::getState() {
+std::shared_ptr<FigureStateDTO> obj3d::Figure::getStateDTO() {
     return std::make_shared<FigureStateDTO>(getSessionState()->getState());
 }
 
@@ -93,6 +101,11 @@ std::shared_ptr<obj3d::Vertex> obj3d::Figure::getVertex(size_t id) {
         }
     }
     return nullptr;
+}
+
+void obj3d::Figure::updateSessionState(std::shared_ptr<SessionStateDTO> state) {
+    getSessionState()->setHidden(state->getHidden());
+    setTag(state->getTag());
 }
 
 void obj3d::Figure::updateState(std::shared_ptr<FigureStateDTO> state) {
@@ -112,8 +125,16 @@ void obj3d::Figure::updateState(std::shared_ptr<FigureStateDTO> state) {
     getSessionState()->getState()->copy(state->getState());
 }
 
+void obj3d::Figure::updateVertices(std::shared_ptr<FigureVerticesDTO> vertices) {
+    setVertices(vertices->getVertices());
+}
+
 std::shared_ptr<FigureMeta> obj3d::Figure::getMeta() {
     return meta_;
+}
+
+std::shared_ptr<FigureMetaDTO> obj3d::Figure::getMetaDTO() {
+    return std::make_shared<FigureMetaDTO>(*getMeta()->getPath());
 }
 
 std::shared_ptr<FigureSessionState> obj3d::Figure::getSessionState() {

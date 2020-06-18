@@ -6,6 +6,8 @@
 #include <QDialog>
 
 #include "logic/include/obj3d/surface/surface.h"
+#include "logic/include/dto/sessionstatedto.h"
+#include "logic/include/dto/surfaceparametersdto.h"
 #include "ui/include/windows/basetagselectingdialog.h"
 
 namespace Ui {
@@ -24,13 +26,13 @@ public:
 
     void enableSurfaceDeleting(bool value);
 
-    std::shared_ptr<std::string> getSurfaceTag();
+    std::shared_ptr<SessionStateDTO> getSurfaceSessionState();
 
-    std::shared_ptr<obj3d::SurfaceParameters> getSurfaceParameters();
+    std::shared_ptr<SurfaceParametersDTO> getSurfaceParameters();
 
-    void setSurfaceParameters(std::shared_ptr<obj3d::SurfaceParameters> params);
+    void setSurfaceParameters(std::shared_ptr<SurfaceParametersDTO> params);
 
-    void setSurfaceTag(std::shared_ptr<std::string> tag);
+    void setSurfaceSessionState(std::shared_ptr<SessionStateDTO> state);
 
     void showWith(const std::string &tag, bool tag_selectable = false);
 
@@ -59,6 +61,8 @@ private slots:
 private:
     void closeEvent(QCloseEvent *event) override;
 
+    void connectSignals();
+
     void enableTagSelection(bool value);
 
     void setDefaultState();
@@ -69,11 +73,7 @@ private:
 
     void configureParamWidgets();
 
-    void connectSignals();
-
     Ui::SurfaceConfigurationDialog *ui;
-
-    std::shared_ptr<std::string> surface_tag_;
 
     std::shared_ptr<obj3d::SurfaceParameters> surface_params_;
 

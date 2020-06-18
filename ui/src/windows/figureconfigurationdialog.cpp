@@ -44,23 +44,25 @@ int FigureConfigurationDialog::execWith(const std::string &tag, bool tag_selecta
     return BaseTagSelectingDialog::execWith(tag, tag_selectable);
 }
 
-std::string FigureConfigurationDialog::getFigureTag() {
+std::shared_ptr<SessionStateDTO> FigureConfigurationDialog::getFigureSessionState() {
     figure_tag_ = ui->ln_tag->text().toStdString();
-    return figure_tag_;
+    return std::make_shared<SessionStateDTO>(ui->chbx_hide->isChecked(), figure_tag_);
 }
 
-std::shared_ptr<std::vector<obj3d::Vertex>> FigureConfigurationDialog::getVertices() {
-    return vertex_manager_.getVertices();
+std::shared_ptr<FigureVerticesDTO> FigureConfigurationDialog::getVertices() {
+    return std::make_shared<FigureVerticesDTO>(*vertex_manager_.getVertices());
 }
 
-void FigureConfigurationDialog::setVertices(const std::vector<obj3d::Vertex> &vertices) {
-    vertex_manager_.setVertices(vertices);
+void FigureConfigurationDialog::setVertices(std::shared_ptr<FigureVerticesDTO> vertices) {
+    vertex_manager_.setVertices(vertices->getVertices());
     clearVertexWidgets();
 }
 
-void FigureConfigurationDialog::setFigureTag(const std::string &tag) {
-    figure_tag_ = tag;
-    ui->ln_tag->setText(QString::fromStdString(tag));
+void FigureConfigurationDialog::setFigureSessionState(std::shared_ptr<SessionStateDTO> state) {
+    figure_tag_ = state->getTag();
+    ui->ln_tag->setText(QString::fromStdString(figure_tag_));
+
+    ui->chbx_hide->setChecked(state->getHidden());
 }
 
 void FigureConfigurationDialog::showWith(const std::string &tag, bool tag_selectable) {
@@ -195,7 +197,7 @@ void FigureConfigurationDialog::connectSignals() {
     connect(ui->btn_delete, SIGNAL(clicked()), this, SLOT(deleteFigure()));
 
     // Hide CheckBox
-    connect(ui->chbx_hide, SIGNAL(stateChanged(int)), this, SIGNAL(figureHidden(int)));
+//    connect(ui->chbx_hide, SIGNAL(stateChanged(int)), this, SIGNAL(figureHidden(int)));
 
     // Vertices list
     connect(ui->lst_vertices, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(selectVertex()));

@@ -47,7 +47,9 @@ public:
 
     void saveFigure(const std::string &tag, const std::string &path);
 
-    void updateFigureVertices(const std::string &tag, std::shared_ptr<std::vector<obj3d::Vertex>> vertices);
+    void updateFigureVertices(const std::string &tag, std::shared_ptr<FigureVerticesDTO> vertices);
+
+    void updateFigureSessionState(const std::string &tag, std::shared_ptr<SessionStateDTO> state);
 
     void updateFigureState(const std::string tag, std::shared_ptr<FigureStateDTO> state);
 

@@ -7,6 +7,7 @@
 #include "logic/include/obj3d/object3d.h"
 #include "logic/include/obj3d/surface/surfaceparameters.h"
 #include "logic/include/obj3d/figure/components/vertex.h"
+#include "logic/include/dto/surfaceparametersdto.h"
 
 namespace obj3d {
     class Surface;
@@ -16,13 +17,17 @@ class obj3d::Surface : public obj3d::Object3D {
 public:
     Surface(const std::vector<std::vector<double>> &values);
 
+    std::shared_ptr<obj3d::SurfaceParameters> getParameters();
+
+    std::vector<std::vector<double>> &getValues();
+
     std::set<std::shared_ptr<obj3d::Vertex>> toVertices() const;
 
-    std::shared_ptr<obj3d::SurfaceParameters> getParameters();
+    std::shared_ptr<SurfaceParametersDTO> getParametersDTO();
 
     void setParameters(std::shared_ptr<obj3d::SurfaceParameters> params);
 
-    std::vector<std::vector<double>> &getValues();
+    void updateParameters(std::shared_ptr<SurfaceParametersDTO> params);
 
 private:
     std::shared_ptr<obj3d::SurfaceParameters> calculateParameters() const;

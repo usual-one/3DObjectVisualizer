@@ -3,6 +3,7 @@
 
 #include <QDialog>
 
+#include "logic/include/dto/figuremetadto.h"
 #include "ui/include/windows/basetagselectingdialog.h"
 
 namespace Ui {
@@ -21,9 +22,9 @@ public:
 
     int execWith(const std::string &tag, bool tag_selectable);
 
-    std::shared_ptr<std::string> getPath();
+    std::shared_ptr<FigureMetaDTO> getMeta();
 
-    void setPath(const std::string &path);
+    void setMeta(std::shared_ptr<FigureMetaDTO> meta);
 
     void showWith(const std::string &tag, bool tag_selectable);
 

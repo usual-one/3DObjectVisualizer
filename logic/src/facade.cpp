@@ -18,10 +18,6 @@ std::shared_ptr<std::string> Facade::addNewFigure() {
     return figure.getTag();
 }
 
-void Facade::updateFigureState(const std::string tag, std::shared_ptr<FigureStateDTO> state) {
-    getFigure(tag)->updateState(state);
-}
-
 void Facade::deleteSurface(const std::string &tag) {
     scene_manager_->getScene()->deleteSurface(tag);
     scene_manager_->getScene()->deleteFigure(tag);
@@ -108,8 +104,20 @@ void Facade::saveFigure(const std::string &tag, const std::string &path) {
     file_manager_->saveFigure(figure);
 }
 
-void Facade::updateFigureVertices(const std::string &tag, std::shared_ptr<std::vector<obj3d::Vertex>> vertices) {
+void Facade::updateFigureVertices(const std::string &tag, std::shared_ptr<FigureVerticesDTO> vertices) {
     std::shared_ptr<obj3d::Figure> figure = getFigure(tag);
-    figure->setVertices(vertices);
+    figure->updateVertices(vertices);
     figure->getMeta()->setSaved(false);
+}
+
+void Facade::updateFigureSessionState(const std::string &tag, std::shared_ptr<SessionStateDTO> state) {
+    std::shared_ptr<obj3d::Figure> figure = getFigure(tag);
+    figure->updateSessionState(state);
+    if (figure->getSessionState()->isSurface()) {
+        getSurface(tag)->setTag(state->getTag());
+    }
+}
+
+void Facade::updateFigureState(const std::string tag, std::shared_ptr<FigureStateDTO> state) {
+    getFigure(tag)->updateState(state);
 }

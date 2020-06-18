@@ -35,12 +35,12 @@ int ExportDialog::execWith(const std::string &tag, bool tag_selectable) {
     return BaseTagSelectingDialog::execWith(tag, tag_selectable);
 }
 
-std::shared_ptr<std::string> ExportDialog::getPath() {
-    return path_;
+std::shared_ptr<FigureMetaDTO> ExportDialog::getMeta() {
+    return std::make_shared<FigureMetaDTO>(*path_);
 }
 
-void ExportDialog::setPath(const std::string &path) {
-    ui->lbl_path->setText(QString::fromStdString(path));
+void ExportDialog::setMeta(std::shared_ptr<FigureMetaDTO> meta) {
+    ui->lbl_path->setText(QString::fromStdString(meta->getPath()));
     emit pathChanged();
 }
 
