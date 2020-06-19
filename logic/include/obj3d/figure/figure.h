@@ -44,13 +44,11 @@ public:
 
     std::shared_ptr<FigureSessionState> getSessionState();
 
-    std::set<std::shared_ptr<obj3d::Vertex>> getVertices();
-
     std::shared_ptr<SessionStateDTO> getSessionStateDTO();
 
-    std::shared_ptr<FigureVerticesDTO> getVerticesDTO();
+    std::set<std::shared_ptr<obj3d::Vertex>> getVertices();
 
-    std::vector<obj3d::Vertex> getVerticesVector();
+    std::shared_ptr<FigureVerticesDTO> getVerticesDTO();
 
     std::shared_ptr<obj3d::Vertex> getVertex(size_t id);
 
@@ -62,6 +60,8 @@ public:
 
 private:
     void createDefaultTag();
+
+    std::vector<obj3d::Vertex> getVerticesVector();
 
     void move(const obj3d::Vector3D &vec);
 

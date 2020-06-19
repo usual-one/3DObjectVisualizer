@@ -18,28 +18,28 @@ class obj3d::Surface : public obj3d::Object3D {
 public:
     Surface(const std::vector<std::vector<double>> &values);
 
-    std::shared_ptr<obj3d::SurfaceParameters> getParameters();
-
-    std::vector<std::vector<double>> &getValues();
-
     std::set<std::shared_ptr<obj3d::Vertex>> toVertices() const;
 
     std::shared_ptr<SurfaceParametersDTO> getParametersDTO();
 
     std::shared_ptr<SurfaceValuesDTO> getValuesDTO();
 
-    void setParameters(std::shared_ptr<obj3d::SurfaceParameters> params);
-
     void updateParameters(std::shared_ptr<SurfaceParametersDTO> params);
 
 private:
     std::shared_ptr<obj3d::SurfaceParameters> calculateParameters() const;
+
+    std::shared_ptr<obj3d::SurfaceParameters> getParameters();
+
+    std::vector<std::vector<double>> &getValues();
 
     std::vector<std::vector<double>> normalizeValues() const;
 
     std::vector<std::vector<obj3d::Point3D>> toPoints3D() const;
 
     void setConnections(std::vector<std::vector<std::shared_ptr<obj3d::Vertex>>> &vertices) const;
+
+    void setParameters(std::shared_ptr<obj3d::SurfaceParameters> params);
 
     static size_t count_;
 
