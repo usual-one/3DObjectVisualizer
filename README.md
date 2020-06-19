@@ -11,7 +11,10 @@ Application is capable of
 - editing,
 - transforming (movement, rotation, scaling),
 - exporting
-3D objects. It also operates with surfaces - graph of two variable function.
+
+3D objects.
+
+It also operates with surfaces - graph of two variable function.
 
 ### Languages & utils
 This project uses
