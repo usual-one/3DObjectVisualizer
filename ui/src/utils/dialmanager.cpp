@@ -58,7 +58,7 @@ double DialManager::calculateDialValue(QDial *dial, double begin, double end) {
 
 void DialManager::setDialValue(QDial *dial, double begin, double end, double value) {
     value = dial->minimum() + (dial->maximum() - dial->minimum()) * (value - begin) / (end - begin);
-    value += dial->maximum() - dial->minimum();
+    value += (dial->maximum() - dial->minimum()) / 2;
     while (value > 360) {
         value -= 360;
     }

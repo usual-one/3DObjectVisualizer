@@ -159,7 +159,6 @@ void ControlsDialog::configureWidgets() {
     oy_scaling_manager_.configureBorders(MIN_VALUE, MAX_VALUE);
     oz_scaling_manager_.configureBorders(MIN_VALUE, MAX_VALUE);
 
-
     ui->spbx_ox_move_begin->setValue(MOVE_VALUE_BEGIN);
     ui->spbx_oy_move_begin->setValue(MOVE_VALUE_BEGIN);
     ui->spbx_oz_move_begin->setValue(MOVE_VALUE_BEGIN);
@@ -175,7 +174,6 @@ void ControlsDialog::configureWidgets() {
     ui->spbx_ox_scale_end->setValue(SCALE_VALUE_END);
     ui->spbx_oy_scale_end->setValue(SCALE_VALUE_END);
     ui->spbx_oz_scale_end->setValue(SCALE_VALUE_END);
-
 }
 
 void ControlsDialog::fillWidgetValues() {
