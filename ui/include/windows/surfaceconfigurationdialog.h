@@ -43,8 +43,6 @@ signals:
 
     void surfaceDeleted();
 
-    void surfaceHidden(int hidden);
-
 private slots:
     void applyAndClose();
 

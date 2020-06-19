@@ -187,7 +187,7 @@ void SurfaceConfigurationDialog::connectSignals() {
     connect(ui->btn_ok, SIGNAL(clicked()), this, SLOT(applyAndClose()));
 
     // Hide CheckBox
-//    connect(ui->chbx_hide, SIGNAL(stateChanged(int)), this, SIGNAL(surfaceHidden(int)));
+    connect(ui->chbx_hide, SIGNAL(stateChanged(int)), this, SLOT(applyChanges()));
 
     // Delete Button
     connect(ui->btn_delete, SIGNAL(clicked()), this, SLOT(deleteSurface()));

@@ -193,16 +193,6 @@ void MainWindow::deleteSurface() {
     enableSurfaceOperations(facade_.hasSurfaces());
 }
 
-void MainWindow::hideFigure(int hidden) {
-    facade_.hideFigure(figure_cfg_dialog_.getSelectedTag(), hidden);
-    facade_.redrawScene();
-}
-
-void MainWindow::hideSurface(int hidden) {
-    facade_.hideSurface(surface_cfg_dialog_.getSelectedTag(), hidden);
-    facade_.redrawScene();
-}
-
 void MainWindow::connectSignals() {
     connect(ui->act_open, SIGNAL(triggered()), this, SLOT(open()));
     connect(ui->act_quit, SIGNAL(triggered()), this, SLOT(exit()));
@@ -226,7 +216,6 @@ void MainWindow::connectSignals() {
     connect(&surface_cfg_dialog_, SIGNAL(tagSelected()), this, SLOT(changeConfigSurface()));
     connect(&surface_cfg_dialog_, SIGNAL(surfaceChanged()), this, SLOT(applyNewSurfaceParams()));
     connect(&surface_cfg_dialog_, SIGNAL(surfaceDeleted()), this, SLOT(deleteSurface()));
-    connect(&surface_cfg_dialog_, SIGNAL(surfaceHidden(int)), this, SLOT(hideSurface(int)));
 
     // figures config dialog
     connect(ui->act_new_figure, SIGNAL(triggered()), this, SLOT(addNewFigure()));
@@ -234,7 +223,6 @@ void MainWindow::connectSignals() {
     connect(&figure_cfg_dialog_, SIGNAL(tagSelected()), this, SLOT(changeConfigFigure()));
     connect(&figure_cfg_dialog_, SIGNAL(figureChanged()), this, SLOT(applyNewFigureVertices()));
     connect(&figure_cfg_dialog_, SIGNAL(figureDeleted()), this, SLOT(deleteFigure()));
-    connect(&figure_cfg_dialog_, SIGNAL(figureHidden(int)), this, SLOT(hideFigure(int)));
 }
 
 void MainWindow::enableFigureOperations(bool enable) {

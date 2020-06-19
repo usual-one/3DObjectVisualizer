@@ -51,18 +51,6 @@ bool Facade::hasUnsaved()  {
     return false;
 }
 
-void Facade::hideFigure(const std::string &tag, bool hidden) {
-    if (scene_manager_->getScene()->containsFigure(tag)) {
-        scene_manager_->getScene()->getFigure(tag)->getSessionState()->setHidden(hidden);
-    }
-}
-
-void Facade::hideSurface(const std::string &tag, bool hidden) {
-    if (scene_manager_->getScene()->containsSurface(tag)) {
-        scene_manager_->getScene()->getFigure(tag)->getSessionState()->setHidden(hidden);
-    }
-}
-
 bool Facade::isValid() {
     return file_manager_ != nullptr && scene_manager_ != nullptr;
 }

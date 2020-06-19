@@ -44,8 +44,6 @@ signals:
 
     void figureDeleted();
 
-    void figureHidden(int hidden);
-
 private slots:
     void addVertex();
 

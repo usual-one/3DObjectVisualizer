@@ -197,7 +197,7 @@ void FigureConfigurationDialog::connectSignals() {
     connect(ui->btn_delete, SIGNAL(clicked()), this, SLOT(deleteFigure()));
 
     // Hide CheckBox
-//    connect(ui->chbx_hide, SIGNAL(stateChanged(int)), this, SIGNAL(figureHidden(int)));
+    connect(ui->chbx_hide, SIGNAL(stateChanged(int)), this, SLOT(applyChanges()));
 
     // Vertices list
     connect(ui->lst_vertices, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(selectVertex()));

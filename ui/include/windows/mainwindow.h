@@ -51,10 +51,6 @@ private slots:
 
     void deleteSurface();
 
-    void hideFigure(int hidden);
-
-    void hideSurface(int hidden);
-
     bool exit();
 
     void open();
