@@ -82,6 +82,10 @@ private:
 
     void openControls(const std::string &figure_tag);
 
+    void resizeEvent(QResizeEvent *event) override;
+
+    void showEvent(QShowEvent *event) override;
+
     Ui::MainWindow *ui;
 
     Facade facade_;

@@ -250,3 +250,13 @@ void MainWindow::openControls(const std::string &figure_tag) {
     ctrls_dialog_.setState(facade_.getFigure(figure_tag)->getStateDTO());
     ctrls_dialog_.show();
 }
+
+void MainWindow::resizeEvent(QResizeEvent *event) {
+    event->accept();
+    facade_.redrawScene();
+}
+
+void MainWindow::showEvent(QShowEvent *event) {
+    event->accept();
+    facade_.redrawScene();
+}

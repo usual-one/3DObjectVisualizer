@@ -15,6 +15,8 @@ public:
     void drawFigures(const std::vector<std::shared_ptr<CanvasFigure>> &figures,
                      const std::shared_ptr<obj3d::Rectangle2D> scope) override;
 
+    void updateCanvas();
+
 private:
     void drawEdge(CanvasEdge &edge, const obj3d::Rectangle2D &scope, double segment);
 
@@ -22,8 +24,6 @@ private:
                     const obj3d::Rectangle2D &scope, double segment);
 
     void drawVertex(CanvasVertex &vertex, const obj3d::Rectangle2D &scope, double segment);
-
-    void updateCanvas();
 
     double calculateSegment(const std::shared_ptr<obj3d::Rectangle2D> camera_scope);
 

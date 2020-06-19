@@ -1,14 +1,14 @@
 #include "logic/include/scene/constructor/camera.h"
 
 Camera::Camera() :
-    scope_(nullptr) {
+    scope_(std::make_shared<obj3d::Rectangle2D>()) {
     calculatePlane();
     calculateBasis();
 }
 
 Camera::Camera(const obj3d::Plane &plane) :
     plane_(std::make_shared<obj3d::Plane>(plane)),
-    scope_(nullptr) {
+    scope_(std::make_shared<obj3d::Rectangle2D>()) {
     calculateBasis();
 }
 
