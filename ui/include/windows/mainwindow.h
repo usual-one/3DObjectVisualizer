@@ -74,6 +74,10 @@ private:
 
     void connectSignals();
 
+    void enableFigureOperations(bool enable);
+
+    void enableSurfaceOperations(bool enable);
+
     void loadSurface(const QString &path);
 
     void loadFigure(const QString &path);

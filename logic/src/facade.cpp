@@ -34,6 +34,14 @@ void Facade::drawScene() {
     scene_manager_->drawScene();
 }
 
+bool Facade::hasFigures() {
+    return getFiguresTags().size();
+}
+
+bool Facade::hasSurfaces() {
+    return getSurfacesTags().size();
+}
+
 bool Facade::hasUnsaved()  {
     for (auto tag : getFiguresTags()) {
         if (!getFigure(tag)->getMeta()->isSaved()) {

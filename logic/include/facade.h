@@ -23,6 +23,10 @@ public:
 
     void drawScene();
 
+    bool hasFigures();
+
+    bool hasSurfaces();
+
     bool hasUnsaved();
 
     void hideFigure(const std::string &tag, bool hidden);

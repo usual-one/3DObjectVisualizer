@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
                      std::make_unique<SceneManager>(
                          std::make_unique<SceneDrawer>(ui->wdg_res)));
 
+    enableFigureOperations(facade_.hasFigures());
+    enableSurfaceOperations(facade_.hasSurfaces());
+
     connectSignals();
 }
 
@@ -38,6 +41,8 @@ void MainWindow::addNewFigure() {
         facade_.deleteFigure(figure_tag);
     }
     figure_cfg_dialog_.enableFigureDeleting(true);
+
+    enableFigureOperations(facade_.hasFigures());
 }
 
 void MainWindow::applyExport() {
@@ -168,6 +173,9 @@ void MainWindow::deleteFigure() {
     }
     facade_.deleteFigure(figure->getTag());
     facade_.redrawScene();
+
+    enableFigureOperations(facade_.hasFigures());
+    enableSurfaceOperations(facade_.hasSurfaces());
 }
 
 void MainWindow::deleteSurface() {
@@ -180,6 +188,9 @@ void MainWindow::deleteSurface() {
     }
     facade_.deleteSurface(figure->getTag());
     facade_.redrawScene();
+
+    enableFigureOperations(facade_.hasFigures());
+    enableSurfaceOperations(facade_.hasSurfaces());
 }
 
 void MainWindow::hideFigure(int hidden) {
@@ -226,6 +237,17 @@ void MainWindow::connectSignals() {
     connect(&figure_cfg_dialog_, SIGNAL(figureHidden(int)), this, SLOT(hideFigure(int)));
 }
 
+void MainWindow::enableFigureOperations(bool enable) {
+    ui->act_export->setEnabled(enable);
+    ui->act_configure_figure->setEnabled(enable);
+    ui->act_view_ctrls->setEnabled(enable);
+}
+
+void MainWindow::enableSurfaceOperations(bool enable) {
+    ui->act_configure_surface->setEnabled(enable);
+    ui->act_view_values->setEnabled(enable);
+}
+
 void MainWindow::loadSurface(const QString &path) {
     Scene loaded_scene = facade_.loadScene(path.toStdString());
 
@@ -238,11 +260,16 @@ void MainWindow::loadSurface(const QString &path) {
             facade_.deleteSurface(surface->getTag());
         }
     }
+
+    enableFigureOperations(facade_.hasFigures());
+    enableSurfaceOperations(facade_.hasSurfaces());
 }
 
 void MainWindow::loadFigure(const QString &path) {
     facade_.loadScene(path.toStdString());
     facade_.drawScene();
+
+    enableFigureOperations(facade_.hasFigures());
 }
 
 void MainWindow::openControls(const std::string &figure_tag) {
