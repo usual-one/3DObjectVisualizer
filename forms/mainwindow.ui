@@ -23,7 +23,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Matrix Visualizer</string>
+   <string>3D Visualizer</string>
   </property>
   <widget class="QWidget" name="main">
    <layout class="QVBoxLayout" name="verticalLayout">
