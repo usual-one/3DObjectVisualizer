@@ -31,7 +31,7 @@ public:
 
     int exec() override;
 
-    int execWith(const std::string &tag, bool tag_selectable = false);
+    int execWith(const std::string &tag, bool tag_selectable = false) override;
 
     std::shared_ptr<SessionStateDTO> getFigureSessionState();
 
@@ -41,7 +41,7 @@ public:
 
     void setFigureSessionState(std::shared_ptr<SessionStateDTO> state);
 
-    void showWith(const std::string &tag, bool tag_selectable = false);
+    void showWith(const std::string &tag, bool tag_selectable = false) override;
 
 signals:
     void figureChanged();
@@ -78,7 +78,7 @@ private:
 
     void connectSignals();
 
-    void enableTagSelection(bool enable);
+    void enableTagSelection(bool enable) override;
 
     void enableVertexEditing(bool enable);
 

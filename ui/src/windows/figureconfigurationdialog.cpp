@@ -99,6 +99,7 @@ void FigureConfigurationDialog::applyChanges() {
 
 void FigureConfigurationDialog::cancelChanges() {
     reject();
+    setDefaultState();
 }
 
 void FigureConfigurationDialog::editVertex() {
@@ -232,6 +233,7 @@ void FigureConfigurationDialog::connectSignals() {
 
 void FigureConfigurationDialog::enableTagSelection(bool enable) {
     ui->lbl_figure->setEnabled(enable);
+    BaseTagSelectingDialog::enableTagSelection(enable);
 }
 
 void FigureConfigurationDialog::enableVertexEditing(bool enable) {

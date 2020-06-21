@@ -41,8 +41,8 @@ SurfaceConfigurationDialog::~SurfaceConfigurationDialog() {
 
 void SurfaceConfigurationDialog::applyAndClose() {
     applyChanges();
-    setDefaultState();
     accept();
+    setDefaultState();
 }
 
 void SurfaceConfigurationDialog::applyChanges() {
@@ -52,8 +52,8 @@ void SurfaceConfigurationDialog::applyChanges() {
 }
 
 void SurfaceConfigurationDialog::cancelChanges() {
-    setDefaultState();
     reject();
+    setDefaultState();
 }
 
 void SurfaceConfigurationDialog::deleteSurface() {
@@ -136,10 +136,12 @@ void SurfaceConfigurationDialog::setSurfaceSessionState(std::shared_ptr<SessionS
     ui->chbx_hide->setChecked(state->getHidden());
 }
 
-void SurfaceConfigurationDialog::enableTagSelection(bool value) {
-    ui->btn_apply->setEnabled(value);
+void SurfaceConfigurationDialog::enableTagSelection(bool enable) {
+    ui->btn_apply->setEnabled(enable);
 
-    ui->lbl_surface->setEnabled(value);
+    ui->lbl_surface->setEnabled(enable);
+
+    BaseTagSelectingDialog::enableTagSelection(enable);
 }
 
 

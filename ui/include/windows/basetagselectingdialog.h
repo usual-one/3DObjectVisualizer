@@ -11,13 +11,15 @@ class BaseTagSelectingDialog : public QDialog {
 public:
     BaseTagSelectingDialog(QWidget *parent = nullptr);
 
-    int execWith(const std::string &tag, bool tag_selectable = false);
+    virtual void enableTagSelection(bool enable);
+
+    virtual int execWith(const std::string &tag, bool tag_selectable = false);
 
     std::string getSelectedTag();
 
     void setTags(const std::vector<std::string> &tags);
 
-    void showWith(const std::string &tag, bool tag_selectable = false);
+    virtual void showWith(const std::string &tag, bool tag_selectable = false);
 
 signals:
     void tagSelected();

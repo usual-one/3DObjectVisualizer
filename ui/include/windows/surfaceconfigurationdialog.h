@@ -26,6 +26,8 @@ public:
 
     void enableSurfaceDeleting(bool value);
 
+    int execWith(const std::string &tag, bool tag_selectable = false) override;
+
     std::shared_ptr<SessionStateDTO> getSurfaceSessionState();
 
     std::shared_ptr<SurfaceParametersDTO> getSurfaceParameters();
@@ -34,9 +36,7 @@ public:
 
     void setSurfaceSessionState(std::shared_ptr<SessionStateDTO> state);
 
-    void showWith(const std::string &tag, bool tag_selectable = false);
-
-    int execWith(const std::string &tag, bool tag_selectable = false);
+    void showWith(const std::string &tag, bool tag_selectable = false) override;
 
 signals:
     void surfaceChanged();
@@ -61,7 +61,7 @@ private:
 
     void connectSignals();
 
-    void enableTagSelection(bool value);
+    void enableTagSelection(bool enable) override;
 
     void setDefaultState();
 

@@ -3,8 +3,12 @@
 BaseTagSelectingDialog::BaseTagSelectingDialog(QWidget *parent) :
     QDialog(parent) {}
 
+void BaseTagSelectingDialog::enableTagSelection(bool enable) {
+    tags_manager_.setSelectable(enable);
+}
+
 int BaseTagSelectingDialog::execWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelectable(tag_selectable);
+    enableTagSelection(tag_selectable);
     tags_manager_.setSelected(tag);
     emit tagSelected();
     return exec();
@@ -22,7 +26,7 @@ void BaseTagSelectingDialog::setTags(const std::vector<std::string> &tags) {
 }
 
 void BaseTagSelectingDialog::showWith(const std::string &tag, bool tag_selectable) {
-    tags_manager_.setSelectable(tag_selectable);
+    enableTagSelection(tag_selectable);
     tags_manager_.setSelected(tag);
     emit tagSelected();
     show();
