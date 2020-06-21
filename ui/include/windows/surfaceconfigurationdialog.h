@@ -52,7 +52,7 @@ private slots:
 
     void deleteSurface();
 
-    void surfaceTagChanged(); // TODO
+    void changeSurfaceTag();
 
     void changeNormalizationAccess(int enabled);
 
@@ -66,6 +66,8 @@ private:
     void setDefaultState();
 
     void setParamLines();
+
+    void showInvalidTag(bool value);
 
     void collectParams();
 

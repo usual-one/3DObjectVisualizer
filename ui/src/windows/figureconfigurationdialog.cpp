@@ -75,6 +75,22 @@ void FigureConfigurationDialog::showEvent(QShowEvent *event) {
     event->accept();
 }
 
+void FigureConfigurationDialog::showInvalidTag(bool value) {
+    ui->btn_ok->setDisabled(value);
+    ui->btn_apply->setDisabled(value);
+    ui->btn_cancel->setDisabled(value);
+
+    enableTagSelection(!value);
+
+    QPalette palette = ui->ln_tag->palette();
+    if (value) {
+        palette.setColor(QPalette::Base, QColor(255, 0, 0, 80));
+    } else {
+        palette.setColor(QPalette::Base, QColor(255, 255, 255));
+    }
+    ui->ln_tag->setPalette(palette);
+}
+
 void FigureConfigurationDialog::showWith(const std::string &tag, bool tag_selectable) {
     enableTagSelection(tag_selectable);
     BaseTagSelectingDialog::showWith(tag, tag_selectable);
@@ -100,6 +116,15 @@ void FigureConfigurationDialog::applyChanges() {
 void FigureConfigurationDialog::cancelChanges() {
     reject();
     setDefaultState();
+}
+
+void FigureConfigurationDialog::changeFigureTag() {
+    std::string tag = ui->ln_tag->text().toStdString();
+    bool tag_invalid = tags_manager_.isAvailable(tag) && tag != tags_manager_.getSelected();
+    if (!tag_invalid) {
+        applyChanges();
+    }
+    showInvalidTag(tag_invalid);
 }
 
 void FigureConfigurationDialog::editVertex() {
@@ -186,7 +211,9 @@ void FigureConfigurationDialog::clearVertexWidgets() {
 
 void FigureConfigurationDialog::closeEvent(QCloseEvent *event){
     event->ignore();
-    cancelChanges();
+    if (ui->btn_cancel->isEnabled()) {
+        cancelChanges();
+    }
 }
 
 void FigureConfigurationDialog::configureWidgets() {
@@ -215,6 +242,9 @@ void FigureConfigurationDialog::connectSignals() {
 
     // Hide CheckBox
     connect(ui->chbx_hide, SIGNAL(stateChanged(int)), this, SLOT(applyChanges()));
+
+    // Tag LineEdit
+    connect(ui->ln_tag, SIGNAL(textEdited(const QString &)), this, SLOT(changeFigureTag()));
 
     // Vertices list
     connect(ui->lst_vertices, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(selectVertex()));

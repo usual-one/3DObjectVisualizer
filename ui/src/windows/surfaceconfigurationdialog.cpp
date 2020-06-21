@@ -72,35 +72,13 @@ int SurfaceConfigurationDialog::execWith(const std::string &tag, bool tag_select
     return BaseTagSelectingDialog::execWith(tag, tag_selectable);
 }
 
-void SurfaceConfigurationDialog::surfaceTagChanged() {
-    if (QComboBoxController::contains(ui->cmbx_surface, ui->ln_tag->text())) {
-        if (ui->ln_tag->text().toStdString() != tags_manager_.getSelected()) {
-            // TODO
-        }
+void SurfaceConfigurationDialog::changeSurfaceTag() {
+    std::string tag = ui->ln_tag->text().toStdString();
+    bool tag_invalid = tags_manager_.isAvailable(tag) && tag != tags_manager_.getSelected();
+    if (!tag_invalid) {
+        applyChanges();
     }
-//    std::string tag = ui->ln_tag->text().toStdString();
-//    bool exists = false;
-//    for (auto existing_tag : tags_) {
-//        if (tag == existing_tag) {
-//            if (tag == *surface_tag_) {
-//                continue;
-//            }
-//            exists = true;
-//            break;
-//        }
-//    }
-
-//    QPalette palette = ui->ln_tag->palette();
-//    if (exists) {
-//        ui->btn_ok->setDisabled(true);
-//        ui->btn_apply->setDisabled(true);
-//        palette.setColor(QPalette::Base, QColor(255, 0, 0, 120));
-//    } else {
-//        ui->btn_ok->setDisabled(false);
-//        ui->btn_apply->setDisabled(false);
-//        palette.setColor(QPalette::Base, QColor(255, 255, 255));
-//    }
-//    ui->ln_tag->setPalette(palette);
+    showInvalidTag(tag_invalid);
 }
 
 void SurfaceConfigurationDialog::changeNormalizationAccess(int enabled) {
@@ -110,7 +88,9 @@ void SurfaceConfigurationDialog::changeNormalizationAccess(int enabled) {
 
 void SurfaceConfigurationDialog::closeEvent(QCloseEvent *event) {
     event->ignore();
-    cancelChanges();
+    if (ui->btn_cancel->isEnabled()) {
+        cancelChanges();
+    }
 }
 
 void SurfaceConfigurationDialog::enableSurfaceDeleting(bool value) {
@@ -158,6 +138,22 @@ void SurfaceConfigurationDialog::setParamLines() {
     ui->spbx_range_end->setValue(surface_params_->getMax());
 }
 
+void SurfaceConfigurationDialog::showInvalidTag(bool value) {
+    ui->btn_ok->setDisabled(value);
+    ui->btn_apply->setDisabled(value);
+    ui->btn_cancel->setDisabled(value);
+
+    enableTagSelection(!value);
+
+    QPalette palette = ui->ln_tag->palette();
+    if (value) {
+        palette.setColor(QPalette::Base, QColor(255, 0, 0, 80));
+    } else {
+        palette.setColor(QPalette::Base, QColor(255, 255, 255));
+    }
+    ui->ln_tag->setPalette(palette);
+}
+
 void SurfaceConfigurationDialog::showWith(const std::string &tag, bool tag_selectable) {
     enableTagSelection(tag_selectable);
     BaseTagSelectingDialog::showWith(tag, tag_selectable);
@@ -198,7 +194,7 @@ void SurfaceConfigurationDialog::connectSignals() {
     connect(ui->chbx_normalized, SIGNAL(stateChanged(int)), this, SLOT(changeNormalizationAccess(int)));
 
     // Tag LineEdit
-    connect(ui->ln_tag, SIGNAL(editingFinished()), this, SLOT(surfaceTagChanged()));
+    connect(ui->ln_tag, SIGNAL(textEdited(const QString &)), this, SLOT(changeSurfaceTag()));
 
     // Tags ComboBox
     connect(ui->cmbx_surface, SIGNAL(currentIndexChanged(int)), this, SLOT(selectTag()));

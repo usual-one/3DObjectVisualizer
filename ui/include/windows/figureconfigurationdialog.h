@@ -57,6 +57,8 @@ private slots:
 
     void cancelChanges();
 
+    void changeFigureTag();
+
     void editVertex();
 
     void deleteVertex();
@@ -87,6 +89,8 @@ private:
     void setConnections();
 
     void showEvent(QShowEvent *event) override;
+
+    void showInvalidTag(bool value);
 
     Ui::FigureConfigurationDialog *ui;
 
