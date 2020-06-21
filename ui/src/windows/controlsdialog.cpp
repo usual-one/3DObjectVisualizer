@@ -155,9 +155,9 @@ void ControlsDialog::configureWidgets() {
     oy_rotation_manager_.configureBorders(MIN_ROTATION_VALUE, MAX_ROTATION_VALUE);
     oz_rotation_manager_.configureBorders(MIN_ROTATION_VALUE, MAX_ROTATION_VALUE);
 
-    ox_scaling_manager_.configureBorders(MIN_VALUE, MAX_VALUE);
-    oy_scaling_manager_.configureBorders(MIN_VALUE, MAX_VALUE);
-    oz_scaling_manager_.configureBorders(MIN_VALUE, MAX_VALUE);
+    ox_scaling_manager_.configureBorders(SCALE_VALUE_BEGIN, MAX_VALUE);
+    oy_scaling_manager_.configureBorders(SCALE_VALUE_BEGIN, MAX_VALUE);
+    oz_scaling_manager_.configureBorders(SCALE_VALUE_BEGIN, MAX_VALUE);
 
     ui->spbx_ox_move_begin->setValue(MOVE_VALUE_BEGIN);
     ui->spbx_oy_move_begin->setValue(MOVE_VALUE_BEGIN);
