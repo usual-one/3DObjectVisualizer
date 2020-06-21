@@ -2,6 +2,8 @@
 #define FIGURECONFIGURATIONDIALOG_H
 
 #include <QDialog>
+#include <QCloseEvent>
+#include <QShowEvent>
 
 #include "logic/include/obj3d/figure/components/vertex.h"
 #include "logic/include/dto/sessionstatedto.h"
@@ -26,6 +28,8 @@ public:
     ~FigureConfigurationDialog();
 
     void enableFigureDeleting(bool value);
+
+    int exec() override;
 
     int execWith(const std::string &tag, bool tag_selectable = false);
 
@@ -68,15 +72,21 @@ private slots:
 private:
     void clearVertexWidgets();
 
+    void closeEvent(QCloseEvent *event) override;
+
     void configureWidgets();
 
     void connectSignals();
 
     void enableTagSelection(bool enable);
 
+    void enableVertexEditing(bool enable);
+
     void setDefaultState();
 
     void setConnections();
+
+    void showEvent(QShowEvent *event) override;
 
     Ui::FigureConfigurationDialog *ui;
 

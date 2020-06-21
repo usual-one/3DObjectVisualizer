@@ -53,6 +53,10 @@ std::set<size_t> VertexListManager::getVertexIDs() {
     return ids;
 }
 
+bool VertexListManager::hasSelected() {
+    return widget_->currentRow() != -1;
+}
+
 bool VertexListManager::hasWidget() {
     return widget_ != nullptr;
 }

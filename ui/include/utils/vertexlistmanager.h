@@ -25,6 +25,8 @@ public:
 
     std::set<size_t> getVertexIDs();
 
+    bool hasSelected();
+
     bool hasWidget();
 
     void removeCurrent();

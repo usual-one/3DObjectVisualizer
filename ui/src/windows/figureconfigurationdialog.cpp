@@ -39,6 +39,11 @@ void FigureConfigurationDialog::enableFigureDeleting(bool value) {
     ui->btn_delete->setEnabled(value);
 }
 
+int FigureConfigurationDialog::exec() {
+    enableVertexEditing(vertex_manager_.hasSelected());
+    return BaseTagSelectingDialog::exec();
+}
+
 int FigureConfigurationDialog::execWith(const std::string &tag, bool tag_selectable) {
     enableTagSelection(tag_selectable);
     return BaseTagSelectingDialog::execWith(tag, tag_selectable);
@@ -63,6 +68,11 @@ void FigureConfigurationDialog::setFigureSessionState(std::shared_ptr<SessionSta
     ui->ln_tag->setText(QString::fromStdString(figure_tag_));
 
     ui->chbx_hide->setChecked(state->getHidden());
+}
+
+void FigureConfigurationDialog::showEvent(QShowEvent *event) {
+    enableVertexEditing(vertex_manager_.hasSelected());
+    event->accept();
 }
 
 void FigureConfigurationDialog::showWith(const std::string &tag, bool tag_selectable) {
@@ -116,6 +126,7 @@ void FigureConfigurationDialog::deleteFigure() {
 }
 
 void FigureConfigurationDialog::selectVertex() {
+    enableVertexEditing(vertex_manager_.hasSelected());
     vertex_manager_.updateCurrent();
     obj3d::Vertex current = vertex_manager_.getCurrent();
     ui->lbl_id_value->setNum((int) current.getID());
@@ -172,6 +183,11 @@ void FigureConfigurationDialog::clearVertexWidgets() {
     connections_manager_.clear();
 }
 
+void FigureConfigurationDialog::closeEvent(QCloseEvent *event){
+    event->ignore();
+    cancelChanges();
+}
+
 void FigureConfigurationDialog::configureWidgets() {
     ui->lst_vertices->setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -216,6 +232,23 @@ void FigureConfigurationDialog::connectSignals() {
 
 void FigureConfigurationDialog::enableTagSelection(bool enable) {
     ui->lbl_figure->setEnabled(enable);
+}
+
+void FigureConfigurationDialog::enableVertexEditing(bool enable) {
+    ui->lbl_id->setEnabled(enable);
+    ui->lbl_id_value->setEnabled(enable);
+
+    ui->lbl_ox->setEnabled(enable);
+    ui->lbl_oy->setEnabled(enable);
+    ui->lbl_oz->setEnabled(enable);
+
+    ui->spbx_point_ox->setEnabled(enable);
+    ui->spbx_point_oy->setEnabled(enable);
+    ui->spbx_point_oz->setEnabled(enable);
+
+    ui->lbl_connections->setEnabled(enable);
+    ui->lst_connections->setEnabled(enable);
+    ui->btn_edit_connections->setEnabled(enable);
 }
 
 void FigureConfigurationDialog::setDefaultState() {
